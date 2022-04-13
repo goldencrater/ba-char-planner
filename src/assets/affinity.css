@@ -1,0 +1,21 @@
+.affinity-wrapper
+{
+    width: 30px;
+    display: inline-block;
+    margin: 5px;
+}
+
+.affinity-wrapper svg
+{
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+.affinity-wrapper img
+{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}

@@ -1,0 +1,53 @@
+.textcolor-damagetype-explosive,
+.textcolor-defensetype.defensetype-light
+{
+    color: #930008 !important;
+}
+
+.textcolor-damagetype-piercing,
+.textcolor-defensetype-heavy
+{
+    color: #bf8901 !important;
+}
+
+.textcolor-damagetype-mystic,
+.textcolor-defensetype.defensetype-special
+{
+    color: #226f9c !important;
+}
+
+.bgcolor-damagetype-explosive,
+.bgcolor-defensetype.defensetype-light
+{
+    background-color: #930008 !important;
+}
+
+.bgcolor-damagetype-piercing,
+.bgcolor-defensetype-heavy
+{
+    background-color: #bf8901 !important;
+}
+
+.bgcolor-damagetype-mystic,
+.bgcolor-defensetype.defensetype-special
+{
+    background-color: #226f9c !important;
+}
+
+.textstroke-damagetype-explosive,
+.textstroke-defensetype.defensetype-light
+{
+    -webkit-text-stroke: 1px #930008 !important;
+}
+
+.textstroke-damagetype-piercing,
+.textstroke-defensetype-heavy
+{
+    -webkit-text-stroke: 1px #bf8901 !important;
+}
+
+.textstroke-damagetype-mystic,
+.textstroke-defensetype.defensetype-special
+{
+    -webkit-text-stroke: 1px #226f9c !important;
+}
