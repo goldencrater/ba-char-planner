@@ -51,3 +51,13 @@
 {
     -webkit-text-stroke: 1px #226f9c !important;
 }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 20px;
+  line-height: 20px; /* Vertically center the text there */
+  background-color: #f5f5f5;
+}

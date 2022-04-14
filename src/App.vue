@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+
+const commithash = __COMMITHASH__
 </script>
 
 <template>
@@ -21,6 +23,12 @@ import { RouterLink, RouterView } from 'vue-router';
     <div class="container-xxl">
         <RouterView></RouterView>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            HashRef : {{commithash}}
+        </div>
+    </footer>
 
 </template>
 
