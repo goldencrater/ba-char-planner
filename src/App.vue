@@ -1,11 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+
+const commithash = __COMMITHASH__
 </script>
 
 <template>
     <header class="container-xxl">
         <nav class="navbar navbar-expand-xxl navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -22,6 +24,12 @@ import { RouterLink, RouterView } from 'vue-router';
     <div class="container-xxl">
         <RouterView></RouterView>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            HashRef : {{commithash}}
+        </div>
+    </footer>
 
 </template>
 

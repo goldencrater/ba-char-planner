@@ -509,6 +509,8 @@ for(const [from, to] of Object.entries(images))
     }
 }
 
+
+fs.mkdirSync('../src/assets/computed/', {recursive: true});
 fs.writeFileSync('../src/assets/computed/charlist.json', JSON.stringify(playableChars, null, '\t'));
 fs.writeFileSync('../src/assets/computed/itemlist.json', JSON.stringify(itemMap, null, '\t'));
 fs.writeFileSync('../src/assets/computed/localisations.json', JSON.stringify(localisationOutput, null, '\t'));
