@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useCharacterStorage } from '../stores/CharacterStorage.js';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
 
@@ -35,9 +34,6 @@ function toggleBorrowed()
         classExtra.value = 'character-borrowed';
     }
 }
-
-const charStorage = useCharacterStorage();
-props.character.LocalStorage = charStorage.getCharacter(props.character);
 
 </script>
 
