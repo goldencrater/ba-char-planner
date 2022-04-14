@@ -12,9 +12,28 @@ function createCharacterBackgroundTag(path)
     return 'background-image: url("/import/Character/' + path + '.png")';
 }
 
-function createEquipBackgroundTag(path)
+function createEquipBackgroundTag(path, tier)
 {
-    return 'background: rgba(0, 0, 0, 0.5) url("/import/Equipment/Equipment_Icon_' + path + '_Tier1.png")';
+    let finalTier = tier;
+    if(tier === 0)
+    {
+        finalTier = 1
+    }
+    return 'background: rgba(0, 0, 0, 0.5) url("/import/Equipment/Equipment_Icon_' + path + '_Tier' + finalTier + '.png")';
+}
+
+const classExtra = ref('');
+
+function toggleBorrowed()
+{
+    if(classExtra.value.length > 0)
+    {
+        classExtra.value = '';
+    }
+    else
+    {
+        classExtra.value = 'character-borrowed';
+    }
 }
 
 const charStorage = useCharacterStorage();
@@ -23,12 +42,15 @@ props.character.LocalStorage = charStorage.getCharacter(props.character);
 </script>
 
 <template>
-    <div class="character-wrapper character-striker" :style="createCharacterBackgroundTag(character.Icon)">
+    <div :class="'character-wrapper character-striker ' + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
         <div class="character-settings selector-dropdown">
             <a href="#" role="button" :id="character.Name.toLowerCase() + 'settings'" data-bs-toggle="dropdown" aria-expanded="false">
                 <font-awesome-icon icon="gear"></font-awesome-icon>
             </a>
             <ul class="dropdown-menu" :aria-labelledby="character.Name.toLowerCase() + 'settings'">
+                <li>
+                    <a @click="toggleBorrowed">Toggle Borrowed</a>
+                </li>
                 <li>
                     <a @click="$emit('swapSlot', character, null)">Delete</a>
                 </li>
@@ -46,7 +68,7 @@ props.character.LocalStorage = charStorage.getCharacter(props.character);
                 </li>
             </ul>
         </div>
-        <div :class="'character-name textstroke-damagetype-' + character.DamageType.toLowerCase()">
+        <div :class="'character-name textcolor-damagetype-' + character.DamageType.toLowerCase()">
             {{character.Name}}
         </div>
         <div class="character-level selector-dropdown">
@@ -64,13 +86,13 @@ props.character.LocalStorage = charStorage.getCharacter(props.character);
         <div class="character-bond selector-dropdown" style="background: rgba(0, 0, 0, 0.5) url('/images/bond.png')">
             <DropdownInput :id="character.Name.toLowerCase() + 'bond'" v-model="character.LocalStorage.Bond" maxValue="20"></DropdownInput>
         </div>
-        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot1)">
+        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot1, character.LocalStorage.Equip1)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip1'" v-model="character.LocalStorage.Equip1" maxValue="5"></DropdownInput>
         </div>
-        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot2)">
+        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot2, character.LocalStorage.Equip2)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip2'" v-model="character.LocalStorage.Equip2" maxValue="5"></DropdownInput>
         </div>
-        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot3)">
+        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot3, character.LocalStorage.Equip3)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip3'" v-model="character.LocalStorage.Equip3" maxValue="5"></DropdownInput>
         </div>
         <div class="character-skill selector-dropdown">
