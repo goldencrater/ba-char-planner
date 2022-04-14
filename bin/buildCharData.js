@@ -476,9 +476,6 @@ mainCharData.DataList.forEach((element) => {
     localisationOutput.Characters[element.Id] = localisationData;
 });
 
-fs.writeFileSync('./overlaps.json', JSON.stringify(slots, null, '\t'));
-throw '';
-
 fs.mkdirSync('../public/import/Character', {recursive: true});
 fs.mkdirSync('../public/import/Skills', {recursive: true});
 fs.mkdirSync('../public/import/Icons', {recursive: true});
