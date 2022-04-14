@@ -25,7 +25,7 @@ const commithash = __COMMITHASH__
     </div>
 
     <footer class="footer">
-        <div class="container">
+        <div class="container-xxl bg-light">
             HashRef : {{commithash}}
         </div>
     </footer>
