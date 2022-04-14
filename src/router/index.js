@@ -20,11 +20,6 @@ const router = createRouter({
             component: () => import('../views/CharacterView.vue'),
         },
         {
-            path: '/mychars',
-            name: 'mycharlist',
-            component: () => import('../views/OwnedCharacterListView.vue'),
-        },
-        {
             path: '/team',
             name: 'teambuilder',
             component: () => import('../views/TeamBuilder.vue'),
