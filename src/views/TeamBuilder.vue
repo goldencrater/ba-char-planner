@@ -275,11 +275,12 @@ function swapSlot(character, target)
     content: 'BORROWED';
     position: absolute;
     color: #ffffff;
-    font-size: 48px;
+    font-size: 16px;
     font-weight: bold;
-    top: 110px;
+    top: 80px;
     width: 280px;
     background: black;
+    text-align: center;
 }
 
 .team-builder .characters-picked .character-wrapper .character-settings,
