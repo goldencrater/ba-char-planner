@@ -211,6 +211,7 @@ function swapSlot(character, target)
     max-height: 322px;
     overflow: hidden;
 }
+
 .team-builder .character-search-list .character-select
 {
     height: 58px;
@@ -252,12 +253,6 @@ function swapSlot(character, target)
     filter: grayscale(100%);
 }
 
-.team-builder .characters-picked
-{
-    display: grid;
-    grid-template-columns: repeat(4, 300px);
-}
-
 .team-builder .characters-picked .character-wrapper
 {
     width: 280px;
@@ -267,6 +262,24 @@ function swapSlot(character, target)
     grid-template-columns: repeat(4, 70px);
     grid-template-rows: 40px 40px auto 40px;
     background-size: 280px 316px !important;
+}
+
+
+.team-builder .characters-picked .character-wrapper.character-borrowed
+{
+    position: relative;
+}
+
+.team-builder .characters-picked .character-wrapper.character-borrowed::after
+{
+    content: 'BORROWED';
+    position: absolute;
+    color: #ffffff;
+    font-size: 48px;
+    font-weight: bold;
+    top: 110px;
+    width: 280px;
+    background: black;
 }
 
 .team-builder .characters-picked .character-wrapper .character-settings,
@@ -289,14 +302,15 @@ function swapSlot(character, target)
 .team-builder .characters-picked .character-wrapper .character-name
 {
     grid-column: 2 / 4;
-    color: #000000;
+    -webkit-text-stroke: 1px white;
+    text-stroke: 1px white;
     font-weight: bold;
 }
 
 .team-builder .characters-picked .character-wrapper .character-level
 {
     grid-column: 4 / 5;
-    color: #000000;
+    color: #ffffff;
     font-weight: bold;
     -webkit-text-stroke: 1px white;
     text-stroke: 1px white;
@@ -357,6 +371,7 @@ function swapSlot(character, target)
     color: #ffffff;
     font-weight: bold;
     -webkit-text-stroke: 1px #000000;
+    cursor: pointer;
 }
 
 .team-builder .characters-picked .character-wrapper .selector-dropdown a.dropdown-item,
@@ -385,40 +400,96 @@ function swapSlot(character, target)
     text-stroke: 0;
 }
 
-#character-striker-1
+
+@media (min-width: 1200px)
 {
-    grid-column-start: 1;
-    grid-row-start: 1;
+
+    .team-builder .characters-picked
+    {
+        display: grid;
+        grid-template-columns: repeat(4, 300px);
+    }
+
+    #character-striker-1
+    {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
+
+    #character-striker-2
+    {
+        grid-column-start: 2;
+        grid-row-start: 1;
+    }
+
+    #character-striker-3
+    {
+        grid-column-start: 3;
+        grid-row-start: 1;
+    }
+
+    #character-striker-4
+    {
+        grid-column-start: 4;
+        grid-row-start: 1;
+    }
+
+    #character-special-1
+    {
+        grid-column: 2 / 3;
+        grid-row-start: 2;
+    }
+
+    #character-special-2
+    {
+        grid-column: 3 / 5;
+        grid-row-start: 2;
+    }
 }
 
-#character-striker-2
+@media (min-width: 600px) and (max-width: 1199px)
 {
-    grid-column-start: 2;
-    grid-row-start: 1;
-}
+    .team-builder .characters-picked
+    {
+        display: grid;
+        grid-template-columns: repeat(2, 300px);
+    }
 
-#character-striker-3
-{
-    grid-column-start: 3;
-    grid-row-start: 1;
-}
+    #character-striker-1
+    {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
 
-#character-striker-4
-{
-    grid-column-start: 4;
-    grid-row-start: 1;
-}
+    #character-striker-2
+    {
+        grid-column-start: 2;
+        grid-row-start: 1;
+    }
 
-#character-special-1
-{
-    grid-column: 2 / 3;
-    grid-row-start: 2;
-}
+    #character-striker-3
+    {
+        grid-column-start: 1;
+        grid-row-start: 2;
+    }
 
-#character-special-2
-{
-    grid-column: 3 / 5;
-    grid-row-start: 2;
+    #character-striker-4
+    {
+        grid-column-start: 2;
+        grid-row-start: 2;
+    }
+
+    #character-special-1
+    {
+        grid-column-start: 1;
+        grid-row-start: 3;
+    }
+
+    #character-special-2
+    {
+        grid-column-start: 2;
+        grid-row-start: 3;
+    }
 }
 
 </style>
