@@ -4,7 +4,7 @@ import { ref, watch } from 'vue';
 import DropdownInput from './Inputs/DropdownInput.vue';
 
 const props = defineProps(['character']);
-const emits = defineEmits(['swapSlot']);
+const emits = defineEmits(['swapSlot', 'setBorrowed']);
 
 function createCharacterBackgroundTag(path)
 {
@@ -28,11 +28,18 @@ function toggleBorrowed()
     if(classExtra.value.length > 0)
     {
         classExtra.value = '';
+        emits('setBorrowed', null);
     }
     else
     {
         classExtra.value = 'character-borrowed';
+        emits('setBorrowed', props.character.Id);
     }
+}
+
+if(props.character.Borrowed)
+{
+    classExtra.value = 'character-borrowed';
 }
 
 </script>

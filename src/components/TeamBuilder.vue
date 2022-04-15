@@ -8,7 +8,7 @@ import { useCharacterStorage } from '../stores/CharacterStorage.js';
 import CharacterSearch from '../components/CharacterSearch.vue';
 import CharacterBuild from '../components/CharacterBuild.vue';
 
-const props = defineProps(['teamHash']);
+const props = defineProps(['teamHash', 'shared']);
 const emit = defineEmits(['update:teamHash'])
 
 const sortedList = ref([]);
@@ -18,6 +18,8 @@ const teamBuild = ref({
     strikers: {1: null, 2: null, 3: null, 4: null},
     specials: {1: null, 2: null}
 });
+
+let borrowed = null;
 
 const router = useRouter();
 
@@ -216,7 +218,14 @@ function updateHash()
             charHash += 'n;'
         }
     }
-    console.log('updateHash');
+    if(borrowed)
+    {
+        charHash += borrowed + ';';
+    }
+    else
+    {
+        charHash += 'n;'
+    }
     emit('update:teamHash', charHash);
 }
 
@@ -254,8 +263,15 @@ function unhashCharStats(hashString)
     return stats;
 }
 
+function setBorrowed(charId)
+{
+    borrowed = charId;
+    updateHash();
+}
+
 if(props.teamHash)
 {
+    console.log(props.shared);
     const charHashes = props.teamHash.split(';');
     for(var i = 0; i < 4; i++)
     {
@@ -264,7 +280,14 @@ if(props.teamHash)
             let charStats = unhashCharStats(charHashes[i]);
             teamBuild.value.strikers[i + 1] = charStats.Id;
             pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
-            pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+            if(props.shared)
+            {
+                pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+            }
+            else
+            {
+                pickedChars.value[charStats.Id].LocalStorage = charStorage.getCharacter(pickedChars.value[charStats.Id]);
+            }
             watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
                 updateHash();
             });
@@ -276,7 +299,14 @@ if(props.teamHash)
         let charStats = unhashCharStats(charHashes[4]);
         teamBuild.value.specials[1] = charStats.Id;
         pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
-        pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+        if(props.shared)
+        {
+            pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+        }
+        else
+        {
+            pickedChars.value[charStats.Id].LocalStorage = charStorage.getCharacter(pickedChars.value[charStats.Id]);
+        }
         watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
             updateHash();
         });
@@ -287,11 +317,23 @@ if(props.teamHash)
         let charStats = unhashCharStats(charHashes[5]);
         teamBuild.value.specials[2] = charStats.Id;
         pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
-        pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+        if(props.shared)
+        {
+            pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+        }
+        else
+        {
+            pickedChars.value[charStats.Id].LocalStorage = charStorage.getCharacter(pickedChars.value[charStats.Id]);
+        }
         watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
             updateHash();
         });
         pickedChars.value[charStats.Id].ElementId = 'character-special-2';
+    }
+    if(charHashes[6] !== 'n')
+    {
+        pickedChars.value[charHashes[6]].Borrowed = true;
+        borrowed = charHashes[6];
     }
 }
 
@@ -314,12 +356,12 @@ if(props.teamHash)
             </ul>
         </div>
         <div class="characters-picked">
-            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :id="pickedChars[teamBuild.strikers[1]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :id="pickedChars[teamBuild.strikers[2]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :id="pickedChars[teamBuild.strikers[3]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :id="pickedChars[teamBuild.strikers[4]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :id="pickedChars[teamBuild.specials[1]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :id="pickedChars[teamBuild.specials[2]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :id="pickedChars[teamBuild.strikers[1]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :id="pickedChars[teamBuild.strikers[2]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :id="pickedChars[teamBuild.strikers[3]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :id="pickedChars[teamBuild.strikers[4]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :id="pickedChars[teamBuild.specials[1]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :id="pickedChars[teamBuild.specials[2]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
         </div>
     </div>
 </template>

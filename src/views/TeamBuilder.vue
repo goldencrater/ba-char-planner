@@ -1,21 +1,28 @@
 <script setup>
 import { ref, shallowRef } from 'vue';
 import { useTeamStorage } from '../stores/TeamStorage.js';
+import { useRouter } from 'vue-router';
 
 import TeamBuilder from '../components/TeamBuilder.vue';
 
 function createNewTeam()
 {
     componentName.value = TeamBuilder;
-    topControls.value = false;
-    innerControls.value = true;
+    topControlsVisible.value = false;
+    innerControlsVisible.value = true;
+    teamListVisible.value = false;
 }
 
-function loadTeam(name, hash)
+function loadTeam(name, hash, shared = false)
 {
     oldTeamName.value = name;
     teamName.value = name;
     teamHash.value = hash;
+    if(name.substring(name.length - 8) === '(Shared)')
+    {
+        shared = true;
+    }
+    teamShared.value = shared;
     createNewTeam();
 }
 
@@ -33,29 +40,82 @@ function saveTeam()
 function cancelTeam()
 {
     componentName.value = 'template';
-    topControls.value = true;
-    innerControls.value = false;
+    topControlsVisible.value = true;
+    innerControlsVisible.value = false;
+    teamListVisible.value = true;
     teamName.value = '';
     teamHash.value = '';
 }
 
+function shareTeam(sharedTeamName)
+{
+    let sharedTeamHash = '#' + teamStorage.team[sharedTeamName];
+    sharedTeamHash += sharedTeamName;
+
+    let url = router.resolve({
+        name: 'teambuilder-share',
+        hash: sharedTeamHash
+    });
+
+    console.log(url);
+
+    shareTeamLink.value = document.location.origin + url.href;
+    shareTeamVisible.value = true;
+    topControlsVisible.value = false;
+    teamListVisible.value = false;
+}
+
+function shareTeamBack()
+{
+    shareTeamLink.value = '';
+    copyMessage.value = '';
+    shareTeamVisible.value = false;
+    topControlsVisible.value = true;
+    teamListVisible.value = true;
+}
+
+function shareTeamCopy()
+{
+    copyMessage.value = '';
+    navigator.clipboard.writeText(shareTeamLink.value).then(() =>{
+        copyMessage.value = 'Copied to clipboard';
+    }, () => {
+        copyMessage.value = 'Error copying to clipboard';
+    });
+}
+
 const teamStorage = useTeamStorage();
 const componentName = shallowRef('template');
-const topControls = ref(true);
-const innerControls = ref(false);
+const router = useRouter();
+
 const oldTeamName = ref('');
 const teamName = ref('');
 const teamHash = ref('');
+const teamShared = ref(false);
+const shareTeamLink = ref('');
+const copyMessage = ref('');
 
+// Visibility
+const topControlsVisible = ref(true);
+const innerControlsVisible = ref(false);
+const shareTeamVisible = ref(false);
+const teamListVisible = ref(true);
+
+if(router.currentRoute.value.name == 'teambuilder-share')
+{
+    const shareHashBits = router.currentRoute.value.hash.split(';');
+    router.replace({name: 'teambuilder'});
+    loadTeam(shareHashBits[7] + ' (Shared)', router.currentRoute.value.hash.substring(1), true);
+}
 
 </script>
 
 <template>
-    <div>
-        <div class="controls" v-if="topControls">
+    <div class="team-builder-wrapper">
+        <div class="controls" v-if="topControlsVisible">
             <input @click="createNewTeam()" class="btn btn-primary" type="button" value="Create New Team">
         </div>
-        <div class="controls row" v-if="innerControls">
+        <div class="controls row" v-if="innerControlsVisible">
             <div class="col-1">
                 <input @click="saveTeam()" class="btn btn-primary col-auto" type="button" value="Save Team" :disabled="teamName.length === 0">
             </div>
@@ -63,17 +123,61 @@ const teamHash = ref('');
                 <input v-model="teamName" class="form-control" placeholder="Team Name">
             </div>
             <div class="col-2 offset-md-7" style="text-align: right;">
-                <input @click="cancelTeam()" class="btn btn-danger col-auto" type="button" value="Cancel Team Building">
+                <input @click="cancelTeam()" class="btn btn-danger col-auto" type="button" value="Cancel">
             </div>
         </div>
-        <component :is="componentName" v-model:teamHash="teamHash"></component>
-        <div v-if="topControls">
+        <div class="share-team" v-if="shareTeamVisible">
+            <div class="btn-group">
+                <input @click="shareTeamBack()" class="btn btn-primary" type="button" value="Back">
+            </div>
+            <div class="form-floating">
+                <input @focus="$event.target.select()" v-model="shareTeamLink" readonly class="form-control" id="team-share-input">
+                <label for="team-share-input">Share URL</label>
+            </div>
+            <div class="btn-group">
+                <input @click="shareTeamCopy()" class="btn btn-primary" type="button" value="Copy to Clipboard">
+            </div>
+            <div v-if="copyMessage">
+                {{copyMessage}}
+            </div>
+        </div>
+        <component :is="componentName" v-model:teamHash="teamHash" :shared="teamShared"></component>
+        <div v-if="teamListVisible" class="team-list">
             Existing Teams:
-            <ul>
-                <li v-for="(value, key) in teamStorage.team" @click="loadTeam(key, value)">
-                    <b>{{key}}</b>
+            <ul class="list-group">
+                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team">
+                    <span class="team-name">{{storedTeamName}}</span>
+                    <div class="dropdown team-list-options">
+                        <button @click.stop class="btn btn-secondary dropdown-toggle" type="button" :id="'dropdown-' + storedTeamName.replace(' ', '_')" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </button>
+                        <ul class="dropdown-menu" :aria-labelledby="'dropdown-' + storedTeamName.replace(' ', '_')">
+                            <li><a class="dropdown-item" @click.stop="shareTeam(storedTeamName)">Share</a></li>
+                            <li><a class="dropdown-item" @click.stop="deleteTeamPrompt(storedTeamName)">Delete</a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </template>
+
+<style>
+.team-builder-wrapper .team-list .team-name
+{
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.team-builder-wrapper .team-list .team-list-options
+{
+    display: inline-block;
+    float: right;
+}
+
+.team-builder-wrapper .share-team input
+{
+    margin-bottom: 5px;
+}
+</style>
