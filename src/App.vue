@@ -21,7 +21,7 @@ const commithash = __COMMITHASH__
         </nav>
     </header>
 
-    <div class="container-xxl">
+    <div class="main-content container-xxl">
         <RouterView></RouterView>
     </div>
 
