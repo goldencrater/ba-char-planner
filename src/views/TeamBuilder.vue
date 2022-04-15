@@ -1,496 +1,211 @@
 <script setup>
-import { ref } from 'vue';
-import { getCharacterByName } from '../composables/Character.js';
+import { ref, shallowRef } from 'vue';
+import { useTeamStorage } from '../stores/TeamStorage.js';
+import { useRouter } from 'vue-router';
 
-import CharacterSearch from '../components/CharacterSearch.vue';
-import CharacterBuild from '../components/CharacterBuild.vue';
+import TeamBuilder from '../components/TeamBuilder.vue';
 
-const sortedList = ref([]);
-const pickedChars = ref({});
-
-const teamBuild = ref({
-    strikers: {1: null, 2: null, 3: null, 4: null},
-    specials: {1: null, 2: null}
-});
-
-function updateList(newList)
+function createNewTeam()
 {
-    sortedList.value = newList;
+    componentName.value = TeamBuilder;
+    topControlsVisible.value = false;
+    innerControlsVisible.value = true;
+    teamListVisible.value = false;
 }
 
-function styleCharacter(character)
+function loadTeam(name, hash, shared = false)
 {
-    let classNames = 'character-select character-';
-    if(character.Type === 'Striker')
+    oldTeamName.value = name;
+    teamName.value = name;
+    teamHash.value = hash;
+    if(name.substring(name.length - 8) === '(Shared)')
     {
-        classNames += 'striker';
-        if(teamBuild.value.strikers[1] !== null &&
-            teamBuild.value.strikers[2] !== null &&
-            teamBuild.value.strikers[3] !== null &&
-            teamBuild.value.strikers[4] !== null)
-        {
-            classNames += ' already-selected';
-        }
+        shared = true;
     }
-    else
-    {
-        classNames += 'special';
-        if(teamBuild.value.specials[1] !== null &&
-            teamBuild.value.specials[2] !== null)
-        {
-            classNames += ' already-selected';
-        }
-    }
-    if(typeof(pickedChars.value[character.Id]) !== 'undefined')
-    {
-        classNames += ' already-selected';
-    }
-    return classNames;
+    teamShared.value = shared;
+    createNewTeam();
 }
 
-function unitAdd(character)
+function saveTeam()
 {
-    let slot = 0;
-    let elementId = '';
-    if(typeof(pickedChars.value[character.Id]) !== 'undefined')
+    if(oldTeamName.value && oldTeamName.value != teamName.value)
     {
-        return;
+        delete teamStorage.team[oldTeamName.value];
     }
-    if(character.Type === 'Striker')
-    {
-        if(teamBuild.value.strikers[1] === null)
-        {
-            slot = 1;
-        }
-        else if (teamBuild.value.strikers[2] === null)
-        {
-            slot = 2;
-        }
-        else if (teamBuild.value.strikers[3] === null)
-        {
-            slot = 3;
-        }
-        else if (teamBuild.value.strikers[4] === null)
-        {
-            slot = 4;
-        }
-        else
-        {
-            return;
-        }
-        teamBuild.value.strikers[slot] = character.Id;
-        elementId = 'character-striker-' + slot;
-    }
-    else
-    {
-        if(teamBuild.value.specials[1] === null)
-        {
-            slot = 1;
-        }
-        else if (teamBuild.value.specials[2] === null)
-        {
-            slot = 2;
-        }
-        teamBuild.value.specials[slot] = character.Id;
-        elementId = 'character-special-' + slot;
-    }
-    character.ElementId = elementId
-    pickedChars.value[character.Id] = character;
-    document.getElementById('characterSearch').value = '';
-    sortedList.value = [];
+    oldTeamName.value = '';
+    teamStorage.team[teamName.value] = teamHash.value;
+    cancelTeam();
 }
 
-function swapSlot(character, target)
+function cancelTeam()
 {
-    let slot = 0;
-    if(character.Type === 'Striker')
-    {
-        if(teamBuild.value.strikers[1] === character.Id)
-        {
-            slot = 1;
-        }
-        else if (teamBuild.value.strikers[2] === character.Id)
-        {
-            slot = 2;
-        }
-        else if (teamBuild.value.strikers[3] === character.Id)
-        {
-            slot = 3;
-        }
-        else if (teamBuild.value.strikers[4] === character.Id)
-        {
-            slot = 4;
-        }
-    }
-    else
-    {
-        if(teamBuild.value.specials[1] === character.Id)
-        {
-            slot = 1;
-        }
-        else if (teamBuild.value.specials[2] === character.Id)
-        {
-            slot = 2;
-        }
-    }
-    if(target === null)
-    {
-        if(character.Type === 'Striker')
-        {
-            teamBuild.value.strikers[slot] = null;
-        }
-        else
-        {
-            teamBuild.value.specials[slot] = null;
-        }
-        delete pickedChars.value[character.Id];
-        return;
-    }
-
-    const origElementId = character.ElementId;
-    let targetCharId = 0;
-
-    if(character.Type === 'Striker')
-    {
-        character.ElementId = 'character-striker-' + target;
-        targetCharId = teamBuild.value.strikers[target];
-        teamBuild.value.strikers[slot] = targetCharId;
-        teamBuild.value.strikers[target] = character.Id;
-        if(teamBuild.value.strikers[slot])
-        {
-            pickedChars.value[teamBuild.value.strikers[slot]].ElementId = origElementId;
-        }
-        pickedChars.value[character.Id] = character;
-    }
-    else
-    {
-        character.ElementId = 'character-special-' + target;
-        teamBuild.value.specials[slot] = teamBuild.value.specials[target];
-        teamBuild.value.specials[target] = character.Id;
-        if(teamBuild.value.strikers[slot])
-        {
-            pickedChars.value[teamBuild.value.specials[slot]].ElementId = origElementId;
-        }
-        pickedChars.value[character.Id] = character;
-    }
+    componentName.value = 'template';
+    topControlsVisible.value = true;
+    innerControlsVisible.value = false;
+    teamListVisible.value = true;
+    teamName.value = '';
+    teamHash.value = '';
 }
+
+function shareTeam(sharedTeamName)
+{
+    let sharedTeamHash = '#' + teamStorage.team[sharedTeamName];
+    sharedTeamHash += sharedTeamName;
+
+    let url = router.resolve({
+        name: 'teambuilder-share',
+        hash: sharedTeamHash
+    });
+
+    console.log(url);
+
+    shareTeamLink.value = document.location.origin + url.href;
+    shareTeamVisible.value = true;
+    topControlsVisible.value = false;
+    teamListVisible.value = false;
+}
+
+function shareTeamBack()
+{
+    shareTeamLink.value = '';
+    copyMessage.value = '';
+    shareTeamVisible.value = false;
+    topControlsVisible.value = true;
+    teamListVisible.value = true;
+}
+
+function shareTeamCopy()
+{
+    copyMessage.value = '';
+    navigator.clipboard.writeText(shareTeamLink.value).then(() =>{
+        copyMessage.value = 'Copied to clipboard';
+    }, () => {
+        copyMessage.value = 'Error copying to clipboard';
+    });
+}
+
+function deleteTeamPrompt(selectedTeamName)
+{
+    teamName.value = selectedTeamName;
+}
+
+function deleteTeam(selectedTeamName)
+{
+    delete teamStorage.team[selectedTeamName];
+    teamName.value = '';
+}
+
+const teamStorage = useTeamStorage();
+const componentName = shallowRef('template');
+const router = useRouter();
+
+const oldTeamName = ref('');
+const teamName = ref('');
+const teamHash = ref('');
+const teamShared = ref(false);
+const shareTeamLink = ref('');
+const copyMessage = ref('');
+
+// Visibility
+const topControlsVisible = ref(true);
+const innerControlsVisible = ref(false);
+const shareTeamVisible = ref(false);
+const teamListVisible = ref(true);
+
+if(router.currentRoute.value.name == 'teambuilder-share')
+{
+    const shareHashBits = router.currentRoute.value.hash.split(';');
+    router.replace({name: 'teambuilder'});
+    loadTeam(shareHashBits[7] + ' (Shared)', router.currentRoute.value.hash.substring(1), true);
+}
+
 </script>
 
 <template>
-    <div class="team-builder">
-        <div class="form-floating">
-            <CharacterSearch @update-list="updateList" :settings="{emptyReturn: true}" id="characterSearch" class="form-control"></CharacterSearch>
-            <label for="characterSearch">Character Name</label>
+    <div class="team-builder-wrapper">
+        <div class="controls" v-if="topControlsVisible">
+            <input @click="createNewTeam()" class="btn btn-primary" type="button" value="Create New Team">
         </div>
-        <div class="character-search-list">
-            <ul class="character-search-wrapper">
-                <template v-for="(character, index) in sortedList" >
-                <li @click="unitAdd(character)" :class="styleCharacter(character)">
-                    <img :src="'/import/Character/' + character.Icon + '.png'" class="character-portrait">
-                    <span class="character-name">{{character.Name}}</span>
+        <div class="controls row" v-if="innerControlsVisible">
+            <div class="col-1">
+                <input @click="saveTeam()" class="btn btn-primary col-auto" type="button" value="Save Team" :disabled="teamName.length === 0">
+            </div>
+            <div class="col-2">
+                <input v-model="teamName" class="form-control" placeholder="Team Name">
+            </div>
+            <div class="col-2 offset-md-7" style="text-align: right;">
+                <input @click="cancelTeam()" class="btn btn-danger col-auto" type="button" value="Cancel">
+            </div>
+        </div>
+        <div class="share-team" v-if="shareTeamVisible">
+            <div class="btn-group">
+                <input @click="shareTeamBack()" class="btn btn-primary" type="button" value="Back">
+            </div>
+            <div class="form-floating">
+                <input @focus="$event.target.select()" v-model="shareTeamLink" readonly class="form-control" id="team-share-input">
+                <label for="team-share-input">Share URL</label>
+            </div>
+            <div class="btn-group">
+                <input @click="shareTeamCopy()" class="btn btn-primary" type="button" value="Copy to Clipboard">
+            </div>
+            <div v-if="copyMessage">
+                {{copyMessage}}
+            </div>
+        </div>
+        <component :is="componentName" v-model:teamHash="teamHash" :shared="teamShared"></component>
+        <div v-if="teamListVisible" class="team-list">
+            Existing Teams:
+            <ul class="list-group">
+                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team">
+                    <span class="team-name">{{storedTeamName}}</span>
+                    <div class="dropdown team-list-options">
+                        <button @click.stop class="btn btn-secondary dropdown-toggle" type="button" :id="'dropdown-' + storedTeamName.replace(' ', '_')" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </button>
+                        <ul class="dropdown-menu" :aria-labelledby="'dropdown-' + storedTeamName.replace(' ', '_')">
+                            <li><a class="dropdown-item" @click.stop="shareTeam(storedTeamName)">Share</a></li>
+                            <li><a class="dropdown-item" @click.stop="deleteTeamPrompt(storedTeamName)" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></li>
+                        </ul>
+                    </div>
                 </li>
-                </template>
             </ul>
         </div>
-        <div class="characters-picked">
-            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :id="pickedChars[teamBuild.strikers[1]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :id="pickedChars[teamBuild.strikers[2]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :id="pickedChars[teamBuild.strikers[3]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :id="pickedChars[teamBuild.strikers[4]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :id="pickedChars[teamBuild.specials[1]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :id="pickedChars[teamBuild.specials[2]].ElementId" @swap-slot="swapSlot"></CharacterBuild>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Team</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Delete Team {{teamName}}? This cannot be undone
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" @click="deleteTeam(teamName)" data-bs-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <style>
-.team-builder .character-search-list ul.character-search-wrapper
+.team-builder-wrapper .team-list .team-name
 {
-    list-style: none;
-    padding-left: 0;
-    max-height: 322px;
-    overflow: hidden;
+    font-weight: bold;
+    font-size: 25px;
 }
 
-.team-builder .character-search-list .character-select
-{
-    height: 58px;
-    margin: 5px 0;
-    color: #ffffff;
-    line-height: 42px;
-    padding-left: 25px;
-    font-size: 48px;
-    border: 1px solid white;
-    border-radius: 20px;
-    cursor: pointer;
-}
 
-.team-builder .character-search-list .character-select.character-striker
+.team-builder-wrapper .team-list .team-list-options
 {
-    background-color: #BC302E;
-}
-
-.team-builder .character-search-list .character-select.character-special
-{
-    background-color: #2C69F6;
-}
-
-.team-builder .character-search-list .character-portrait
-{
-    max-height: 48px;
     display: inline-block;
-    margin-bottom: 12px;
-}
-.team-builder .character-search-list .character-name
-{
-    padding: 5px;
-    display: inline-block;
+    float: right;
 }
 
-.team-builder .character-search-list .already-selected
+.team-builder-wrapper .share-team input
 {
-    background-color: #cccccc;
-    filter: grayscale(100%);
-}
-
-.team-builder .characters-picked .character-wrapper
-{
-    width: 280px;
-    height: 316px;
-    margin-bottom: 20px;
-    display: grid;
-    grid-template-columns: repeat(4, 70px);
-    grid-template-rows: 40px 40px auto 40px;
-    background-size: 280px 316px !important;
-}
-
-
-.team-builder .characters-picked .character-wrapper.character-borrowed
-{
-    position: relative;
-}
-
-.team-builder .characters-picked .character-wrapper.character-borrowed::after
-{
-    content: 'BORROWED';
-    position: absolute;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    top: 80px;
-    width: 280px;
-    background: black;
-    text-align: center;
-}
-
-.team-builder .characters-picked .character-wrapper .character-settings,
-.team-builder .characters-picked .character-wrapper .character-name,
-.team-builder .characters-picked .character-wrapper .character-rarity,
-.team-builder .characters-picked .character-wrapper .character-level
-{
-    background: rgba(0, 0, 0, 0.5);
-    text-align: center;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 30px;
-}
-
-.team-builder .characters-picked .character-wrapper .character-ue
-{
-    grid-column: 1 / 2;
-}
-
-.team-builder .characters-picked .character-wrapper .character-name
-{
-    grid-column: 2 / 4;
-    -webkit-text-stroke: 1px white;
-    text-stroke: 1px white;
-    font-weight: bold;
-}
-
-.team-builder .characters-picked .character-wrapper .character-level
-{
-    grid-column: 4 / 5;
-    color: #ffffff;
-    font-weight: bold;
-    -webkit-text-stroke: 1px white;
-    text-stroke: 1px white;
-}
-
-.team-builder .characters-picked .character-wrapper .character-rarity
-{
-    grid-column: 1 / 5;
-}
-
-.team-builder .characters-picked .character-wrapper .character-rarity img
-{
-    max-height: 30px;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-.team-builder .characters-picked .character-wrapper .character-bond,
-.team-builder .characters-picked .character-wrapper .character-equipment
-{
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    align-self: end;
-    text-align: center;
-    font-size: 30px;
-    background: rgba(0, 0, 0, 0.5);
     margin-bottom: 5px;
-    color: #ffffff;
-    font-weight: bold;
-    -webkit-text-stroke: 1px #000000;
-    text-stroke: 1px #000000;
 }
-
-.team-builder .characters-picked .character-wrapper .character-bond
-{
-    background-size: 50px 40px !important;
-}
-
-.team-builder .characters-picked .character-wrapper .character-equipment
-{
-    background-size: 63px 50px !important;
-    filter: grayscale(100%);
-}
-
-.team-builder .characters-picked .character-wrapper .character-skill
-{
-    align-self: end;
-    text-align: center;
-    font-size: 30px;
-    background: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown a,
-.team-builder .characters-picked .character-wrapper .selector-dropdown a:visited
-{
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: bold;
-    -webkit-text-stroke: 1px #000000;
-    cursor: pointer;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown a.dropdown-item,
-.team-builder .characters-picked .character-wrapper .selector-dropdown a.dropdown-item:visited
-{
-    color: #000000;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown .number-input
-{
-    min-width: 0;
-    width: 70px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown.character-settings .dropdown-menu li
-{
-    padding-left: 10px;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown.character-settings .dropdown-menu a
-{
-    color: #000000;
-    -webkit-text-stroke: 0;
-    text-stroke: 0;
-}
-
-
-@media (min-width: 1200px)
-{
-
-    .team-builder .characters-picked
-    {
-        display: grid;
-        grid-template-columns: repeat(4, 300px);
-    }
-
-    #character-striker-1
-    {
-        grid-column-start: 1;
-        grid-row-start: 1;
-    }
-
-    #character-striker-2
-    {
-        grid-column-start: 2;
-        grid-row-start: 1;
-    }
-
-    #character-striker-3
-    {
-        grid-column-start: 3;
-        grid-row-start: 1;
-    }
-
-    #character-striker-4
-    {
-        grid-column-start: 4;
-        grid-row-start: 1;
-    }
-
-    #character-special-1
-    {
-        grid-column: 2 / 3;
-        grid-row-start: 2;
-    }
-
-    #character-special-2
-    {
-        grid-column: 3 / 5;
-        grid-row-start: 2;
-    }
-}
-
-@media (min-width: 600px) and (max-width: 1199px)
-{
-    .team-builder .characters-picked
-    {
-        display: grid;
-        grid-template-columns: repeat(2, 300px);
-    }
-
-    #character-striker-1
-    {
-        grid-column-start: 1;
-        grid-row-start: 1;
-    }
-
-    #character-striker-2
-    {
-        grid-column-start: 2;
-        grid-row-start: 1;
-    }
-
-    #character-striker-3
-    {
-        grid-column-start: 1;
-        grid-row-start: 2;
-    }
-
-    #character-striker-4
-    {
-        grid-column-start: 2;
-        grid-row-start: 2;
-    }
-
-    #character-special-1
-    {
-        grid-column-start: 1;
-        grid-row-start: 3;
-    }
-
-    #character-special-2
-    {
-        grid-column-start: 2;
-        grid-row-start: 3;
-    }
-}
-
 </style>
