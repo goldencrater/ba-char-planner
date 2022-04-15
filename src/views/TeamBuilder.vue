@@ -84,6 +84,17 @@ function shareTeamCopy()
     });
 }
 
+function deleteTeamPrompt(selectedTeamName)
+{
+    teamName.value = selectedTeamName;
+}
+
+function deleteTeam(selectedTeamName)
+{
+    delete teamStorage.team[selectedTeamName];
+    teamName.value = '';
+}
+
 const teamStorage = useTeamStorage();
 const componentName = shallowRef('template');
 const router = useRouter();
@@ -153,11 +164,28 @@ if(router.currentRoute.value.name == 'teambuilder-share')
                         </button>
                         <ul class="dropdown-menu" :aria-labelledby="'dropdown-' + storedTeamName.replace(' ', '_')">
                             <li><a class="dropdown-item" @click.stop="shareTeam(storedTeamName)">Share</a></li>
-                            <li><a class="dropdown-item" @click.stop="deleteTeamPrompt(storedTeamName)">Delete</a></li>
+                            <li><a class="dropdown-item" @click.stop="deleteTeamPrompt(storedTeamName)" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></li>
                         </ul>
                     </div>
                 </li>
             </ul>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Team</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Delete Team {{teamName}}? This cannot be undone
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" @click="deleteTeam(teamName)" data-bs-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
