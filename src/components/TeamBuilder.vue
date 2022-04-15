@@ -349,7 +349,7 @@ if(props.teamHash)
                 <template v-for="(character, index) in sortedList" >
                 <li @click="unitAdd(character)" :class="styleCharacter(character)">
                     <img :src="'/import/Character/' + character.Icon + '.png'" class="character-portrait">
-                    <span class="character-name">{{character.Name}}</span>
+                    <span class="character-name">{{$tC(character.Id, 'Name')}}</span>
                 </li>
                 </template>
             </ul>

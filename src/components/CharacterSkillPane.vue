@@ -6,9 +6,8 @@ import CharacterSkillPaneLevelSelector from './CharacterSkillPaneLevelSelector.v
 const props = defineProps(['character']);
 
 const charDescription = ref('CharacterSkillPaneLevelSelector');
-let skill = props.character.Skills.Ex;
 
-const skillRef = ref({skill: skill});
+const skillRef = ref({skill: 'Ex'});
 
 function changeSkill(type)
 {
@@ -28,7 +27,7 @@ function changeSkill(type)
             break;
         }
     }
-    skillRef.value.skill = props.character.Skills[key];
+    skillRef.value.skill = key;
 }
 
 </script>
@@ -52,7 +51,7 @@ function changeSkill(type)
         <img :src="'/import/Skills/' + character.Skills.Skill3.Level1.Icon + '.png'">
     </div>
     <div class="character-skill-description-wrapper">
-        <CharacterSkillPaneLevelSelector v-bind="skillRef" :displayUpgrades="true"></CharacterSkillPaneLevelSelector>
+        <CharacterSkillPaneLevelSelector v-bind="skillRef" :character="character" :displayUpgrades="true"></CharacterSkillPaneLevelSelector>
     </div>
 </div>
 

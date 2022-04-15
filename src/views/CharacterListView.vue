@@ -44,7 +44,7 @@ function updateList(newList)
                     <div :class="'character-attack damagetype-' + character.DamageType.toLowerCase()"></div>
                     <div :class="'character-defense defensetype-' + character.DefenseType.toLowerCase()"></div>
                     <div class="character-name">
-                        {{character.Name}}
+                        {{$tC(character.Id, 'Name')}}
                     </div>
                 </div>
             </RouterLink>
