@@ -28,7 +28,12 @@ const router = createRouter({
             path: '/team/share',
             name: 'teambuilder-share',
             component: () => import('../views/TeamBuilder.vue'),
-        }
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: () => import('../views/Settings.vue'),
+        },
     ],
     linkActiveClass: 'active',
 })

@@ -17,6 +17,7 @@ const commithash = __COMMITHASH__
                     <RouterLink to="/team" class="nav-link">Team Builder</RouterLink>
                 </div>
             </div>
+            <RouterLink to="/settings" class="nav-link navbar-setting"><font-awesome-icon icon="gear"></font-awesome-icon></RouterLink>
         </nav>
     </header>
 
@@ -34,4 +35,10 @@ const commithash = __COMMITHASH__
 
 <style>
 @import './assets/style.css';
+
+.navbar .navbar-setting
+{
+    color: rgba(0, 0 ,0 ,0.55);
+    float: right;
+}
 </style>
