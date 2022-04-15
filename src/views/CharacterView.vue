@@ -17,8 +17,6 @@ else
     character = getCharacterByName(characterId);
 }
 
-console.log(character);
-
 </script>
 
 <template>
