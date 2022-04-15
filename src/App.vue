@@ -14,7 +14,6 @@ const commithash = __COMMITHASH__
                 <div class="navbar-nav">
                     <RouterLink to="/" class="nav-link">Home</RouterLink>
                     <RouterLink to="/char" class="nav-link">Character Search</RouterLink>
-                    <RouterLink to="/mychars" class="nav-link">Owned Characters</RouterLink>
                     <RouterLink to="/team" class="nav-link">Team Builder</RouterLink>
                 </div>
             </div>
