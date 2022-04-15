@@ -30,7 +30,7 @@ function updateList(newList)
         <label for="characterSearch">Character Name</label>
     </div>
     <div class="character-list">
-        <div v-for="character in sortedList" class="character">
+        <div v-for="character in sortedList" class="character" :key="character.Id">
             <RouterLink :to="{name: 'charview', params: {charid: character.Name.toLowerCase() }}">
                 <div :style="createBackgroundTag(character.Icon)" class="character-link-wrapper">
                     <div class="character-stars">

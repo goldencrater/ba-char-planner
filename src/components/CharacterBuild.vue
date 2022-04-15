@@ -39,8 +39,6 @@ function toggleBorrowed()
     }
 }
 
-
-const regex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
 const exTooltip = ref('');
 const skill1Tooltip = ref('');
 const skill2Tooltip = ref('');
@@ -73,8 +71,8 @@ updateSkill3Tooltip(props.character.LocalStorage.Skill3);
 
 onMounted(() => {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl, {html: true, sanitize: false})
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {html: true, sanitize: false});
     })
 })
 

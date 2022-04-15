@@ -2,7 +2,7 @@
 import Affinities from './Affinities.vue';
 import CharacterSkillPane from './CharacterSkillPane.vue';
 
-const props = defineProps({
+defineProps({
     character: {
         type: Object,
         required: true

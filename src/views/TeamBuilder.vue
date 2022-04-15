@@ -156,7 +156,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
         <div v-if="teamListVisible" class="team-list">
             Existing Teams:
             <ul class="list-group">
-                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team">
+                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team" :key="storedTeamName">
                     <span class="team-name">{{storedTeamName}}</span>
                     <div class="dropdown team-list-options">
                         <button @click.stop class="btn btn-secondary dropdown-toggle" type="button" :id="'dropdown-' + storedTeamName.replace(' ', '_')" data-bs-toggle="dropdown" aria-expanded="false">

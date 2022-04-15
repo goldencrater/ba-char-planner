@@ -4,7 +4,7 @@ import { useSettingsStorage } from '../stores/SettingsStorage.js';
 let language = 'En';
 
 export default {
-    install: (app, options) => {
+    install: (app) => {
         const settings = useSettingsStorage();
         language = settings.settings.Language;
         app.config.globalProperties.$tC = translateCharacter
@@ -20,7 +20,7 @@ function translateCharacter(charId, path, skillRegex = false)
     let returnString = deepGetObject(localisationStrings.Characters[charId][language], path);
     if(returnString == undefined)
     {
-        returnString = '$Characters.' + charId + '.' + settings.settings.Language + '.' + path;
+        returnString = '$Characters.' + charId + '.' + language + '.' + path;
     }
     if(skillRegex)
     {

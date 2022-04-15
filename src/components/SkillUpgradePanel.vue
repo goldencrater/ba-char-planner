@@ -25,7 +25,7 @@ updateItemsDisplay();
 
 <template>
     <div class="item-upgrade-wrapper">
-        <template v-for="item in items">
+        <template v-for="item in items" :key="item.Id">
             <ItemDisplay :item="item"></ItemDisplay>
         </template>
     </div>

@@ -4,9 +4,6 @@ import { ref } from 'vue';
 import CharacterSkillPaneLevelSelector from './CharacterSkillPaneLevelSelector.vue';
 
 const props = defineProps(['character']);
-
-const charDescription = ref('CharacterSkillPaneLevelSelector');
-
 const skillRef = ref({skill: 'Ex'});
 
 function changeSkill(type)

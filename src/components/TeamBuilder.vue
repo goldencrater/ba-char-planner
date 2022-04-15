@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { getCharacterById } from '../composables/Character.js';
 import { useCharacterStorage } from '../stores/CharacterStorage.js';
@@ -20,8 +19,6 @@ const teamBuild = ref({
 });
 
 let borrowed = null;
-
-const router = useRouter();
 
 const charStorage = useCharacterStorage();
 
@@ -108,7 +105,7 @@ function unitAdd(character)
     }
     character.ElementId = elementId;
     character.LocalStorage = charStorage.getCharacter(character);
-    watch(character.LocalStorage, (stor) => {
+    watch(character.LocalStorage, () => {
         updateHash();
     });
     pickedChars.value[character.Id] = character;
@@ -196,7 +193,7 @@ function swapSlot(character, target)
 function updateHash()
 {
     let charHash = '';
-    for(var i = 1; i <= 4; i++)
+    for(let i = 1; i <= 4; i++)
     {
         if(teamBuild.value.strikers[i] !== null)
         {
@@ -207,7 +204,7 @@ function updateHash()
             charHash += 'n;'
         }
     }
-    for(var i = 1; i <= 2; i++)
+    for(i = 1; i <= 2; i++)
     {
         if(teamBuild.value.specials[i] !== null)
         {
@@ -287,7 +284,7 @@ if(props.teamHash)
             {
                 pickedChars.value[charStats.Id].LocalStorage = charStorage.getCharacter(pickedChars.value[charStats.Id]);
             }
-            watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
+            watch(pickedChars.value[charStats.Id].LocalStorage, () => {
                 updateHash();
             });
             pickedChars.value[charStats.Id].ElementId = 'character-striker-' + (i + 1);
@@ -306,7 +303,7 @@ if(props.teamHash)
         {
             pickedChars.value[charStats.Id].LocalStorage = charStorage.getCharacter(pickedChars.value[charStats.Id]);
         }
-        watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
+        watch(pickedChars.value[charStats.Id].LocalStorage, () => {
             updateHash();
         });
         pickedChars.value[charStats.Id].ElementId = 'character-special-1';
@@ -324,7 +321,7 @@ if(props.teamHash)
         {
             pickedChars.value[charStats.Id].LocalStorage = charStorage.getCharacter(pickedChars.value[charStats.Id]);
         }
-        watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
+        watch(pickedChars.value[charStats.Id].LocalStorage, () => {
             updateHash();
         });
         pickedChars.value[charStats.Id].ElementId = 'character-special-2';
@@ -346,11 +343,11 @@ if(props.teamHash)
         </div>
         <div class="character-search-list">
             <ul class="character-search-wrapper">
-                <template v-for="(character, index) in sortedList" >
-                <li @click="unitAdd(character)" :class="styleCharacter(character)">
-                    <img :src="'/import/Character/' + character.Icon + '.png'" class="character-portrait">
-                    <span class="character-name">{{$tC(character.Id, 'Name')}}</span>
-                </li>
+                <template v-for="(character, index) in sortedList" :key="index">
+                    <li @click="unitAdd(character)" :class="styleCharacter(character)">
+                        <img :src="'/import/Character/' + character.Icon + '.png'" class="character-portrait">
+                        <span class="character-name">{{$tC(character.Id, 'Name')}}</span>
+                    </li>
                 </template>
             </ul>
         </div>

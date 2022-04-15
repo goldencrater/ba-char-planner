@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 
+// eslint-disable-next-line no-undef
 const commithash = __COMMITHASH__
 </script>
 
