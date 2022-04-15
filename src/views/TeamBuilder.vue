@@ -25,6 +25,7 @@ function saveTeam()
     {
         delete teamStorage.team[oldTeamName.value];
     }
+    oldTeamName.value = '';
     teamStorage.team[teamName.value] = teamHash.value;
     cancelTeam();
 }
