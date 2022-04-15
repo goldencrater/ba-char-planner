@@ -271,7 +271,6 @@ function setBorrowed(charId)
 
 if(props.teamHash)
 {
-    console.log(props.shared);
     const charHashes = props.teamHash.split(';');
     for(var i = 0; i < 4; i++)
     {
