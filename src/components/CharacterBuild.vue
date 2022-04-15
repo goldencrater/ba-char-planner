@@ -1,10 +1,12 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, inject } from 'vue';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
 
 const props = defineProps(['character']);
 const emits = defineEmits(['swapSlot', 'setBorrowed']);
+
+const tC = inject('translateCharacter');
 
 function createCharacterBackgroundTag(path)
 {
@@ -46,22 +48,22 @@ const skill3Tooltip = ref('');
 
 function updateExTooltip(level)
 {
-    exTooltip.value = 'Cost: ' + props.character.Skills.Ex['Level' + level].Cost + '<br>' + props.character.Skills.Ex['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+    exTooltip.value = 'Cost: ' + props.character.Skills.Ex['Level' + level].Cost + '<br>' + tC(props.character.Id, 'Skills.Ex.Level' + level + '.Description', true);
 }
 
 function updateSkill1Tooltip(level)
 {
-    skill1Tooltip.value = props.character.Skills.Skill1['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+    skill1Tooltip.value = tC(props.character.Id, 'Skills.Skill1.Level' + level + '.Description', true);
 }
 
 function updateSkill2Tooltip(level)
 {
-    skill2Tooltip.value = props.character.Skills.Skill2['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+    skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2.Level' + level + '.Description', true);
 }
 
 function updateSkill3Tooltip(level)
 {
-    skill3Tooltip.value = props.character.Skills.Skill3['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+    skill3Tooltip.value = tC(props.character.Id, 'Skills.Skill3.Level' + level + '.Description', true);
 }
 
 updateExTooltip(props.character.LocalStorage.SkillEx);
@@ -118,7 +120,7 @@ if(props.character.Borrowed)
             </ul>
         </div>
         <div :class="'character-name textcolor-damagetype-' + character.DamageType.toLowerCase()">
-            {{character.Name}}
+            {{$tC(character.Id, 'Name')}}
         </div>
         <div class="character-level selector-dropdown">
             <DropdownInput :id="character.Name.toLowerCase() + 'level'" v-model="character.LocalStorage.Level" maxValue="73"></DropdownInput>
