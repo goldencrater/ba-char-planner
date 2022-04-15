@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
 
@@ -36,6 +36,52 @@ function toggleBorrowed()
         emits('setBorrowed', props.character.Id);
     }
 }
+
+
+const regex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
+const exTooltip = ref('');
+const skill1Tooltip = ref('');
+const skill2Tooltip = ref('');
+const skill3Tooltip = ref('');
+
+function updateExTooltip(level)
+{
+    exTooltip.value = 'Cost: ' + props.character.Skills.Ex['Level' + level].Cost + '<br>' + props.character.Skills.Ex['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+}
+
+function updateSkill1Tooltip(level)
+{
+    skill1Tooltip.value = props.character.Skills.Skill1['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+}
+
+function updateSkill2Tooltip(level)
+{
+    skill2Tooltip.value = props.character.Skills.Skill2['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+}
+
+function updateSkill3Tooltip(level)
+{
+    skill3Tooltip.value = props.character.Skills.Skill3['Level' + level].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+}
+
+updateExTooltip(props.character.LocalStorage.SkillEx);
+updateSkill1Tooltip(props.character.LocalStorage.Skill1);
+updateSkill2Tooltip(props.character.LocalStorage.Skill2);
+updateSkill3Tooltip(props.character.LocalStorage.Skill3);
+
+onMounted(() => {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {html: true, sanitize: false})
+    })
+})
+
+watch(props.character.LocalStorage, (newVal) => {
+    updateExTooltip(newVal.SkillEx);
+    updateSkill1Tooltip(newVal.Skill1);
+    updateSkill2Tooltip(newVal.Skill2);
+    updateSkill3Tooltip(newVal.Skill3);
+}, {deep: true});
 
 if(props.character.Borrowed)
 {
@@ -99,16 +145,24 @@ if(props.character.Borrowed)
             <DropdownInput :id="character.Name.toLowerCase() + 'equip3'" v-model="character.LocalStorage.Equip3" maxValue="5"></DropdownInput>
         </div>
         <div class="character-skill selector-dropdown">
-            <DropdownInput :id="character.Name.toLowerCase() + 'skillEx'" v-model="character.LocalStorage.SkillEx" maxValue="5"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'skillEx'" v-model="character.LocalStorage.SkillEx" maxValue="5">
+                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="exTooltip" :data-bs-original-title="exTooltip">{{character.LocalStorage.SkillEx}}</span>
+            </DropdownInput>
         </div>
         <div class="character-skill selector-dropdown">
-            <DropdownInput :id="character.Name.toLowerCase() + 'skill1'" v-model="character.LocalStorage.Skill1" maxValue="10"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'skill1'" v-model="character.LocalStorage.Skill1" maxValue="10">
+                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="skill1Tooltip" :data-bs-original-title="skill1Tooltip">{{character.LocalStorage.Skill1}}</span>
+            </DropdownInput>
         </div>
         <div class="character-skill selector-dropdown">
-            <DropdownInput :id="character.Name.toLowerCase() + 'skill2'" v-model="character.LocalStorage.Skill2" maxValue="10"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'skill2'" v-model="character.LocalStorage.Skill2" maxValue="10">
+                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="skill2Tooltip" :data-bs-original-title="skill2Tooltip">{{character.LocalStorage.Skill2}}</span>
+            </DropdownInput>
         </div>
         <div class="character-skill selector-dropdown">
-            <DropdownInput :id="character.Name.toLowerCase() + 'skill3'" v-model="character.LocalStorage.Skill3" maxValue="10"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'skill3'" v-model="character.LocalStorage.Skill3" maxValue="10">
+                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="skill3Tooltip" :data-bs-original-title="skill3Tooltip">{{character.LocalStorage.Skill3}}</span>
+            </DropdownInput>
         </div>
     </div>
 </template>
