@@ -8,6 +8,9 @@ import { useCharacterStorage } from '../stores/CharacterStorage.js';
 import CharacterSearch from '../components/CharacterSearch.vue';
 import CharacterBuild from '../components/CharacterBuild.vue';
 
+const props = defineProps(['teamHash']);
+const emit = defineEmits(['update:teamHash'])
+
 const sortedList = ref([]);
 const pickedChars = ref({});
 
@@ -103,7 +106,7 @@ function unitAdd(character)
     }
     character.ElementId = elementId;
     character.LocalStorage = charStorage.getCharacter(character);
-    watch(character.LocalStorage, () => {
+    watch(character.LocalStorage, (stor) => {
         updateHash();
     });
     pickedChars.value[character.Id] = character;
@@ -213,7 +216,8 @@ function updateHash()
             charHash += 'n;'
         }
     }
-    router.replace({hash: '#' + charHash})
+    console.log('updateHash');
+    emit('update:teamHash', charHash);
 }
 
 function hashCharStats(charStats)
@@ -250,10 +254,9 @@ function unhashCharStats(hashString)
     return stats;
 }
 
-if(router.currentRoute.value.hash)
+if(props.teamHash)
 {
-    console.log(router.currentRoute.value.hash);
-    const charHashes = router.currentRoute.value.hash.substring(1).split(';');
+    const charHashes = props.teamHash.split(';');
     for(var i = 0; i < 4; i++)
     {
         if(charHashes[i].length !== 1)
@@ -261,7 +264,10 @@ if(router.currentRoute.value.hash)
             let charStats = unhashCharStats(charHashes[i]);
             teamBuild.value.strikers[i + 1] = charStats.Id;
             pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
-            pickedChars.value[charStats.Id].LocalStorage = charStats;
+            pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+            watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
+                updateHash();
+            });
             pickedChars.value[charStats.Id].ElementId = 'character-striker-' + (i + 1);
         }
     }
@@ -270,7 +276,10 @@ if(router.currentRoute.value.hash)
         let charStats = unhashCharStats(charHashes[4]);
         teamBuild.value.specials[1] = charStats.Id;
         pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
-        pickedChars.value[charStats.Id].LocalStorage = charStats;
+        pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+        watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
+            updateHash();
+        });
         pickedChars.value[charStats.Id].ElementId = 'character-special-1';
     }
     if(charHashes[5].length !== 1)
@@ -278,7 +287,10 @@ if(router.currentRoute.value.hash)
         let charStats = unhashCharStats(charHashes[5]);
         teamBuild.value.specials[2] = charStats.Id;
         pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
-        pickedChars.value[charStats.Id].LocalStorage = charStats;
+        pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
+        watch(pickedChars.value[charStats.Id].LocalStorage, (stor) => {
+            updateHash();
+        });
         pickedChars.value[charStats.Id].ElementId = 'character-special-2';
     }
 }
