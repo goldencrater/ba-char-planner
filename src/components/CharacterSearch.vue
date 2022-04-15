@@ -1,12 +1,18 @@
 <script setup>
+import { inject } from 'vue';
+
 import { getCharacterList } from '../composables/Character.js';
-import { computed } from 'vue';
+import { useSettingsStorage } from '../stores/SettingsStorage.js';
 
 const props = defineProps(['settings']);
 const emit = defineEmits(['updateList']);
+const tC = inject('translateCharacter');
 
 const searchList = Object.values(getCharacterList());
 let filteredList = searchList;
+
+const settingsStorage = useSettingsStorage();
+const language = settingsStorage.settings.Language.toLowerCase();
 
 const updateSearchResults = function(value)
 {
@@ -25,15 +31,17 @@ const updateSearchResults = function(value)
     else
     {
         filteredList = searchList.filter((element) => {
-            return (element.Name.toLowerCase().indexOf(search) >= 0);
+            return (tC(element.Id, 'Name').toLowerCase().indexOf(search) >= 0);
         });
     }
     filteredList.sort((a, b) => {
-        let aStartsWithSearch = (a.Name.toLowerCase().indexOf(search) === 0);
-        let bStartsWithSearch = (b.Name.toLowerCase().indexOf(search) === 0);
+        const aName = tC(a.Id, 'Name').toLowerCase();
+        const bName = tC(b.Id, 'Name').toLowerCase();
+        let aStartsWithSearch = (aName.indexOf(search) === 0);
+        let bStartsWithSearch = (bName.toLowerCase().indexOf(search) === 0);
         if (aStartsWithSearch && bStartsWithSearch)
         {
-            return (a.Name.toLowerCase() > b.Name.toLowerCase()) ? 1 : -1;
+            return aName.localeCompare(b.Name, language);
         }
         else if(aStartsWithSearch)
         {
@@ -45,7 +53,7 @@ const updateSearchResults = function(value)
         }
         else
         {
-            return (a.Name.toLowerCase() > b.Name.toLowerCase()) ? 1 : -1;
+            return aName.localeCompare(b.Name, language);
         }
     });
     emit('updateList', filteredList);

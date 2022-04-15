@@ -1,36 +1,38 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, inject } from 'vue';
 
 import SkillUpgradePanel from './SkillUpgradePanel.vue';
 
 const props = defineProps({
-    'skill': Object,
+    'skill': String,
+    'character': Object,
     'displayUpgrades': {type: Boolean, default: false}
 });
+const tC = inject('translateCharacter');
 
 const skillDescription = ref();
 const cost = ref();
 const itemUpgrades = ref({itemUpgrades: null});
 const visible = ref(true);
 
-const regex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
 
 function changeDescription(level)
 {
-    const selected = 'Level' + level;
-    skillDescription.value = props.skill[selected].Description.replace(regex, '<span style="color: #$1;">$2</span>');
+    const selectedSkill = props.character.Skills[props.skill];
+    const levelSelector = 'Level' + level;
+    skillDescription.value = tC(props.character.Id, 'Skills.' + props.skill + '.' + levelSelector + '.Description', true);
     if((!props.skill.Level10 && level == 5) || (level == 10))
     {
         visible.value = false;
     }
     else
     {
-        itemUpgrades.value.itemUpgrades = props.skill[selected].LevelUpMats;
+        itemUpgrades.value.itemUpgrades = selectedSkill[levelSelector].LevelUpMats;
         visible.value = true;
     }
-    if(props.skill[selected].Cost)
+    if(selectedSkill[levelSelector].Cost)
     {
-        cost.value = 'Cost: ' + props.skill[selected].Cost;
+        cost.value = 'Cost: ' + selectedSkill[levelSelector].Cost;
     }
     else
     {
@@ -61,7 +63,7 @@ changeDescription(1);
         </template>
     </div>
     <div class="character-skill-description-wrapper">
-        <div class="character-skill-name">Name: {{props.skill.Name}}</div>
+        <div class="character-skill-name">Name: {{$tC(character.Id, 'Skills.' + skill + '.Name')}}</div>
         <div class="character-skill-cost">{{cost}}</div>
         <div class="character-skill-description" v-html="skillDescription"></div>
         <SkillUpgradePanel v-bind="itemUpgrades" v-if="visible"></SkillUpgradePanel>
