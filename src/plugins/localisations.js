@@ -18,7 +18,7 @@ const colorRegex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
 function translateCharacter(charId, path, skillRegex = false)
 {
     let returnString = deepGetObject(localisationStrings.Characters[charId][language], path);
-    if(returnString == undefined)
+    if(!returnString)
     {
         returnString = '$Characters.' + charId + '.' + language + '.' + path;
     }
@@ -37,9 +37,13 @@ function deepGetObject(obj, path)
         let bit = pathbits.shift();
         if(typeof(obj[bit]) === 'undefined')
         {
-            return null;
+            return;
         }
         obj = obj[bit];
+    }
+    if(!obj)
+    {
+        return;
     }
     return obj[pathbits[0]];
 }
