@@ -2,6 +2,7 @@
 import { ref, shallowRef } from 'vue';
 import { useTeamStorage } from '../stores/TeamStorage.js';
 import { useRouter } from 'vue-router';
+import { getCharacterById } from '../composables/Character.js';
 
 import TeamBuilder from '../components/TeamBuilder.vue';
 
@@ -57,8 +58,6 @@ function shareTeam(sharedTeamName)
         hash: sharedTeamHash
     });
 
-    console.log(url);
-
     shareTeamLink.value = document.location.origin + url.href;
     shareTeamVisible.value = true;
     topControlsVisible.value = false;
@@ -93,6 +92,24 @@ function deleteTeam(selectedTeamName)
 {
     delete teamStorage.team[selectedTeamName];
     teamName.value = '';
+}
+
+function generateTeamImageArray(selectedTeamName)
+{
+    const selectedTeam = teamStorage.team[selectedTeamName];
+    const entries = selectedTeam.split(';');
+    const imgUrls = [];
+    for (let i = 0; i <= 5; i++)
+    {
+        if(entries[i] === 'n')
+        {
+            continue;
+        }
+        let charId = entries[i].split('|', 1)[0];
+        let character = getCharacterById(charId);
+        imgUrls.push("/import/Character/" + character.Icon + ".png");
+    }
+    return imgUrls;
 }
 
 const teamStorage = useTeamStorage();
@@ -157,6 +174,9 @@ if(router.currentRoute.value.name == 'teambuilder-share')
             Existing Teams:
             <ul class="list-group">
                 <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team" :key="storedTeamName">
+                    <div class="team-members-list">
+                        <img v-for="image in generateTeamImageArray(storedTeamName)" :src="image">
+                    </div>
                     <span class="team-name">{{storedTeamName}}</span>
                     <div class="dropdown team-list-options">
                         <button @click.stop class="btn btn-secondary dropdown-toggle" type="button" :id="'dropdown-' + storedTeamName.replace(' ', '_')" data-bs-toggle="dropdown" aria-expanded="false">
@@ -194,9 +214,12 @@ if(router.currentRoute.value.name == 'teambuilder-share')
 .team-builder-wrapper .team-list .team-name
 {
     font-weight: bold;
-    font-size: 25px;
+    font-size: 36px;
+    line-height: 57px;
+    height: 57px;
+    display: inline-block;
+    vertical-align: middle;
 }
-
 
 .team-builder-wrapper .team-list .team-list-options
 {
@@ -204,8 +227,24 @@ if(router.currentRoute.value.name == 'teambuilder-share')
     float: right;
 }
 
+.team-builder-wrapper .team-list .team-list-options button
+{
+    height: 57px;
+}
+
 .team-builder-wrapper .share-team input
 {
     margin-bottom: 5px;
+}
+
+.team-builder-wrapper .team-list .team-members-list
+{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.team-builder-wrapper .team-list .team-members-list img
+{
+    height: 57px;
 }
 </style>
