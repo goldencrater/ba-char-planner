@@ -14,7 +14,7 @@ const skillDescription = ref();
 const cost = ref();
 const itemUpgrades = ref({itemUpgrades: null});
 const visible = ref(true);
-
+const displayAllLevels = ref(true);
 
 function changeDescription(level)
 {
@@ -38,6 +38,14 @@ function changeDescription(level)
     {
         cost.value = '';
     }
+    if(selectedSkill.Level10)
+    {
+        displayAllLevels.value = true;
+    }
+    else
+    {
+        displayAllLevels.value = false;
+    }
 }
 
 watch(props, () => {
@@ -54,7 +62,7 @@ changeDescription(1);
         <button type="button" class="btn btn-primary" @click="changeDescription(3);">3</button>
         <button type="button" class="btn btn-primary" @click="changeDescription(4);">4</button>
         <button type="button" class="btn btn-primary" @click="changeDescription(5);">5</button>
-        <template v-if="props.skill.Level10">
+        <template v-if="displayAllLevels">
             <button type="button" class="btn btn-primary" @click="changeDescription(6)">6</button>
             <button type="button" class="btn btn-primary" @click="changeDescription(7)">7</button>
             <button type="button" class="btn btn-primary" @click="changeDescription(8)">8</button>
