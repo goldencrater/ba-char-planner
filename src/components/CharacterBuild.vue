@@ -1,12 +1,15 @@
 <script setup>
-import { ref, watch, onMounted, inject } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { translateCharacter } from '../plugins/localisations.js';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
+import { getRegionSettings } from '../composables/RegionSettings.js'
 
 const props = defineProps(['character']);
 const emits = defineEmits(['swapSlot', 'setBorrowed']);
 
-const tC = inject('translateCharacter');
+const regionSettings = getRegionSettings();
+const tC = translateCharacter;
 
 function createCharacterBackgroundTag(path)
 {
@@ -56,7 +59,14 @@ function updateSkill1Tooltip(level)
 
 function updateSkill2Tooltip(level)
 {
-    skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2.Level' + level + '.Description', true);
+    if(props.character.LocalStorage.Stars >= 6)
+    {
+        skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2Upgrade.Level' + level + '.Description', true);
+    }
+    else
+    {
+        skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2.Level' + level + '.Description', true);
+    }
 }
 
 function updateSkill3Tooltip(level)
@@ -82,6 +92,54 @@ watch(props.character.LocalStorage, (newVal) => {
     updateSkill2Tooltip(newVal.Skill2);
     updateSkill3Tooltip(newVal.Skill3);
 }, {deep: true});
+
+function displayStar(starNumber)
+{
+    if(!regionSettings.UniqueWeaponsAvailable)
+    {
+        return starNumber <= stars.value;
+    }
+    let invalid = [];
+    switch(starNumber)
+    {
+        case 5:
+        {
+            invalid.push(4);
+            invalid.push(8);
+        }
+        case 4:
+        {
+            invalid.push(3);
+            invalid.push(7);
+        } // fallthrough
+        case 3:
+        {
+            invalid.push(2);
+            invalid.push(6);
+        } // fallthrough
+        case 2:
+        {
+            invalid.push(1);
+            invalid.push(5);
+        }
+    }
+    return !invalid.includes(stars.value);
+}
+
+const stars = ref(props.character.LocalStorage.Stars);
+
+function starClass()
+{
+    if(regionSettings.UniqueWeaponsAvailable && stars.value >= 5)
+    {
+        return 'unique-weapon';
+    }
+}
+
+watch(stars, (newVal) => {
+    props.character.LocalStorage.Stars = newVal;
+    updateSkill2Tooltip(props.character.LocalStorage.Skill2);
+})
 
 if(props.character.Borrowed)
 {
@@ -121,28 +179,43 @@ if(props.character.Borrowed)
             {{$tC(character.Id, 'Name')}}
         </div>
         <div class="character-level selector-dropdown">
-            <DropdownInput :id="character.Name.toLowerCase() + 'level'" v-model="character.LocalStorage.Level" maxValue="73"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'level'" v-model="character.LocalStorage.Level" :maxValue="regionSettings.MaxLevel"></DropdownInput>
         </div>
         <div class="character-rarity selector-dropdown">
-            <DropdownInput :id="character.Name.toLowerCase() + 'stars'" v-model="character.LocalStorage.Stars" maxValue="5">
-                <img :src="'/images/star-lit.png'">
-                <img :src="'/images/star-lit.png'" v-if="character.LocalStorage.Stars > 1">
-                <img :src="'/images/star-lit.png'" v-if="character.LocalStorage.Stars > 2">
-                <img :src="'/images/star-lit.png'" v-if="character.LocalStorage.Stars > 3">
-                <img :src="'/images/star-lit.png'" v-if="character.LocalStorage.Stars > 4">
-            </DropdownInput>
+            <a href="#" role="button" :id="character.Name.toLowerCase() + 'stars'" data-bs-toggle="dropdown" aria-expanded="false">
+                <img :src="'/import/CharacterWeapons/' + character.CharacterWeapon.Icon + '.png'" v-if="regionSettings.UniqueWeaponsAvailable && stars >= 5">
+                <img :class="starClass()" :src="'/images/star-lit.png'">
+                <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(2)">
+                <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(3)">
+                <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(4)">
+                <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(5)">
+            </a>
+            <ul class="dropdown-menu number-input" :aria-labelledby="character.Name.toLowerCase() + 'stars'">
+                <li>
+                    <a class="dropdown-item" href="#" @click="stars = 1">1</a>
+                    <a class="dropdown-item" href="#" @click="stars = 2">2</a>
+                    <a class="dropdown-item" href="#" @click="stars = 3">3</a>
+                    <a class="dropdown-item" href="#" @click="stars = 4">4</a>
+                    <a class="dropdown-item" href="#" @click="stars = 5" v-if="!regionSettings.UniqueWeaponsAvailable">5</a>
+                    <a class="dropdown-item" href="#" @click="stars = 5" v-if="regionSettings.UniqueWeaponMaxStar > 0">5/UE1</a>
+                    <a class="dropdown-item" href="#" @click="stars = 6" v-if="regionSettings.UniqueWeaponMaxStar > 1">5/UE2</a>
+                    <a class="dropdown-item" href="#" @click="stars = 7" v-if="regionSettings.UniqueWeaponMaxStar > 2">5/UE3</a>
+                    <a class="dropdown-item" href="#" @click="stars = 8" v-if="regionSettings.UniqueWeaponMaxStar > 3">5/UE4</a>
+                    <a class="dropdown-item" href="#" @click="stars = 9" v-if="regionSettings.UniqueWeaponMaxStar > 4">5/UE5</a>
+                </li>
+            </ul>
         </div>
         <div class="character-bond selector-dropdown" style="background: rgba(0, 0, 0, 0.5) url('/images/bond.png')">
-            <DropdownInput :id="character.Name.toLowerCase() + 'bond'" v-model="character.LocalStorage.Bond" maxValue="20"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'bond'" v-model="character.LocalStorage.Bond" :maxValue="regionSettings.MaxBond"></DropdownInput>
         </div>
         <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot1, character.LocalStorage.Equip1)">
-            <DropdownInput :id="character.Name.toLowerCase() + 'equip1'" v-model="character.LocalStorage.Equip1" maxValue="5"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'equip1'" v-model="character.LocalStorage.Equip1" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
         <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot2, character.LocalStorage.Equip2)">
-            <DropdownInput :id="character.Name.toLowerCase() + 'equip2'" v-model="character.LocalStorage.Equip2" maxValue="5"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'equip2'" v-model="character.LocalStorage.Equip2" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
         <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot3, character.LocalStorage.Equip3)">
-            <DropdownInput :id="character.Name.toLowerCase() + 'equip3'" v-model="character.LocalStorage.Equip3" maxValue="5"></DropdownInput>
+            <DropdownInput :id="character.Name.toLowerCase() + 'equip3'" v-model="character.LocalStorage.Equip3" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
         <div class="character-skill selector-dropdown">
             <DropdownInput :id="character.Name.toLowerCase() + 'skillEx'" v-model="character.LocalStorage.SkillEx" maxValue="5">

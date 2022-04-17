@@ -1,12 +1,12 @@
 <script setup>
-import { inject } from 'vue';
+import { translateCharacter } from '../plugins/localisations.js';
 
 import { getCharacterList } from '../composables/Character.js';
 import { useSettingsStorage } from '../stores/SettingsStorage.js';
 
 const props = defineProps(['settings']);
 const emit = defineEmits(['updateList']);
-const tC = inject('translateCharacter');
+const tC = translateCharacter;
 
 const searchList = Object.values(getCharacterList());
 let filteredList = searchList;

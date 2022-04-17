@@ -1,4 +1,5 @@
 import localisationStrings from '../assets/computed/localisations.json';
+import manualLocalisationStrings from '../assets/manualLocalisation.json';
 import { useSettingsStorage } from '../stores/SettingsStorage.js';
 
 let language = 'En';
@@ -8,19 +9,29 @@ export default {
         const settings = useSettingsStorage();
         language = settings.settings.Language;
         app.config.globalProperties.$tC = translateCharacter
-
-        app.provide('translateCharacter', translateCharacter);
-    }
+    },
 }
+
+export const tc = translateCharacter;
+
 
 const colorRegex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
 
-function translateCharacter(charId, path, skillRegex = false)
+export function translateCharacter(charId, path, skillRegex = false)
 {
-    let returnString = deepGetObject(localisationStrings.Characters[charId][language], path);
+    let fullPath = charId + '.' + language + '.' + path;
+    let returnString = deepGetObject(localisationStrings.Characters, fullPath);
     if(!returnString)
     {
-        returnString = '$Characters.' + charId + '.' + language + '.' + path;
+        returnString = deepGetObject(manualLocalisationStrings.Characters, fullPath);
+    }
+    if(!returnString)
+    {
+        returnString = deepGetObject(localisationStrings.Characters[charId]['Jp'], path);
+    }
+    if(!returnString)
+    {
+        returnString = '$Characters.' + fullPath;
     }
     if(skillRegex)
     {
