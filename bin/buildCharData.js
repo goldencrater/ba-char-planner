@@ -38,16 +38,71 @@ function deepPutObject(obj, path, value, overwrite = true)
     }
 }
 
-function parseLocalisationStrings(localisationData, path, localisationStrings, stringType, missingLocalisation = {})
+function deepGetObject(obj, path)
 {
+    const pathbits = path.split('.');
+    while(pathbits.length > 1)
+    {
+        let bit = pathbits.shift();
+        if(typeof(obj[bit]) === 'undefined')
+        {
+            return;
+        }
+        obj = obj[bit];
+    }
+    if(!obj)
+    {
+        return;
+    }
+    return obj[pathbits[0]];
+}
+
+function parseLocalisationStrings(type, uniqueId, path, localisationStrings, stringType)
+{
+    if(typeof(localisationOutput[type][uniqueId]) === 'undefined')
+    {
+        localisationOutput[type][uniqueId] = {};
+    }
+    const localisationData = localisationOutput[type][uniqueId];
+
+    if(typeof(missingLocalisationOutput[type][uniqueId]) === 'undefined')
+    {
+        missingLocalisationOutput[type][uniqueId] = {};
+    }
+    const missingLocalisation = missingLocalisationOutput[type][uniqueId];
+
+    if(typeof(manualLocalisationOutput[type][uniqueId]) === 'undefined')
+    {
+        manualLocalisationOutput[type][uniqueId] = {};
+    }
+    const manualLocalisation = manualLocalisationOutput[type][uniqueId];
+
     const languages = ['En', 'Jp', 'Kr', 'Tw', 'Th'];
     languages.forEach((lang) => {
         deepPutObject(localisationData, lang + '.' + path, localisationStrings[stringType + lang], false);
         if(!localisationStrings[stringType + lang])
         {
-            deepPutObject(missingLocalisation, lang + '.' + path, '');
+            if(!deepGetObject(manualLocalisation, lang + '.' + path))
+            {
+                deepPutObject(missingLocalisation, lang + '.' + path, '');
+            }
+        }
+        else
+        {
+            if(deepGetObject(manualLocalisation, lang + '.' + path))
+            {
+                delete manualLocalisationOutput[type][uniqueId];
+            }
         }
     });
+    if(Object.keys(missingLocalisationOutput[type][uniqueId]).length === 0)
+    {
+        delete missingLocalisationOutput[type][uniqueId];
+    }
+    if(Object.keys(manualLocalisationOutput[type][uniqueId]).length === 0)
+    {
+        delete manualLocalisationOutput[type][uniqueId];
+    }
 }
 
 function extractSkillData(logicGroupIds, internalSkillData, location)
@@ -134,10 +189,12 @@ const localisationOutput = {
     Items: {}
 };
 
-const missingLocalisation = {
+const missingLocalisationOutput = {
     Characters: {},
     Items: {}
 }
+const manualLocalisationJson = fs.readFileSync('../src/assets/manualLocalisation.json');
+const manualLocalisationOutput = JSON.parse(manualLocalisationJson);
 
 const images = {};
 
@@ -315,8 +372,8 @@ function processItemExcelElement(element)
         images['jp-' + element.Icon] = "Items/" + item.Icon;
     }
 
-    parseLocalisationStrings(localisationOutput.Items, element.Id + '.Name', localizeEtcMap[element.LocalizeEtcId], 'Name', missingLocalisation.Items);
-    parseLocalisationStrings(localisationOutput.Items, element.Id + '.Description', localizeEtcMap[element.LocalizeEtcId], 'Description', missingLocalisation.Items);
+    parseLocalisationStrings('Items', element.Id, 'Name', localizeEtcMap[element.LocalizeEtcId], 'Name');
+    parseLocalisationStrings('Items', element.Id, 'Description', localizeEtcMap[element.LocalizeEtcId], 'Description');
 }
 
 const itemExcelTableJson = fs.readFileSync('../orig/data/Excel/ItemExcelTable.json');
@@ -485,9 +542,6 @@ function parseCharacter(element)
         prefix = 'jp-';
     }
 
-    const localisationData = {};
-    const missingLocalisationData = {};
-
     // Basic Character Data
     const thisChar = {
         Id: element.Id,
@@ -518,9 +572,9 @@ function parseCharacter(element)
             CriticalDamageResistRate: characterStatExcel[element.Id].CriticalDamageResistRate,
         },
         Affinities: {
-            Street: characterStatExcel[element.Id].StreetBattleAdaptation,
-            Outdoor: characterStatExcel[element.Id].OutdoorBattleAdaptation,
-            Indoor: characterStatExcel[element.Id].IndoorBattleAdaptation,
+            Urban: characterStatExcel[element.Id].StreetBattleAdaptation,
+            Outdoors: characterStatExcel[element.Id].OutdoorBattleAdaptation,
+            Indoors: characterStatExcel[element.Id].IndoorBattleAdaptation,
         },
         Equipment: {
             Slot1: element.EquipmentSlot[0],
@@ -586,7 +640,7 @@ function parseCharacter(element)
     images[prefix + element.CollectionTexturePath] = "Character/" + thisChar.Icon;
 
 
-    parseLocalisationStrings(localisationData, 'Name', localizeEtcMap[element.LocalizeEtcId], 'Name', missingLocalisationData);
+    parseLocalisationStrings('Characters', element.Id, 'Name', localizeEtcMap[element.LocalizeEtcId], 'Name');
 
     // Character Skills Raw Data
     const charSkills = characterSkillListMap[element.Id];
@@ -653,7 +707,7 @@ function parseCharacter(element)
         Name: localizeSkillMap[exSkillData[1].LocalizeSkillId].NameEn || localizeSkillMap[exSkillData[1].LocalizeSkillId].NameJp,
     };
 
-    parseLocalisationStrings(localisationData, 'Skills.Ex.Name', localizeSkillMap[exSkillData[1].LocalizeSkillId], 'Name', missingLocalisationData);
+    parseLocalisationStrings('Characters', element.Id, 'Skills.Ex.Name', localizeSkillMap[exSkillData[1].LocalizeSkillId], 'Name');
 
     for(let i = 1; i <= 5; i++)
     {
@@ -664,7 +718,7 @@ function parseCharacter(element)
             LevelUpMats: recipeIngredientMap[recipeListMap[exSkillData[i].RequireLevelUpMaterial].RecipeIngredientId],
             Icon: exSkillData[i].IconName.substr(28),
         }
-        parseLocalisationStrings(localisationData, 'Skills.Ex.' + level + '.Description', localizeSkillMap[exSkillData[i].LocalizeSkillId], 'Description', missingLocalisationData);
+        parseLocalisationStrings('Characters', element.Id, 'Skills.Ex.' + level + '.Description', localizeSkillMap[exSkillData[i].LocalizeSkillId], 'Description');
         images[prefix + exSkillData[i].IconName] = "Skills/" + thisChar.Skills.Ex[level].Icon;
     }
 
@@ -682,7 +736,7 @@ function parseCharacter(element)
         thisChar.Skills[skillString] = {
             Name: localizeSkillMap[thisSkillData[1].LocalizeSkillId].NameEn
         }
-        parseLocalisationStrings(localisationData, 'Skills.' + skillString + '.Name', localizeSkillMap[thisSkillData[1].LocalizeSkillId], 'Name', missingLocalisationData);
+        parseLocalisationStrings('Characters', element.Id, 'Skills.' + skillString + '.Name', localizeSkillMap[thisSkillData[1].LocalizeSkillId], 'Name');
         for(let j = 1; j <= 10; j++)
         {
             let level = 'Level' + j;
@@ -691,17 +745,12 @@ function parseCharacter(element)
                 LevelUpMats: recipeIngredientMap[recipeListMap[thisSkillData[j].RequireLevelUpMaterial].RecipeIngredientId],
                 Icon: thisSkillData[j].IconName.substr(28),
             };
-            parseLocalisationStrings(localisationData, 'Skills.' + skillString + '.' + level + '.Description', localizeSkillMap[thisSkillData[j].LocalizeSkillId], 'Description', missingLocalisationData);
+            parseLocalisationStrings('Characters', element.Id, 'Skills.' + skillString + '.' + level + '.Description', localizeSkillMap[thisSkillData[j].LocalizeSkillId], 'Description');
             images[prefix + thisSkillData[j].IconName] = "Skills/" + thisChar.Skills[skillString][level].Icon;
         }
     }
 
     playableChars[element.Id] = thisChar;
-    localisationOutput.Characters[element.Id] = localisationData;
-    if(JSON.stringify(missingLocalisationData) !== '{}')
-    {
-        missingLocalisation.Characters[element.Id] = missingLocalisationData;
-    }
     if(jpOnlyChar)
     {
         parseJpOnlyData(element.Id);
@@ -762,8 +811,8 @@ function parseJpOnlyData(characterId)
             Name: localizeSkillMap[newPassive[i].LocalizeSkillId].NameEn || localizeSkillMap[newPassive[i].LocalizeSkillId].NameJp,
             Description: localizeSkillMap[newPassive[i].LocalizeSkillId].DescriptionEn || localizeSkillMap[newPassive[i].LocalizeSkillId].DescriptionJp,
         };
-        parseLocalisationStrings(localisationOutput.Characters[characterId], 'Skills.Skill2Upgrade.Name', localizeSkillMap[newPassive[i].LocalizeSkillId], 'Name', missingLocalisation.Characters[characterId]);
-        parseLocalisationStrings(localisationOutput.Characters[characterId], 'Skills.Skill2Upgrade.' + level + '.Description', localizeSkillMap[newPassive[i].LocalizeSkillId], 'Description', missingLocalisation.Characters[characterId]);
+        parseLocalisationStrings('Characters', characterId, 'Skills.Skill2Upgrade.Name', localizeSkillMap[newPassive[i].LocalizeSkillId], 'Name');
+        parseLocalisationStrings('Characters', characterId, 'Skills.Skill2Upgrade.' + level + '.Description', localizeSkillMap[newPassive[i].LocalizeSkillId], 'Description');
     }
     images['jp-' + weapon.ImagePath] = 'CharacterWeapons/' + playableChars[characterId].CharacterWeapon.Icon;
 }
@@ -810,4 +859,5 @@ fs.mkdirSync('../src/assets/computed/', {recursive: true});
 fs.writeFileSync('../src/assets/computed/charlist.json', JSON.stringify(playableChars, null, '\t'));
 fs.writeFileSync('../src/assets/computed/itemlist.json', JSON.stringify(itemMap, null, '\t'));
 fs.writeFileSync('../src/assets/computed/localisations.json', JSON.stringify(localisationOutput, null, '\t'));
-fs.writeFileSync('../src/assets/computed/missingLocalisation.json', JSON.stringify(missingLocalisation, null, '\t'));
+fs.writeFileSync('../src/assets/computed/missingLocalisation.json', JSON.stringify(missingLocalisationOutput, null, '\t'));
+fs.writeFileSync('../src/assets/manualLocalisation.json', JSON.stringify(manualLocalisationOutput, null, '\t'));

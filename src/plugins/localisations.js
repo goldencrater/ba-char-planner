@@ -1,4 +1,5 @@
 import localisationStrings from '../assets/computed/localisations.json';
+import manualLocalisationStrings from '../assets/manualLocalisation.json';
 import { useSettingsStorage } from '../stores/SettingsStorage.js';
 
 let language = 'En';
@@ -17,14 +18,19 @@ const colorRegex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
 
 function translateCharacter(charId, path, skillRegex = false)
 {
-    let returnString = deepGetObject(localisationStrings.Characters[charId][language], path);
+    let fullPath = charId + '.' + language + '.' + path;
+    let returnString = deepGetObject(localisationStrings.Characters, fullPath);
+    if(!returnString)
+    {
+        returnString = deepGetObject(manualLocalisationStrings.Characters, fullPath);
+    }
     if(!returnString)
     {
         returnString = deepGetObject(localisationStrings.Characters[charId]['Jp'], path);
     }
     if(!returnString)
     {
-        returnString = '$Characters.' + charId + '.' + language + '.' + path;
+        returnString = '$Characters.' + fullPath;
     }
     if(skillRegex)
     {
