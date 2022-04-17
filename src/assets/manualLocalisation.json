@@ -1,4 +1,489 @@
 {
-	"Characters": {},
+	"Characters": {
+		"10029": {
+			"En": {
+				"Name": "Natsu",
+				"Skills": {
+					"Ex": {
+						"Name": "It's the best thing to do in times like these"
+					},
+					"Skill1": {
+						"Name": "Eat this and cheer up"
+					},
+					"Skill2": {
+						"Name": "When you're hungry...!"
+					},
+					"Skill3": {
+						"Name": "A mouthful of happiness"
+					},
+					"Skill2Upgrade": {
+						"Name": "When you're hungry...! +"
+					}
+				}
+			}
+		},
+		"10030": {
+			"En": {
+				"Name": "Chinatsu (Hot Spring)",
+				"Skills": {
+					"Ex": {
+						"Name": "Combat Type-A Energizer"
+					},
+					"Skill1": {
+						"Name": "Enhanced combat support"
+					},
+					"Skill2": {
+						"Name": "Brief moment of rest"
+					},
+					"Skill3": {
+						"Name": "Cautious first-aid officer"
+					},
+					"Skill2Upgrade": {
+						"Name": "Brief moment of rest+"
+					}
+				}
+			}
+		},
+		"10031": {
+			"En": {
+				"Name": "Aru (New Year)",
+				"Skills": {
+					"Ex": {
+						"Name": "Hard boiled Hanetsuki shot"
+					},
+					"Skill1": {
+						"Name": "Noir Hanetsuki shot"
+					},
+					"Skill2": {
+						"Name": "Gorgeous President's Elegance"
+					},
+					"Skill3": {
+						"Name": "Perfect President's Style"
+					},
+					"Skill2Upgrade": {
+						"Name": "Gorgeous President's Elegance+"
+					}
+				}
+			}
+		},
+		"10032": {
+			"En": {
+				"Name": "Mutsuki (New Year)",
+				"Skills": {
+					"Ex": {
+						"Name": "Symphony of New Year"
+					},
+					"Skill1": {
+						"Name": "Little devil chorus"
+					},
+					"Skill2": {
+						"Name": "More fun ways to play!"
+					},
+					"Skill3": {
+						"Name": "Little devil's cute plot"
+					},
+					"Skill2Upgrade": {
+						"Name": "More fun ways to play!+"
+					}
+				}
+			}
+		},
+		"10033": {
+			"En": {
+				"Name": "Wakamo",
+				"Skills": {
+					"Ex": {
+						"Name": "Crimson Flower Divination"
+					},
+					"Skill1": {
+						"Name": "Cherry Blossom Storm"
+					},
+					"Skill2": {
+						"Name": "Destructive urges in full bloom"
+					},
+					"Skill3": {
+						"Name": "Fighting instincts in full bloom"
+					},
+					"Skill2Upgrade": {
+						"Name": "Destructive urges in full bloom+"
+					}
+				}
+			}
+		},
+		"10034": {
+			"En": {
+				"Name": "Mimori",
+				"Skills": {
+					"Ex": {
+						"Name": "It's a beatiful day to watch cherry blossoms"
+					},
+					"Skill1": {
+						"Name": "I've packed lunch"
+					},
+					"Skill2": {
+						"Name": "There's plenty more"
+					},
+					"Skill3": {
+						"Name": "Would you like to taste it?"
+					},
+					"Skill2Upgrade": {
+						"Name": "There's plenty more+"
+					}
+				}
+			}
+		},
+		"10035": {
+			"En": {
+				"Name": "Ui",
+				"Skills": {
+					"Ex": {
+						"Name": "Old book expert"
+					},
+					"Skill1": {
+						"Name": "Knowledge to be passed on"
+					},
+					"Skill2": {
+						"Name": "Expert knowledge"
+					},
+					"Skill3": {
+						"Name": "Irritable"
+					},
+					"Skill2Upgrade": {
+						"Name": "Expert knowledge+"
+					}
+				}
+			}
+		},
+		"10036": {
+			"En": {
+				"Name": "Hinata",
+				"Skills": {
+					"Ex": {
+						"Name": "Last resort"
+					},
+					"Skill1": {
+						"Name": "Let's talk first...!"
+					},
+					"Skill2": {
+						"Name": "Unexpected development"
+					},
+					"Skill3": {
+						"Name": "I'll do the heavy lifting!"
+					},
+					"Skill2Upgrade": {
+						"Name": "Unexpected development+"
+					}
+				}
+			}
+		},
+		"10037": {
+			"En": {
+				"Name": "Marina",
+				"Skills": {
+					"Ex": {
+						"Name": "Revolutionary charge!"
+					},
+					"Skill1": {
+						"Name": "Not a step back!"
+					},
+					"Skill2": {
+						"Name": "No retreat!"
+					},
+					"Skill3": {
+						"Name": "Iron discipline"
+					},
+					"Skill2Upgrade": {
+						"Name": "No retreat!+"
+					}
+				}
+			}
+		},
+		"10038": {
+			"En": {
+				"Name": "Miyako",
+				"Skills": {
+					"Ex": {
+						"Name": "Self-propelled flash drone"
+					},
+					"Skill1": {
+						"Name": "Claymore"
+					},
+					"Skill2": {
+						"Name": "Special bulletproof plate"
+					},
+					"Skill3": {
+						"Name": "Operation reinforcements"
+					},
+					"Skill2Upgrade": {
+						"Name": "Special bulletproof plate+"
+					}
+				}
+			}
+		},
+		"10039": {
+			"En": {
+				"Name": "Miyu",
+				"Skills": {
+					"Ex": {
+						"Name": "Observation of a timid person"
+					},
+					"Skill1": {
+						"Name": "Attack from an unexpected angle"
+					},
+					"Skill2": {
+						"Name": "Take a deep breath"
+					},
+					"Skill3": {
+						"Name": "Special sniper rounds"
+					},
+					"Skill2Upgrade": {
+						"Name": "Take a deep breath+"
+					}
+				}
+			}
+		},
+		"16007": {
+			"En": {
+				"Name": "Tomoe",
+				"Skills": {
+					"Ex": {
+						"Name": "Everyone, please listen to me!"
+					},
+					"Skill1": {
+						"Name": "Clever agitation"
+					},
+					"Skill2": {
+						"Name": "Practiced speech"
+					},
+					"Skill3": {
+						"Name": "Irrefutable claims"
+					},
+					"Skill2Upgrade": {
+						"Name": "Practiced speech+"
+					}
+				}
+			}
+		},
+		"16008": {
+			"En": {
+				"Name": "Fubuki",
+				"Skills": {
+					"Ex": {
+						"Name": "First of all, rest well"
+					},
+					"Skill1": {
+						"Name": "One last bite!"
+					},
+					"Skill2": {
+						"Name": "Traffic control"
+					},
+					"Skill3": {
+						"Name": "I think I'll take you up on that"
+					},
+					"Skill2Upgrade": {
+						"Name": "Traffic control+"
+					}
+				}
+			}
+		},
+		"20007": {
+			"En": {
+				"Name": "Hatsune Miku",
+				"Skills": {
+					"Ex": {
+						"Name": "Putting my heart into it at every moment!"
+					},
+					"Skill1": {
+						"Name": "The Passion of Hatsune Miku"
+					},
+					"Skill2": {
+						"Name": "The Cheering of Hatsune Miku"
+					},
+					"Skill3": {
+						"Name": "The Blessing of Hatsune Miku"
+					},
+					"Skill2Upgrade": {
+						"Name": "The Cheering of Hatsune Miku+"
+					}
+				}
+			}
+		},
+		"20008": {
+			"En": {
+				"Name": "Ako",
+				"Skills": {
+					"Ex": {
+						"Name": "Providing reconnaissance data"
+					},
+					"Skill1": {
+						"Name": "Supply plan B"
+					},
+					"Skill2": {
+						"Name": "Providing support"
+					},
+					"Skill3": {
+						"Name": "Leave the support to me"
+					},
+					"Skill2Upgrade": {
+						"Name": "Providing support+"
+					}
+				}
+			}
+		},
+		"20009": {
+			"En": {
+				"Name": "Cherino (Hot Spring)",
+				"Skills": {
+					"Ex": {
+						"Name": "Purge-kun No. 1, attack!"
+					},
+					"Skill1": {
+						"Name": "Sights set, purge!"
+					},
+					"Skill2": {
+						"Name": "Feel the wrath of the moustache!"
+					},
+					"Skill3": {
+						"Name": "This is the authority of the moustache!"
+					},
+					"Skill2Upgrade": {
+						"Name": "Feel the wrath of the moustache!+"
+					}
+				}
+			}
+		},
+		"20010": {
+			"En": {
+				"Name": "Nodoka (Hot Spring)",
+				"Skills": {
+					"Ex": {
+						"Name": "No. 227 Hot Spring Resort, Open for Business!"
+					},
+					"Skill1": {
+						"Name": "Landlady's Hospitality"
+					},
+					"Skill2": {
+						"Name": "Spring Water's Cure"
+					},
+					"Skill3": {
+						"Name": "Hot Spring's Feeling"
+					},
+					"Skill2Upgrade": {
+						"Name": "Spring Water's Cure+"
+					}
+				}
+			}
+		},
+		"20011": {
+			"En": {
+				"Name": "Serika (New Year)",
+				"Skills": {
+					"Ex": {
+						"Name": "You're interrupting my work!"
+					},
+					"Skill1": {
+						"Name": "As a shrine maiden, I'll pray for you!"
+					},
+					"Skill2": {
+						"Name": "Shrine maiden's determination"
+					},
+					"Skill3": {
+						"Name": "Shrine maiden's tenacity"
+					},
+					"Skill2Upgrade": {
+						"Name": "Shrine maiden's determination+"
+					}
+				}
+			}
+		},
+		"20012": {
+			"En": {
+				"Name": "Sena",
+				"Skills": {
+					"Ex": {
+						"Name": "Emergency dispatch"
+					},
+					"Skill1": {
+						"Name": "Stimulant injection"
+					},
+					"Skill2": {
+						"Name": "Emergency support"
+					},
+					"Skill3": {
+						"Name": "As soon as possible"
+					},
+					"Skill2Upgrade": {
+						"Name": "Emergency support+"
+					}
+				}
+			}
+		},
+		"20013": {
+			"En": {
+				"Name": "Chihiro",
+				"Skills": {
+					"Ex": {
+						"Name": "Override"
+					},
+					"Skill1": {
+						"Name": "Into the backdoor"
+					},
+					"Skill2": {
+						"Name": "Exploit"
+					},
+					"Skill3": {
+						"Name": "Deploying firewall"
+					},
+					"Skill2Upgrade": {
+						"Name": "Exploit+"
+					}
+				}
+			}
+		},
+		"20014": {
+			"En": {
+				"Name": "Saki",
+				"Skills": {
+					"Ex": {
+						"Name": "Support fire, commence!"
+					},
+					"Skill1": {
+						"Name": "Suppressive fire"
+					},
+					"Skill2": {
+						"Name": "All set"
+					},
+					"Skill3": {
+						"Name": "Point man leading the way"
+					},
+					"Skill2Upgrade": {
+						"Name": "All set+"
+					}
+				}
+			}
+		},
+		"23008": {
+			"En": {
+				"Name": "Mari",
+				"Skills": {
+					"Ex": {
+						"Name": "Holy blessing"
+					},
+					"Skill1": {
+						"Name": "Purifying baptism"
+					},
+					"Skill2": {
+						"Name": "Resolute mind"
+					},
+					"Skill3": {
+						"Name": "Compassionate heart"
+					},
+					"Skill2Upgrade": {
+						"Name": "Resolute mind+"
+					}
+				}
+			}
+		}
+	},
 	"Items": {}
 }
