@@ -292,7 +292,7 @@ if(props.teamHash)
         });
         pickedChars.value[charStats.Id].ElementId = 'character-special-2';
     }
-    if(charHashes[6] !== 'n')
+    if(charHashes[6].length !== 1)
     {
         pickedChars.value[charHashes[6]].Borrowed = true;
         borrowed = charHashes[6];
