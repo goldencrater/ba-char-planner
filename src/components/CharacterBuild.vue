@@ -1,12 +1,13 @@
 <script setup>
-import { ref, watch, onMounted, inject } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { translateCharacter } from '../plugins/localisations.js';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
 
 const props = defineProps(['character']);
 const emits = defineEmits(['swapSlot', 'setBorrowed']);
 
-const tC = inject('translateCharacter');
+const tC = translateCharacter;
 
 function createCharacterBackgroundTag(path)
 {

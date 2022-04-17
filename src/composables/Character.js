@@ -1,5 +1,7 @@
 import charlist from '../assets/computed/charlist.json';
 import { useSettingsStorage } from '../stores/SettingsStorage.js';
+import { translateCharacter } from '../plugins/localisations.js';
+
 
 const settings = useSettingsStorage();
 const includeJpOnly = settings.settings.IncludeJpOnly;
@@ -12,6 +14,7 @@ charentries.forEach((element) => {
         delete charlist[element.Id];
         return;
     }
+    element.Name = translateCharacter(element.Id, 'Name');
     charMap[element.Name.toLowerCase()] = element;
 })
 

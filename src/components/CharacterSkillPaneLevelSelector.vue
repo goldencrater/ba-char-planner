@@ -1,5 +1,7 @@
 <script setup>
-import { ref, watch, inject } from 'vue';
+import { ref, watch } from 'vue';
+
+import { translateCharacter } from '../plugins/localisations.js';
 
 import SkillUpgradePanel from './SkillUpgradePanel.vue';
 
@@ -8,7 +10,7 @@ const props = defineProps({
     'character': Object,
     'displayUpgrades': {type: Boolean, default: false}
 });
-const tC = inject('translateCharacter');
+const tC = translateCharacter;
 
 const skillDescription = ref();
 const cost = ref();
