@@ -6,6 +6,7 @@ import { useSettingsStorage } from '../stores/SettingsStorage.js';
 const settingsStorage = useSettingsStorage();
 const settings = settingsStorage.settings;
 const language = ref(settings.Language);
+const jpOnly = ref(settings.IncludeJpOnly ? 'Yes' : 'No');
 
 function saveSettings()
 {
@@ -13,7 +14,7 @@ function saveSettings()
     {
         settings.Language = language.value;
     }
-    console.log('saved');
+    settings.IncludeJpOnly = (jpOnly.value === 'Yes');
 }
 
 function restartApp()
@@ -36,6 +37,13 @@ function restartApp()
                     <option value="Kr">Korean</option>
                     <option value="Tw">Traditional Chinese</option>
                     <option value="Th">Thai</option>
+                </select>
+            </div>
+            <div>
+                <label for="jpOnlyDropdown" class="form-label">Enable JP Only Content (warning: may be untranslated)</label>
+                <select v-model="jpOnly" id="jpOnlyDropdown" class="form-control">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
                 </select>
             </div>
         </div>

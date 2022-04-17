@@ -6,7 +6,10 @@ export const useSettingsStorage = defineStore({
     id: 'settingsstorage',
     state: () => {
         return {
-            settings: ref(useLocalStorage('settings', {Language: 'En'}))
+            settings: ref(useLocalStorage('settings', {
+                Language: 'En',
+                IncludeJpOnly: false,
+            }))
         }
     },
 })

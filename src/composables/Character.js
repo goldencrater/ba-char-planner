@@ -1,8 +1,17 @@
 import charlist from '../assets/computed/charlist.json';
+import { useSettingsStorage } from '../stores/SettingsStorage.js';
+
+const settings = useSettingsStorage();
+const includeJpOnly = settings.settings.IncludeJpOnly;
 
 const charentries = Object.values(charlist);
 const charMap = {};
 charentries.forEach((element) => {
+    if(!includeJpOnly && element.JpOnly)
+    {
+        delete charlist[element.Id];
+        return;
+    }
     charMap[element.Name.toLowerCase()] = element;
 })
 

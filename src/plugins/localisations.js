@@ -20,6 +20,10 @@ function translateCharacter(charId, path, skillRegex = false)
     let returnString = deepGetObject(localisationStrings.Characters[charId][language], path);
     if(!returnString)
     {
+        returnString = deepGetObject(localisationStrings.Characters[charId]['Jp'], path);
+    }
+    if(!returnString)
+    {
         returnString = '$Characters.' + charId + '.' + language + '.' + path;
     }
     if(skillRegex)
