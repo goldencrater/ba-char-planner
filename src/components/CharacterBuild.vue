@@ -49,7 +49,7 @@ function toggleBorrowed()
     }
     else
     {
-        classExtra.value = 'character-borrowed';
+        classExtra.value = ' character-borrowed';
         emits('setBorrowed', props.character.Id);
     }
 }
@@ -155,13 +155,13 @@ watch(stars, (newVal) => {
 
 if(props.character.Borrowed)
 {
-    classExtra.value = 'character-borrowed';
+    classExtra.value = ' character-borrowed';
 }
 
 </script>
 
 <template>
-    <div :class="'character-wrapper character-striker ' + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
+    <div :class="'character-wrapper character-striker character-damagetype-' + character.DamageType.toLowerCase() + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
         <div class="character-settings selector-dropdown">
             <a href="#" role="button" :id="character.Name.toLowerCase() + 'settings'" data-bs-toggle="dropdown" aria-expanded="false">
                 <font-awesome-icon icon="gear"></font-awesome-icon>
@@ -187,7 +187,7 @@ if(props.character.Borrowed)
                 </li>
             </ul>
         </div>
-        <div :class="'character-name textcolor-damagetype-' + character.DamageType.toLowerCase()">
+        <div class="character-name">
             {{$tC(character.Id, 'Name')}}
         </div>
         <div class="character-level selector-dropdown">

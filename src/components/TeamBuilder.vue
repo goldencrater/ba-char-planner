@@ -389,8 +389,23 @@ updateHash();
     grid-template-columns: repeat(4, 70px);
     grid-template-rows: 40px 40px auto 40px;
     background-size: 280px 316px !important;
+    border-radius: 5px;
 }
 
+.team-builder .characters-picked .character-wrapper.character-damagetype-explosive
+{
+    box-shadow: 0px 0px 5px 5px var(--damagetype-red);
+}
+
+.team-builder .characters-picked .character-wrapper.character-damagetype-piercing
+{
+    box-shadow: 0px 0px 5px 5px var(--damagetype-yellow);
+}
+
+.team-builder .characters-picked .character-wrapper.character-damagetype-mystic
+{
+    box-shadow: 0px 0px 5px 5px var(--damagetype-blue);
+}
 
 .team-builder .characters-picked .character-wrapper.character-borrowed
 {
@@ -430,9 +445,10 @@ updateHash();
 .team-builder .characters-picked .character-wrapper .character-name
 {
     grid-column: 2 / 4;
-    -webkit-text-stroke: 1px white;
-    text-stroke: 1px white;
+    color: #ffffff;
     font-weight: bold;
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
 }
 
 .team-builder .characters-picked .character-wrapper .character-level
@@ -440,8 +456,8 @@ updateHash();
     grid-column: 4 / 5;
     color: #ffffff;
     font-weight: bold;
-    -webkit-text-stroke: 1px white;
-    text-stroke: 1px white;
+    -webkit-text-stroke: 1px #ffffff;
+    text-stroke: 1px #ffffff;
 }
 
 .team-builder .characters-picked .character-wrapper .character-rarity
