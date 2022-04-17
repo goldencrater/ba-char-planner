@@ -6,7 +6,7 @@ export const useTeamStorage = defineStore({
     id: 'teamstorage',
     state: () => {
         return {
-            team: ref(useLocalStorage('team', {}))
+            teams: ref(useLocalStorage('team', {}))
         }
     },
 })

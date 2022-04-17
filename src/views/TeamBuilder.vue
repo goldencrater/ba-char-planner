@@ -31,10 +31,10 @@ function saveTeam()
 {
     if(oldTeamName.value && oldTeamName.value != teamName.value)
     {
-        delete teamStorage.team[oldTeamName.value];
+        delete teamStorage.teams[oldTeamName.value];
     }
     oldTeamName.value = '';
-    teamStorage.team[teamName.value] = teamHash.value;
+    teamStorage.teams[teamName.value] = teamHash.value;
     cancelTeam();
 }
 
@@ -50,7 +50,7 @@ function cancelTeam()
 
 function shareTeam(sharedTeamName)
 {
-    let sharedTeamHash = '#' + teamStorage.team[sharedTeamName];
+    let sharedTeamHash = '#' + teamStorage.teams[sharedTeamName];
     sharedTeamHash += sharedTeamName;
 
     let url = router.resolve({
@@ -90,13 +90,13 @@ function deleteTeamPrompt(selectedTeamName)
 
 function deleteTeam(selectedTeamName)
 {
-    delete teamStorage.team[selectedTeamName];
+    delete teamStorage.teams[selectedTeamName];
     teamName.value = '';
 }
 
 function generateTeamImageArray(selectedTeamName)
 {
-    const selectedTeam = teamStorage.team[selectedTeamName];
+    const selectedTeam = teamStorage.teams[selectedTeamName];
     const entries = selectedTeam.split(';');
     const imgUrls = [];
     for (let i = 0; i <= 5; i++)
@@ -133,7 +133,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
 {
     const shareHashBits = router.currentRoute.value.hash.split(';');
     router.replace({name: 'teambuilder'});
-    loadTeam(shareHashBits[7] + ' (Shared)', router.currentRoute.value.hash.substring(1), true);
+    loadTeam(shareHashBits[7] + ' (Shared)', decodeURI(router.currentRoute.value.hash.substring(1)), true);
 }
 
 </script>
@@ -173,7 +173,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
         <div v-if="teamListVisible" class="team-list">
             Existing Teams:
             <ul class="list-group">
-                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team" :key="storedTeamName">
+                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.teams" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team" :key="storedTeamName">
                     <div class="team-members-list">
                         <img v-for="(image, index) in generateTeamImageArray(storedTeamName)" :src="image" :key="index">
                     </div>
@@ -199,7 +199,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Delete Team {{teamName}}? This cannot be undone
+                    Delete Team {{teamName}}? This cannot be undone.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" @click="deleteTeam(teamName)" data-bs-dismiss="modal">Delete</button>
