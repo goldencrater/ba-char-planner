@@ -1,3 +1,10 @@
+:root
+{
+    --damagetype-red: #930008;
+    --damagetype-yellow: #bf8901;
+    --damagetype-blue: #226f9c;
+}
+
 .textcolor-damagetype-explosive,
 .textcolor-defensetype.defensetype-light
 {
