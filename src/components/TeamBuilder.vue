@@ -299,6 +299,8 @@ if(props.teamHash)
     }
 }
 
+updateHash();
+
 </script>
 
 <template>
@@ -420,7 +422,7 @@ if(props.teamHash)
     font-size: 30px;
 }
 
-.team-builder .characters-picked .character-wrapper .character-ue
+.team-builder .characters-picked .character-wrapper .character-settings
 {
     grid-column: 1 / 2;
 }
@@ -452,6 +454,11 @@ if(props.teamHash)
     max-height: 30px;
     display: inline-block;
     margin-bottom: 10px;
+}
+
+.team-builder .characters-picked .character-wrapper .character-rarity img.unique-weapon
+{
+    filter: hue-rotate(150deg);
 }
 
 .team-builder .characters-picked .character-wrapper .character-bond,
