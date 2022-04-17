@@ -1,4 +1,5 @@
 import charlist from '../assets/computed/charlist.json';
+import origCharList from '../assets/computed/charlist.json';
 import { useSettingsStorage } from '../stores/SettingsStorage.js';
 import { translateCharacter } from '../plugins/localisations.js';
 
@@ -18,9 +19,16 @@ charentries.forEach((element) => {
     charMap[element.Name.toLowerCase()] = element;
 })
 
-export function getCharacterById(characterId)
+export function getCharacterById(characterId, filtered = true)
 {
-    return charlist[characterId];
+    if(filtered)
+    {
+        return charlist[characterId];
+    }
+    else
+    {
+        return origCharList[characterId];
+    }
 }
 
 export function getCharacterByName(name)

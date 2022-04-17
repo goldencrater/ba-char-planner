@@ -5,22 +5,38 @@ const includeJpOnly = settings.settings.IncludeJpOnly;
 
 export function getRegionSettings()
 {
-    const regionSettings = {};
     if(includeJpOnly)
     {
-        regionSettings.MaxLevel = 78;
-        regionSettings.UniqueWeaponsAvailable = true;
-        regionSettings.UniqueWeaponMaxStar = 3;
-        regionSettings.MaxEquipLevel = 6;
-        regionSettings.MaxBond = 50;
+        return jpRegionSettings;
     }
     else
     {
-        regionSettings.MaxLevel = 73;
-        regionSettings.UniqueWeaponsAvailable = false;
-        regionSettings.UniqueWeaponMaxStar = 0;
-        regionSettings.MaxEquipLevel = 5;
-        regionSettings.MaxBond = 20;
+        return globalRegionSettings
     }
-    return regionSettings;
 }
+
+export function getJpRegionSettings()
+{
+    return jpRegionSettings;
+}
+
+export function getGlobalRegionSettings()
+{
+    return globalRegionSettings;
+}
+
+const jpRegionSettings = {
+    MaxLevel: 78,
+    UniqueWeaponsAvailable: true,
+    UniqueWeaponMaxStar: 3,
+    MaxEquipLevel: 6,
+    MaxBond: 50,
+};
+
+const globalRegionSettings = {
+    MaxLevel: 73,
+    UniqueWeaponsAvailable: false,
+    UniqueWeaponMaxStar: 0,
+    MaxEquipLevel: 5,
+    MaxBond: 20,
+};

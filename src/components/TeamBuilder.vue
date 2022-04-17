@@ -320,12 +320,12 @@ updateHash();
             </ul>
         </div>
         <div class="characters-picked">
-            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :id="pickedChars[teamBuild.strikers[1]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :id="pickedChars[teamBuild.strikers[2]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :id="pickedChars[teamBuild.strikers[3]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :id="pickedChars[teamBuild.strikers[4]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :id="pickedChars[teamBuild.specials[1]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :id="pickedChars[teamBuild.specials[2]].ElementId" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :id="pickedChars[teamBuild.strikers[1]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :id="pickedChars[teamBuild.strikers[2]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :id="pickedChars[teamBuild.strikers[3]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :id="pickedChars[teamBuild.strikers[4]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :id="pickedChars[teamBuild.specials[1]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :id="pickedChars[teamBuild.specials[2]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
         </div>
     </div>
 </template>

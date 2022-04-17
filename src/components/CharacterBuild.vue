@@ -3,12 +3,24 @@ import { ref, watch, onMounted } from 'vue';
 import { translateCharacter } from '../plugins/localisations.js';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
-import { getRegionSettings } from '../composables/RegionSettings.js'
+import { getRegionSettings, getJpRegionSettings } from '../composables/RegionSettings.js'
 
-const props = defineProps(['character']);
+const props = defineProps(['character', 'shared']);
 const emits = defineEmits(['swapSlot', 'setBorrowed']);
 
-const regionSettings = getRegionSettings();
+let regionSettings = null;
+
+if(props.shared)
+{
+    regionSettings = getJpRegionSettings();
+}
+else
+{
+    regionSettings = getRegionSettings();
+}
+
+console.log(regionSettings);
+
 const tC = translateCharacter;
 
 function createCharacterBackgroundTag(path)
