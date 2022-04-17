@@ -175,7 +175,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
             <ul class="list-group">
                 <li v-for="(storedTeamHash, storedTeamName) in teamStorage.team" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team" :key="storedTeamName">
                     <div class="team-members-list">
-                        <img v-for="image in generateTeamImageArray(storedTeamName)" :src="image">
+                        <img v-for="(image, index) in generateTeamImageArray(storedTeamName)" :src="image" :key="index">
                     </div>
                     <span class="team-name">{{storedTeamName}}</span>
                     <div class="dropdown team-list-options">
