@@ -1,4 +1,3 @@
-import charlist from '../assets/computed/charlist.json';
 import origCharList from '../assets/computed/charlist.json';
 import { useSettingsStorage } from '../stores/SettingsStorage.js';
 import { translateCharacter } from '../plugins/localisations.js';
@@ -7,16 +6,18 @@ import { translateCharacter } from '../plugins/localisations.js';
 const settings = useSettingsStorage();
 const includeJpOnly = settings.settings.IncludeJpOnly;
 
-const charentries = Object.values(charlist);
+const charlist = {};
+
+const charentries = Object.values(origCharList);
 const charMap = {};
 charentries.forEach((element) => {
     if(!includeJpOnly && element.JpOnly)
     {
-        delete charlist[element.Id];
         return;
     }
     element.Name = translateCharacter(element.Id, 'Name');
     charMap[element.Name.toLowerCase()] = element;
+    charlist[element.Id] = element;
 })
 
 export function getCharacterById(characterId, filtered = true)

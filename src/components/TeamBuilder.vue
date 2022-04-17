@@ -241,7 +241,7 @@ if(props.teamHash)
         {
             let charStats = unhashCharStats(charHashes[i]);
             teamBuild.value.strikers[i + 1] = charStats.Id;
-            pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
+            pickedChars.value[charStats.Id] = getCharacterById(charStats.Id, false);
             if(props.shared)
             {
                 pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
@@ -260,7 +260,7 @@ if(props.teamHash)
     {
         let charStats = unhashCharStats(charHashes[4]);
         teamBuild.value.specials[1] = charStats.Id;
-        pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
+        pickedChars.value[charStats.Id] = getCharacterById(charStats.Id, false);
         if(props.shared)
         {
             pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
@@ -278,7 +278,7 @@ if(props.teamHash)
     {
         let charStats = unhashCharStats(charHashes[5]);
         teamBuild.value.specials[2] = charStats.Id;
-        pickedChars.value[charStats.Id] = getCharacterById(charStats.Id);
+        pickedChars.value[charStats.Id] = getCharacterById(charStats.Id, false);
         if(props.shared)
         {
             pickedChars.value[charStats.Id].LocalStorage = ref(charStats);
