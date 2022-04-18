@@ -812,14 +812,16 @@ function parseJpOnlyData(characterId)
     {
         throw 'Unable to find skill data for ' + weapon.AfterSkillGroupId[1] + ' for ' + characterId;
     }
+
+    playableChars[characterId].CharacterWeapon.Skill2Upgrade.Name = localizeSkillMap[newPassive[1].LocalizeSkillId].NameEn || localizeSkillMap[newPassive[1].LocalizeSkillId].NameJp,
+    parseLocalisationStrings('Characters', characterId, 'Skills.Skill2Upgrade.Name', localizeSkillMap[newPassive[1].LocalizeSkillId], 'Name');
+
     for(let i = 1; i <= 10; i++)
     {
         let level = 'Level' + i;
         playableChars[characterId].CharacterWeapon.Skill2Upgrade[level] = {
-            Name: localizeSkillMap[newPassive[i].LocalizeSkillId].NameEn || localizeSkillMap[newPassive[i].LocalizeSkillId].NameJp,
             Description: localizeSkillMap[newPassive[i].LocalizeSkillId].DescriptionEn || localizeSkillMap[newPassive[i].LocalizeSkillId].DescriptionJp,
         };
-        parseLocalisationStrings('Characters', characterId, 'Skills.Skill2Upgrade.Name', localizeSkillMap[newPassive[i].LocalizeSkillId], 'Name');
         parseLocalisationStrings('Characters', characterId, 'Skills.Skill2Upgrade.' + level + '.Description', localizeSkillMap[newPassive[i].LocalizeSkillId], 'Description');
     }
     images['jp-' + weapon.ImagePath] = 'CharacterWeapons/' + playableChars[characterId].CharacterWeapon.Icon;
@@ -864,6 +866,7 @@ for(const [from, to] of Object.entries(images))
 
 
 fs.mkdirSync('../src/assets/computed/', {recursive: true});
+fs.mkdirSync('../public/import/files/', {recursive: true});
 fs.writeFileSync('../src/assets/computed/charlist.json', JSON.stringify(playableChars, null, '\t'));
 fs.writeFileSync('../public/import/files/charlist.json', JSON.stringify(playableChars, null, '\t'));
 fs.writeFileSync('../src/assets/computed/itemlist.json', JSON.stringify(itemMap, null, '\t'));
