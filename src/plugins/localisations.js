@@ -19,19 +19,19 @@ const colorRegex = /\[c\]\[([a-f0-9]{6})\]([^[]+)\[-\]\[\/c\]/g
 
 export function translateCharacter(charId, path, skillRegex = false)
 {
-    let fullPath = charId + '.' + language + '.' + path;
-    let returnString = deepGetObject(localisationStrings.Characters, fullPath);
+    let fullPath = 'Characters.' + charId + '.' + path;
+    let returnString = deepGetObject(localisationStrings[language], fullPath);
     if(!returnString)
     {
-        returnString = deepGetObject(manualLocalisationStrings.Characters, fullPath);
+        returnString = deepGetObject(manualLocalisationStrings[language], fullPath);
     }
     if(!returnString)
     {
-        returnString = deepGetObject(localisationStrings.Characters[charId]['Jp'], path);
+        returnString = deepGetObject(localisationStrings.Jp, fullPath);
     }
     if(!returnString)
     {
-        returnString = '$Characters.' + fullPath;
+        returnString = fullPath;
     }
     if(skillRegex)
     {

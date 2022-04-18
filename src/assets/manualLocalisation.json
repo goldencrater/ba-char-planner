@@ -1,7 +1,8 @@
 {
-	"Characters": {
-		"10029": {
-			"En": {
+	"En": {
+		"Items": {},
+		"Characters": {
+			"10029": {
 				"Name": "Natsu",
 				"Skills": {
 					"Ex": {
@@ -20,10 +21,8 @@
 						"Name": "When you're hungry...! +"
 					}
 				}
-			}
-		},
-		"10030": {
-			"En": {
+			},
+			"10030": {
 				"Name": "Chinatsu (Hot Spring)",
 				"Skills": {
 					"Ex": {
@@ -42,10 +41,8 @@
 						"Name": "Brief moment of rest+"
 					}
 				}
-			}
-		},
-		"10031": {
-			"En": {
+			},
+			"10031": {
 				"Name": "Aru (New Year)",
 				"Skills": {
 					"Ex": {
@@ -64,10 +61,8 @@
 						"Name": "Gorgeous President's Elegance+"
 					}
 				}
-			}
-		},
-		"10032": {
-			"En": {
+			},
+			"10032": {
 				"Name": "Mutsuki (New Year)",
 				"Skills": {
 					"Ex": {
@@ -86,10 +81,8 @@
 						"Name": "More fun ways to play!+"
 					}
 				}
-			}
-		},
-		"10033": {
-			"En": {
+			},
+			"10033": {
 				"Name": "Wakamo",
 				"Skills": {
 					"Ex": {
@@ -108,10 +101,8 @@
 						"Name": "Destructive urges in full bloom+"
 					}
 				}
-			}
-		},
-		"10034": {
-			"En": {
+			},
+			"10034": {
 				"Name": "Mimori",
 				"Skills": {
 					"Ex": {
@@ -130,10 +121,8 @@
 						"Name": "There's plenty more+"
 					}
 				}
-			}
-		},
-		"10035": {
-			"En": {
+			},
+			"10035": {
 				"Name": "Ui",
 				"Skills": {
 					"Ex": {
@@ -152,10 +141,8 @@
 						"Name": "Expert knowledge+"
 					}
 				}
-			}
-		},
-		"10036": {
-			"En": {
+			},
+			"10036": {
 				"Name": "Hinata",
 				"Skills": {
 					"Ex": {
@@ -174,10 +161,8 @@
 						"Name": "Unexpected development+"
 					}
 				}
-			}
-		},
-		"10037": {
-			"En": {
+			},
+			"10037": {
 				"Name": "Marina",
 				"Skills": {
 					"Ex": {
@@ -196,10 +181,8 @@
 						"Name": "No retreat!+"
 					}
 				}
-			}
-		},
-		"10038": {
-			"En": {
+			},
+			"10038": {
 				"Name": "Miyako",
 				"Skills": {
 					"Ex": {
@@ -218,10 +201,8 @@
 						"Name": "Special bulletproof plate+"
 					}
 				}
-			}
-		},
-		"10039": {
-			"En": {
+			},
+			"10039": {
 				"Name": "Miyu",
 				"Skills": {
 					"Ex": {
@@ -240,10 +221,8 @@
 						"Name": "Take a deep breath+"
 					}
 				}
-			}
-		},
-		"16007": {
-			"En": {
+			},
+			"16007": {
 				"Name": "Tomoe",
 				"Skills": {
 					"Ex": {
@@ -262,10 +241,8 @@
 						"Name": "Practiced speech+"
 					}
 				}
-			}
-		},
-		"16008": {
-			"En": {
+			},
+			"16008": {
 				"Name": "Fubuki",
 				"Skills": {
 					"Ex": {
@@ -284,10 +261,8 @@
 						"Name": "Traffic control+"
 					}
 				}
-			}
-		},
-		"20007": {
-			"En": {
+			},
+			"20007": {
 				"Name": "Hatsune Miku",
 				"Skills": {
 					"Ex": {
@@ -306,10 +281,8 @@
 						"Name": "The Cheering of Hatsune Miku+"
 					}
 				}
-			}
-		},
-		"20008": {
-			"En": {
+			},
+			"20008": {
 				"Name": "Ako",
 				"Skills": {
 					"Ex": {
@@ -328,10 +301,8 @@
 						"Name": "Providing support+"
 					}
 				}
-			}
-		},
-		"20009": {
-			"En": {
+			},
+			"20009": {
 				"Name": "Cherino (Hot Spring)",
 				"Skills": {
 					"Ex": {
@@ -350,10 +321,8 @@
 						"Name": "Feel the wrath of the moustache!+"
 					}
 				}
-			}
-		},
-		"20010": {
-			"En": {
+			},
+			"20010": {
 				"Name": "Nodoka (Hot Spring)",
 				"Skills": {
 					"Ex": {
@@ -372,10 +341,8 @@
 						"Name": "Spring Water's Cure+"
 					}
 				}
-			}
-		},
-		"20011": {
-			"En": {
+			},
+			"20011": {
 				"Name": "Serika (New Year)",
 				"Skills": {
 					"Ex": {
@@ -394,10 +361,8 @@
 						"Name": "Shrine maiden's determination+"
 					}
 				}
-			}
-		},
-		"20012": {
-			"En": {
+			},
+			"20012": {
 				"Name": "Sena",
 				"Skills": {
 					"Ex": {
@@ -416,10 +381,8 @@
 						"Name": "Emergency support+"
 					}
 				}
-			}
-		},
-		"20013": {
-			"En": {
+			},
+			"20013": {
 				"Name": "Chihiro",
 				"Skills": {
 					"Ex": {
@@ -438,10 +401,8 @@
 						"Name": "Exploit+"
 					}
 				}
-			}
-		},
-		"20014": {
-			"En": {
+			},
+			"20014": {
 				"Name": "Saki",
 				"Skills": {
 					"Ex": {
@@ -460,10 +421,8 @@
 						"Name": "All set+"
 					}
 				}
-			}
-		},
-		"23008": {
-			"En": {
+			},
+			"23008": {
 				"Name": "Mari",
 				"Skills": {
 					"Ex": {
@@ -485,5 +444,20 @@
 			}
 		}
 	},
-	"Items": {}
+	"Jp": {
+		"Items": {},
+		"Characters": {}
+	},
+	"Kr": {
+		"Items": {},
+		"Characters": {}
+	},
+	"Tw": {
+		"Items": {},
+		"Characters": {}
+	},
+	"Th": {
+		"Items": {},
+		"Characters": {}
+	}
 }

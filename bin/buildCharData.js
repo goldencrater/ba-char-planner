@@ -5,6 +5,7 @@
  * - CharacterExcelTable.json The raw character data
  * - LocalizeEtcExcelTable.json The translation strings for CharacterExcelTable
  * - CharacterWeaponExcelTable.json The details about the Character Weapons
+ * - LocalizeCharProfileExcelTable.json Misc Character Profile data
  * - CharacterSkillListExcelTable.json The raw character skills data
  * - SkillExcelTable.json The raw skill stats
  * - CharacterStatExcelTable.json The character's stat data (inc affinities)
@@ -60,50 +61,41 @@ function deepGetObject(obj, path)
 
 function parseLocalisationStrings(type, uniqueId, path, localisationStrings, stringType)
 {
-    if(typeof(localisationOutput[type][uniqueId]) === 'undefined')
-    {
-        localisationOutput[type][uniqueId] = {};
-    }
-    const localisationData = localisationOutput[type][uniqueId];
-
-    if(typeof(missingLocalisationOutput[type][uniqueId]) === 'undefined')
-    {
-        missingLocalisationOutput[type][uniqueId] = {};
-    }
-    const missingLocalisation = missingLocalisationOutput[type][uniqueId];
-
-    if(typeof(manualLocalisationOutput[type][uniqueId]) === 'undefined')
-    {
-        manualLocalisationOutput[type][uniqueId] = {};
-    }
-    const manualLocalisation = manualLocalisationOutput[type][uniqueId];
-
     const languages = ['En', 'Jp', 'Kr', 'Tw', 'Th'];
     languages.forEach((lang) => {
-        deepPutObject(localisationData, lang + '.' + path, localisationStrings[stringType + lang], false);
+        deepPutObject(localisationOutput, lang + '.' + type + '.' + uniqueId, {}, false);
+        deepPutObject(missingLocalisationOutput, lang + '.' + type + '.' + uniqueId, {}, false);
+        deepPutObject(manualLocalisationOutput, lang + '.' + type + '.' + uniqueId, {}, false);
+
+        const localisationData = localisationOutput[lang][type][uniqueId];
+        const missingLocalisation = missingLocalisationOutput[lang][type][uniqueId];
+        const manualLocalisation = manualLocalisationOutput[lang][type][uniqueId];
+
+        deepPutObject(localisationData, path, localisationStrings[stringType + lang], false);
         if(!localisationStrings[stringType + lang])
         {
-            if(!deepGetObject(manualLocalisation, lang + '.' + path))
+            if(!deepGetObject(manualLocalisation, path))
             {
-                deepPutObject(missingLocalisation, lang + '.' + path, '');
+                deepPutObject(missingLocalisation, path, '');
             }
         }
         else
         {
-            if(deepGetObject(manualLocalisation, lang + '.' + path))
+            if(deepGetObject(manualLocalisation, path))
             {
-                delete manualLocalisationOutput[type][uniqueId];
+                delete manualLocalisationOutput[lang][type][uniqueId];
             }
         }
+
+        if(Object.keys(missingLocalisationOutput[lang][type][uniqueId]).length === 0)
+        {
+            delete missingLocalisationOutput[lang][type][uniqueId];
+        }
+        if(Object.keys(manualLocalisationOutput[lang][type][uniqueId]).length === 0)
+        {
+            delete manualLocalisationOutput[lang][type][uniqueId];
+        }
     });
-    if(Object.keys(missingLocalisationOutput[type][uniqueId]).length === 0)
-    {
-        delete missingLocalisationOutput[type][uniqueId];
-    }
-    if(Object.keys(manualLocalisationOutput[type][uniqueId]).length === 0)
-    {
-        delete manualLocalisationOutput[type][uniqueId];
-    }
 }
 
 function extractSkillData(logicGroupIds, internalSkillData, location)
@@ -185,15 +177,9 @@ function extractSkillData(logicGroupIds, internalSkillData, location)
 }
 
 // For localisation output
-const localisationOutput = {
-    Characters: {},
-    Items: {}
-};
+const localisationOutput = {};
 
-const missingLocalisationOutput = {
-    Characters: {},
-    Items: {}
-}
+const missingLocalisationOutput = {};
 const manualLocalisationJson = fs.readFileSync('../src/assets/manualLocalisation.json');
 const manualLocalisationOutput = JSON.parse(manualLocalisationJson);
 
@@ -471,6 +457,27 @@ if(includeJp)
     });
 }
 
+// Process the LocalizeCharProfileExcelTable file
+const charProfileJson = fs.readFileSync('../orig/data/Excel/LocalizeCharProfileExcelTable.json');
+const charProfile = JSON.parse(charProfileJson);
+const charProfileMap = {};
+charProfile.DataList.forEach((element) => {
+    charProfileMap[element.CharacterId] = element;
+});
+
+if(includeJp)
+{
+    const jpCharProfileJson = fs.readFileSync('../orig/jp-data/Excel/LocalizeCharProfileExcelTable.json');
+    const jpCharProfile = JSON.parse(jpCharProfileJson);
+    jpCharProfile.DataList.forEach((element) => {
+        if(typeof(charProfileMap[element.CharacterId]) !== 'undefined')
+        {
+            return;
+        }
+        charProfileMap[element.CharacterId] = element;
+    });
+}
+
 // Process the newskilldata file
 const newskilldataJson = fs.readFileSync('../orig/data/Battle/newskilldata.json');
 const newskilldata = JSON.parse(newskilldataJson);
@@ -647,7 +654,6 @@ function parseCharacter(element)
 
     images[prefix + element.CollectionTexturePath] = "Character/" + thisChar.Icon;
 
-
     parseLocalisationStrings('Characters', element.Id, 'Name', localizeEtcMap[element.LocalizeEtcId], 'Name');
 
     // Character Skills Raw Data
@@ -757,6 +763,34 @@ function parseCharacter(element)
             images[prefix + thisSkillData[j].IconName] = "Skills/" + thisChar.Skills[skillString][level].Icon;
         }
     }
+
+    // Parse Profile Data
+    const profileData = charProfileMap[element.Id];
+    if(!profileData)
+    {
+        throw 'Unable to find profile data for ' + element.Id;
+    }
+
+    const profileStrings = [
+        'StatusMessage',
+        'FamilyName',
+        'FamilyNameRuby',
+        'PersonalName',
+        'PersonalNameRuby',
+        'SchoolYear',
+        'CharacterAge',
+        'BirthDay',
+        'CharHeight',
+        'ArtistName',
+        'CharacterVoice',
+        'Hobby',
+        'WeaponName',
+        'WeaponDesc',
+        'ProfileIntroduction',
+    ];
+    profileStrings.forEach((stringKey) => {
+        parseLocalisationStrings('Characters', element.Id, 'Profile.' + stringKey, profileData, stringKey);
+    });
 
     playableChars[element.Id] = thisChar;
     if(jpOnlyChar)
