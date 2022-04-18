@@ -75,7 +75,7 @@ function exportData()
 function importData(type)
 {
     importType = type;
-    textContentNote.value = 'This will merge the data with the existing data. If you want to replace data the, click Clear Data first.';
+    textContentNote.value = 'This will merge the import data with existing data. If you wish to replace the existing data, click Clear Data first.';
     textContent.value = '';
     textContentReadOnly.value = false;
     displayTextContent.value = true;
@@ -262,7 +262,6 @@ function clearData()
                     </div>
                     <div class="modal-body">
                         Clear all User Data? This cannot be undone.
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" @click="clearData()" data-bs-dismiss="modal">Clear All Data</button>
