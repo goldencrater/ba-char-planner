@@ -67,6 +67,10 @@ export function hashCharStats(charStats)
     {
         level = '0' + level;
     }
+    if(typeof(charStats.WeaponLevel) === 'undefined')
+    {
+        charStats.WeaponLevel = 0;
+    }
     let weaponLevel = charStats.WeaponLevel.toString(36);
     if(weaponLevel.length === 1)
     {

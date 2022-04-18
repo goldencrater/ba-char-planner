@@ -12,4 +12,12 @@ export const useSettingsStorage = defineStore({
             }))
         }
     },
+    actions: {
+        reset() {
+            this.settings = {
+                Language: 'En',
+                IncludeJpOnly: false,
+            }
+        }
+    }
 })
