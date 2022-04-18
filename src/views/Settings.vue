@@ -164,6 +164,7 @@ function processDataJustin(importedData)
         const charSettings = characterStorage.addCharacter(character);
         charSettings.Stars = parseInt(charStats.star);
         let ueStars = Math.max(charStats.ue - 1, 0);
+        charSettings.Stars += ueStars;
         charSettings.Bond = parseInt(charStats.bond);
         charSettings.Level = parseInt(charStats.level);
         charSettings.WeaponLevel = parseInt(charStats.ue_level);
