@@ -776,6 +776,7 @@ function parseJpOnlyData(characterId)
         Icon: weapon.ImagePath.substr(24),
         Skill2Upgrade: {},
         AffinityBoost: null,
+        AffinityBoostAmount: weapon.StatValue[2],
         CombatStats: {
             HP1: weapon.MaxHP,
             HP100: weapon.MaxHP100,
