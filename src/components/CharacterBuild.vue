@@ -154,14 +154,14 @@ function showStarDropdown()
 {
     const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
     selectElement.style.zIndex = 10;
-    setTimeout(checkDropdown, 1000, selectElement);
+    setTimeout(checkStarDropdown, 1000, selectElement);
 }
 
 function checkStarDropdown(element)
 {
     if(element.matches(':hover'))
     {
-        setTimeout(checkDropdown, 1000, element);
+        setTimeout(checkStarDropdown, 1000, element);
         return;
     }
     hideStarDropdown();
