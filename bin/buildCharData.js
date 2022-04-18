@@ -4,6 +4,7 @@
  * Requires the following files:
  * - CharacterExcelTable.json The raw character data
  * - LocalizeEtcExcelTable.json The translation strings for CharacterExcelTable
+ * - CharacterWeaponExcelTable.json The details about the Character Weapons
  * - CharacterSkillListExcelTable.json The raw character skills data
  * - SkillExcelTable.json The raw skill stats
  * - CharacterStatExcelTable.json The character's stat data (inc affinities)
@@ -857,7 +858,10 @@ for(const [from, to] of Object.entries(images))
 
 fs.mkdirSync('../src/assets/computed/', {recursive: true});
 fs.writeFileSync('../src/assets/computed/charlist.json', JSON.stringify(playableChars, null, '\t'));
+fs.writeFileSync('../public/import/files/charlist.json', JSON.stringify(playableChars, null, '\t'));
 fs.writeFileSync('../src/assets/computed/itemlist.json', JSON.stringify(itemMap, null, '\t'));
+fs.writeFileSync('../public/import/files/itemlist.json', JSON.stringify(itemMap, null, '\t'));
 fs.writeFileSync('../src/assets/computed/localisations.json', JSON.stringify(localisationOutput, null, '\t'));
+fs.writeFileSync('../public/import/files/localisations.json', JSON.stringify(localisationOutput, null, '\t'));
 fs.writeFileSync('../src/assets/computed/missingLocalisation.json', JSON.stringify(missingLocalisationOutput, null, '\t'));
 fs.writeFileSync('../src/assets/manualLocalisation.json', JSON.stringify(manualLocalisationOutput, null, '\t'));
