@@ -5,7 +5,7 @@ import { translateCharacter } from '../plugins/localisations.js';
 import DropdownInput from './Inputs/DropdownInput.vue';
 import { getRegionSettings, getJpRegionSettings } from '../composables/RegionSettings.js'
 
-const props = defineProps(['character', 'shared']);
+const props = defineProps(['id', 'character', 'shared']);
 const emits = defineEmits(['swapSlot', 'setBorrowed']);
 
 let regionSettings = null;
@@ -18,8 +18,6 @@ else
 {
     regionSettings = getRegionSettings();
 }
-
-console.log(regionSettings);
 
 const tC = translateCharacter;
 
@@ -61,29 +59,29 @@ const skill3Tooltip = ref('');
 
 function updateExTooltip(level)
 {
-    exTooltip.value = 'Cost: ' + props.character.Skills.Ex['Level' + level].Cost + '<br>' + tC(props.character.Id, 'Skills.Ex.Level' + level + '.Description', true);
+    exTooltip.value = 'Cost: ' + props.character.Skills.Ex['Level' + level].Cost + '<br>' + tC(props.character.Id, 'Skills.Ex.Level' + level + '.Description', true) + '<i></i>';
 }
 
 function updateSkill1Tooltip(level)
 {
-    skill1Tooltip.value = tC(props.character.Id, 'Skills.Skill1.Level' + level + '.Description', true);
+    skill1Tooltip.value = tC(props.character.Id, 'Skills.Skill1.Level' + level + '.Description', true) + '<i></i>';
 }
 
 function updateSkill2Tooltip(level)
 {
     if(props.character.LocalStorage.Stars >= 6)
     {
-        skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2Upgrade.Level' + level + '.Description', true);
+        skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2Upgrade.Level' + level + '.Description', true) + '<i></i>';
     }
     else
     {
-        skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2.Level' + level + '.Description', true);
+        skill2Tooltip.value = tC(props.character.Id, 'Skills.Skill2.Level' + level + '.Description', true) + '<i></i>';
     }
 }
 
 function updateSkill3Tooltip(level)
 {
-    skill3Tooltip.value = tC(props.character.Id, 'Skills.Skill3.Level' + level + '.Description', true);
+    skill3Tooltip.value = tC(props.character.Id, 'Skills.Skill3.Level' + level + '.Description', true) + '<i></i>';
 }
 
 function updateAllTooltips()
@@ -97,10 +95,7 @@ function updateAllTooltips()
 updateAllTooltips();
 
 onMounted(() => {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl, {html: true, sanitize: false});
-    });
+    updateAllTooltips();
 });
 
 onUpdated(() => {
@@ -118,7 +113,7 @@ function displayStar(starNumber)
 {
     if(!regionSettings.UniqueWeaponsAvailable)
     {
-        return starNumber <= stars.value;
+        return starNumber <= props.character.LocalStorage.Stars;
     }
     let invalid = [];
     switch(starNumber)
@@ -144,23 +139,39 @@ function displayStar(starNumber)
             invalid.push(5);
         }
     }
-    return !invalid.includes(stars.value);
+    return !invalid.includes(props.character.LocalStorage.Stars);
 }
-
-const stars = ref(props.character.LocalStorage.Stars);
 
 function starClass()
 {
-    if(regionSettings.UniqueWeaponsAvailable && stars.value >= 5)
+    if(regionSettings.UniqueWeaponsAvailable && props.character.LocalStorage.Stars >= 5)
     {
         return 'unique-weapon';
     }
 }
 
-watch(stars, (newVal) => {
-    props.character.LocalStorage.Stars = newVal;
-    updateSkill2Tooltip(props.character.LocalStorage.Skill2);
-})
+function showStarDropdown()
+{
+    const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
+    selectElement.style.zIndex = 10;
+    setTimeout(checkDropdown, 1000, selectElement);
+}
+
+function checkStarDropdown(element)
+{
+    if(element.matches(':hover'))
+    {
+        setTimeout(checkDropdown, 1000, element);
+        return;
+    }
+    hideStarDropdown();
+}
+
+function hideStarDropdown()
+{
+    const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
+    selectElement.style.zIndex = -10;
+}
 
 if(props.character.Borrowed)
 {
@@ -170,7 +181,7 @@ if(props.character.Borrowed)
 </script>
 
 <template>
-    <div :class="'character-wrapper character-striker character-damagetype-' + character.DamageType.toLowerCase() + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
+    <div :id='id' :class="'character-wrapper character-striker character-damagetype-' + character.DamageType.toLowerCase() + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
         <div class="character-settings selector-dropdown">
             <a href="#" role="button" :id="character.Name.toLowerCase() + 'settings'" data-bs-toggle="dropdown" aria-expanded="false">
                 <font-awesome-icon icon="gear"></font-awesome-icon>
@@ -203,28 +214,26 @@ if(props.character.Borrowed)
             <DropdownInput :id="character.Name.toLowerCase() + 'level'" v-model="character.LocalStorage.Level" :maxValue="regionSettings.MaxLevel"></DropdownInput>
         </div>
         <div class="character-rarity selector-dropdown">
-            <a href="#" role="button" :id="character.Name.toLowerCase() + 'stars'" data-bs-toggle="dropdown" aria-expanded="false">
-                <img :src="'/import/CharacterWeapons/' + character.CharacterWeapon.Icon + '.png'" v-if="regionSettings.UniqueWeaponsAvailable && stars >= 5">
+            <span :id="character.Name.toLowerCase() + 'stars'" @mouseover="showStarDropdown">
+                <img :src="'/import/CharacterWeapons/' + character.CharacterWeapon.Icon + '.png'" v-if="regionSettings.UniqueWeaponsAvailable && character.LocalStorage.Stars >= 5">
                 <img :class="starClass()" :src="'/images/star-lit.png'">
                 <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(2)">
                 <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(3)">
                 <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(4)">
                 <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(5)">
-            </a>
-            <ul class="dropdown-menu number-input" :aria-labelledby="character.Name.toLowerCase() + 'stars'">
-                <li>
-                    <a class="dropdown-item" href="#" @click="stars = 1">1</a>
-                    <a class="dropdown-item" href="#" @click="stars = 2">2</a>
-                    <a class="dropdown-item" href="#" @click="stars = 3">3</a>
-                    <a class="dropdown-item" href="#" @click="stars = 4">4</a>
-                    <a class="dropdown-item" href="#" @click="stars = 5" v-if="!regionSettings.UniqueWeaponsAvailable">5</a>
-                    <a class="dropdown-item" href="#" @click="stars = 5" v-if="regionSettings.UniqueWeaponMaxStar > 0">5/UE1</a>
-                    <a class="dropdown-item" href="#" @click="stars = 6" v-if="regionSettings.UniqueWeaponMaxStar > 1">5/UE2</a>
-                    <a class="dropdown-item" href="#" @click="stars = 7" v-if="regionSettings.UniqueWeaponMaxStar > 2">5/UE3</a>
-                    <a class="dropdown-item" href="#" @click="stars = 8" v-if="regionSettings.UniqueWeaponMaxStar > 3">5/UE4</a>
-                    <a class="dropdown-item" href="#" @click="stars = 9" v-if="regionSettings.UniqueWeaponMaxStar > 4">5/UE5</a>
-                </li>
-            </ul>
+            </span>
+            <select v-model="character.LocalStorage.Stars" :id="character.Name.toLowerCase() + 'starsdropdown'" @mouseout="hideStarDropdown">
+                <option :value="1">1</option>
+                <option :value="2">2</option>
+                <option :value="3">3</option>
+                <option :value="4">4</option>
+                <option :value="5" v-if="!regionSettings.UniqueWeaponsAvailable">5</option>
+                <option :value="5" v-if="regionSettings.UniqueWeaponsAvailable">5/UE 1</option>
+                <option :value="6" v-if="regionSettings.UniqueWeaponMaxStar > 1">5/UE 2</option>
+                <option :value="7" v-if="regionSettings.UniqueWeaponMaxStar > 2">5/UE 3</option>
+                <option :value="8" v-if="regionSettings.UniqueWeaponMaxStar > 3">5/UE 3</option>
+                <option :value="9" v-if="regionSettings.UniqueWeaponMaxStar > 4">5/UE 3</option>
+            </select>
         </div>
         <div class="character-bond selector-dropdown" style="background: rgba(0, 0, 0, 0.5) url('/images/bond.png')">
             <DropdownInput :id="character.Name.toLowerCase() + 'bond'" v-model="character.LocalStorage.Bond" :maxValue="regionSettings.MaxBond"></DropdownInput>
@@ -238,25 +247,87 @@ if(props.character.Borrowed)
         <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot3, character.LocalStorage.Equip3)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip3'" v-model="character.LocalStorage.Equip3" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown">
+        <div class="character-skill selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skillEx'" v-model="character.LocalStorage.SkillEx" maxValue="5">
-                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="exTooltip" :data-bs-original-title="exTooltip">{{character.LocalStorage.SkillEx}}</span>
+                <span>{{character.LocalStorage.SkillEx}}</span>
+                <div class="top" v-html="exTooltip"></div>
             </DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown">
+        <div class="character-skill selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skill1'" v-model="character.LocalStorage.Skill1" maxValue="10">
-                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="skill1Tooltip" :data-bs-original-title="skill1Tooltip">{{character.LocalStorage.Skill1}}</span>
+                <span>{{character.LocalStorage.Skill1}}</span>
+                <div class="top" v-html="skill1Tooltip"></div>
             </DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown">
+        <div class="character-skill selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skill2'" v-model="character.LocalStorage.Skill2" maxValue="10">
-                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="skill2Tooltip" :data-bs-original-title="skill2Tooltip">{{character.LocalStorage.Skill2}}</span>
+                <span>{{character.LocalStorage.Skill2}}</span>
+                <div class="top" v-html="skill2Tooltip"></div>
             </DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown">
+        <div class="character-skill selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skill3'" v-model="character.LocalStorage.Skill3" maxValue="10">
-                <span data-bs-toggle="tooltip" data-bs-placement="bottom" :title="skill3Tooltip" :data-bs-original-title="skill3Tooltip">{{character.LocalStorage.Skill3}}</span>
+                <span>{{character.LocalStorage.Skill3}}</span>
+                <div class="top" v-html="skill3Tooltip"></div>
             </DropdownInput>
         </div>
     </div>
 </template>
+
+<style>
+
+.skill-tooltip .top
+{
+    min-width:200px;
+    top:-20px;
+    left:50%;
+    transform:translate(-50%, -100%);
+    padding:10px 20px;
+    color:#FFFFFF;
+    background-color:#000000;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    z-index:99999999;
+    box-sizing:border-box;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    visibility:hidden; opacity:0; transition:opacity 0.8s;
+    text-stroke: 0;
+    -webkit-text-stroke: 0;
+}
+
+.skill-tooltip:hover .top
+{
+    visibility:visible;
+    opacity:1;
+}
+
+.skill-tooltip .top span
+{
+    width: auto !important;
+}
+
+.skill-tooltip .top i
+{
+    position:absolute;
+    top:100%;
+    left:50%;
+    margin-left:-12px;
+    width:24px;
+    height:12px;
+    overflow:hidden;
+}
+
+.skill-tooltip .top i::after
+{
+    content:'';
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(45deg);
+    background-color:#000000;
+    box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+</style>

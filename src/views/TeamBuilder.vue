@@ -144,13 +144,11 @@ if(router.currentRoute.value.name == 'teambuilder-share')
             <input @click="createNewTeam()" class="btn btn-primary" type="button" value="Create New Team">
         </div>
         <div class="controls row" v-if="innerControlsVisible">
-            <div class="col-1">
+            <div class="col-8">
                 <input @click="saveTeam()" class="btn btn-primary col-auto" type="button" value="Save Team" :disabled="teamName.length === 0">
+                <input v-model="teamName" class="form-control team-name-input" placeholder="Team Name">
             </div>
-            <div class="col-2">
-                <input v-model="teamName" class="form-control" placeholder="Team Name">
-            </div>
-            <div class="col-2 offset-md-7" style="text-align: right;">
+            <div class="col-4" style="text-align: right;">
                 <input @click="cancelTeam()" class="btn btn-danger col-auto" type="button" value="Cancel">
             </div>
         </div>
@@ -211,6 +209,14 @@ if(router.currentRoute.value.name == 'teambuilder-share')
 </template>
 
 <style>
+.controls .team-name-input
+{
+    padding: 4px 0 8px 4px;
+    margin-left: 5px;
+    width: auto;
+    display: inline-block;
+}
+
 .team-builder-wrapper .team-list .team-name
 {
     font-weight: bold;

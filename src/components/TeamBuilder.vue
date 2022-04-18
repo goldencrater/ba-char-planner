@@ -335,7 +335,7 @@ updateHash();
 {
     list-style: none;
     padding-left: 0;
-    max-height: 322px;
+    max-height: 320px;
     overflow: hidden;
 }
 
@@ -366,12 +366,17 @@ updateHash();
 {
     max-height: 48px;
     display: inline-block;
-    margin-bottom: 12px;
+    margin-bottom: 22px;
 }
 .team-builder .character-search-list .character-name
 {
     padding: 5px;
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 50px;
+    white-space: nowrap;
+    max-width: calc(100vw - 100px);
 }
 
 .team-builder .character-search-list .already-selected
@@ -390,6 +395,7 @@ updateHash();
     grid-template-rows: 40px 40px auto 40px;
     background-size: 280px 316px !important;
     border-radius: 5px;
+    position: relative;
 }
 
 .team-builder .characters-picked .character-wrapper.character-damagetype-explosive
@@ -449,6 +455,11 @@ updateHash();
     font-weight: bold;
     -webkit-text-stroke: 1px #000000;
     text-stroke: 1px #000000;
+    max-width: 140px;
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .team-builder .characters-picked .character-wrapper .character-level
@@ -501,7 +512,6 @@ updateHash();
 .team-builder .characters-picked .character-wrapper .character-equipment
 {
     background-size: 63px 50px !important;
-    filter: grayscale(100%);
 }
 
 .team-builder .characters-picked .character-wrapper .character-skill
@@ -513,40 +523,62 @@ updateHash();
     color: #ffffff;
 }
 
-.team-builder .characters-picked .character-wrapper .selector-dropdown a,
-.team-builder .characters-picked .character-wrapper .selector-dropdown a:visited
+.team-builder .characters-picked .character-wrapper .selector-dropdown
 {
     text-decoration: none;
     color: #ffffff;
     font-weight: bold;
+    text-stroke: 1px #000000;
     -webkit-text-stroke: 1px #000000;
     cursor: pointer;
+    position: relative;
 }
 
-.team-builder .characters-picked .character-wrapper .selector-dropdown a.dropdown-item,
-.team-builder .characters-picked .character-wrapper .selector-dropdown a.dropdown-item:visited
+
+.team-builder .characters-picked .character-wrapper .selector-dropdown a,
+.team-builder .characters-picked .character-wrapper .selector-dropdown a:visited
+{
+    color: #ffffff;
+}
+
+.team-builder .characters-picked .character-wrapper .selector-dropdown .dropdown-menu a,
+.team-builder .characters-picked .character-wrapper .selector-dropdown .dropdown-menu a:visited
 {
     color: #000000;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown .number-input
-{
-    min-width: 0;
-    width: 70px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown.character-settings .dropdown-menu li
-{
-    padding-left: 10px;
-}
-
-.team-builder .characters-picked .character-wrapper .selector-dropdown.character-settings .dropdown-menu a
-{
-    color: #000000;
-    -webkit-text-stroke: 0;
     text-stroke: 0;
+    -webkit-text-stroke: 0;
+}
+
+.team-builder .characters-picked .character-wrapper .selector-dropdown span
+{
+    width: 70px;
+    display: inline-block;
+}
+
+.team-builder .characters-picked .character-wrapper .character-rarity.selector-dropdown span
+{
+    display: inline;
+}
+
+.team-builder .characters-picked .character-wrapper .selector-dropdown select
+{
+    z-index: -10;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+}
+
+.team-builder .characters-picked .character-wrapper .character-level.selector-dropdown select,
+.team-builder .characters-picked .character-wrapper .character-bond.selector-dropdown select,
+.team-builder .characters-picked .character-wrapper .character-equipment.selector-dropdown select,
+.team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
+{
+    width: 70px;
+}
+
+.team-builder .characters-picked .character-wrapper .character-rarity.selector-dropdown select
+{
+    width: 280px;
 }
 
 
