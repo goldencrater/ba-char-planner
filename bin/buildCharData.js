@@ -556,6 +556,9 @@ function parseCharacter(element)
         School: element.School,
         DamageType: null,
         DefenseType: null,
+        WeaponType: element.WeaponType,
+        TacticRole: element.TacticRole,
+        TacticRange: element.TacticRange,
         CombatStats: {
             HP1: characterStatExcel[element.Id].MaxHP1,
             HP100: characterStatExcel[element.Id].MaxHP100,
@@ -571,6 +574,10 @@ function parseCharacter(element)
             CriticalResist: characterStatExcel[element.Id].CriticalResistPoint,
             CriticalDamageRate: characterStatExcel[element.Id].CriticalDamageRate,
             CriticalDamageResistRate: characterStatExcel[element.Id].CriticalDamageResistRate,
+            Stability: characterStatExcel[element.Id].StabilityPoint,
+            Range: characterStatExcel[element.Id].Range,
+            AmmoCount: characterStatExcel[element.Id].AmmoCount,
+            AmmoCost:characterStatExcel[element.Id].AmmoCost,
         },
         Affinities: {
             Urban: characterStatExcel[element.Id].StreetBattleAdaptation,
