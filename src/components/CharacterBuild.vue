@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, onUpdated } from 'vue';
 import { translateCharacter } from '../plugins/localisations.js';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
@@ -86,17 +86,26 @@ function updateSkill3Tooltip(level)
     skill3Tooltip.value = tC(props.character.Id, 'Skills.Skill3.Level' + level + '.Description', true);
 }
 
-updateExTooltip(props.character.LocalStorage.SkillEx);
-updateSkill1Tooltip(props.character.LocalStorage.Skill1);
-updateSkill2Tooltip(props.character.LocalStorage.Skill2);
-updateSkill3Tooltip(props.character.LocalStorage.Skill3);
+function updateAllTooltips()
+{
+    updateExTooltip(props.character.LocalStorage.SkillEx);
+    updateSkill1Tooltip(props.character.LocalStorage.Skill1);
+    updateSkill2Tooltip(props.character.LocalStorage.Skill2);
+    updateSkill3Tooltip(props.character.LocalStorage.Skill3);
+}
+
+updateAllTooltips();
 
 onMounted(() => {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl, {html: true, sanitize: false});
-    })
-})
+    });
+});
+
+onUpdated(() => {
+    updateAllTooltips();
+});
 
 watch(props.character.LocalStorage, (newVal) => {
     updateExTooltip(newVal.SkillEx);
