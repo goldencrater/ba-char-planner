@@ -748,7 +748,7 @@ function parseCharacter(element)
         }
         let skillString = 'Skill' + i;
         thisChar.Skills[skillString] = {
-            Name: localizeSkillMap[thisSkillData[1].LocalizeSkillId].NameEn
+            Name: localizeSkillMap[thisSkillData[1].LocalizeSkillId].NameEn || localizeSkillMap[thisSkillData[1].LocalizeSkillId].NameJp
         }
         parseLocalisationStrings('Characters', element.Id, 'Skills.' + skillString + '.Name', localizeSkillMap[thisSkillData[1].LocalizeSkillId], 'Name');
         for(let j = 1; j <= 10; j++)
@@ -779,7 +779,7 @@ function parseCharacter(element)
         'PersonalNameRuby',
         'SchoolYear',
         'CharacterAge',
-        'BirthDay',
+        'Birthday',
         'CharHeight',
         'ArtistName',
         'CharacterVoice',
