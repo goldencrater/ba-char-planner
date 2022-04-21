@@ -122,7 +122,7 @@ function displayStar(starNumber)
         {
             invalid.push(4);
             invalid.push(8);
-        }
+        } // fallthrough
         case 4:
         {
             invalid.push(3);

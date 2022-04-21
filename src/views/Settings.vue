@@ -58,10 +58,10 @@ function exportData()
         teams: teams,
         checksum: '',
     };
-    for(const [key, value] of Object.entries(characters))
+    Object.values(characters).forEach((value) =>
     {
         outputObject.characters.push(hashCharStats(value));
-    }
+    });
     outputObject.checksum = calculateChecksum(outputObject);
 
     textContentNote.value = '';
