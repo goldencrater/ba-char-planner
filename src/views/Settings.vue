@@ -162,19 +162,19 @@ function processDataJustin(importedData)
     importedData.characters.forEach((charStats) => {
         const character = getCharacterById(charStats.id, false);
         const charSettings = characterStorage.addCharacter(character);
-        charSettings.Stars = parseInt(charStats.star);
-        let ueStars = Math.max(charStats.ue - 1, 0);
+        charSettings.Stars = parseInt(charStats.current.star);
+        let ueStars = Math.max(charStats.current.ue - 1, 0);
         charSettings.Stars += ueStars;
-        charSettings.Bond = parseInt(charStats.bond);
-        charSettings.Level = parseInt(charStats.level);
-        charSettings.WeaponLevel = parseInt(charStats.ue_level);
-        charSettings.SkillEx = parseInt(charStats.ex);
-        charSettings.Skill1 = parseInt(charStats.basic);
-        charSettings.Skill2 = parseInt(charStats.passive);
-        charSettings.Skill3 = parseInt(charStats.sub);
-        charSettings.Equip1 = parseInt(charStats.gear1);
-        charSettings.Equip2 = parseInt(charStats.gear2);
-        charSettings.Equip3 = parseInt(charStats.gear3);
+        charSettings.Bond = parseInt(charStats.current.bond);
+        charSettings.Level = parseInt(charStats.current.level);
+        charSettings.WeaponLevel = parseInt(charStats.current.ue_level);
+        charSettings.SkillEx = parseInt(charStats.current.ex);
+        charSettings.Skill1 = parseInt(charStats.current.basic);
+        charSettings.Skill2 = parseInt(charStats.current.passive);
+        charSettings.Skill3 = parseInt(charStats.current.sub);
+        charSettings.Equip1 = parseInt(charStats.current.gear1);
+        charSettings.Equip2 = parseInt(charStats.current.gear2);
+        charSettings.Equip3 = parseInt(charStats.current.gear3);
     });
 
     const modalElement = document.getElementById('settingsModal')
