@@ -85,7 +85,7 @@ export function hashCharStats(charStats)
 export function unhashCharStats(hashString)
 {
     const stats = {};
-    const split = hashString.split("|");
+    const split = decodeURI(hashString).split("|");
     stats.Id = parseInt(split[0]);
     stats.Stars = parseInt(split[1][0], 36);
     let ueStars = Math.max(parseInt(split[1][1], 36) - 1, 0);
