@@ -59,7 +59,7 @@ function deepGetObject(obj, path)
     return obj[pathbits[0]];
 }
 
-function parseLocalisationStrings(type, uniqueId, path, localisationStrings, stringType)
+function parseLocalisationStrings(type, uniqueId, path, localisationStrings, stringType, includeMissing = true)
 {
     const languages = ['En', 'Jp', 'Kr', 'Tw', 'Th'];
     languages.forEach((lang) => {
@@ -72,7 +72,7 @@ function parseLocalisationStrings(type, uniqueId, path, localisationStrings, str
         const manualLocalisation = manualLocalisationOutput[lang][type][uniqueId];
 
         deepPutObject(localisationData, path, localisationStrings[stringType + lang], false);
-        if(!localisationStrings[stringType + lang])
+        if(!localisationStrings[stringType + lang] && includeMissing)
         {
             if(!deepGetObject(manualLocalisation, path))
             {
@@ -695,7 +695,7 @@ function parseCharacter(element)
     if(typeof(newskilldataMap[charSkills.ExtraPassiveSkillGroupId[0]]) !== 'undefined')
     {
         const internalSkillData = newskilldataMap[charSkills.ExtraPassiveSkillGroupId[0]][0];
-        extractSkillData(logicGroupIds, internalSkillData, thisChar.Name + 'Ex');
+        extractSkillData(logicGroupIds, internalSkillData, thisChar.Name + 'Sub');
     }
 
     Object.keys(logicGroupIds).forEach((logicGroupId) => {
@@ -789,7 +789,7 @@ function parseCharacter(element)
         'ProfileIntroduction',
     ];
     profileStrings.forEach((stringKey) => {
-        parseLocalisationStrings('Characters', element.Id, 'Profile.' + stringKey, profileData, stringKey);
+        parseLocalisationStrings('Characters', element.Id, 'Profile.' + stringKey, profileData, stringKey, false);
     });
 
     playableChars[element.Id] = thisChar;
