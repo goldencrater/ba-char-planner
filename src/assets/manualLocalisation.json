@@ -262,6 +262,26 @@
 					}
 				}
 			},
+			"16009": {
+				"Name": "Michiru",
+				"Skills": {
+					"Ex": {
+						"Name": "Michiru-style technique!!"
+					},
+					"Skill1": {
+						"Name": "Behold, hell's ninja sword!"
+					},
+					"Skill2": {
+						"Name": "Look, look, my own ninjutsu!"
+					},
+					"Skill3": {
+						"Name": "Secret Michiru-style ninjutsu!"
+					},
+					"Skill2Upgrade": {
+						"Name": "Look, look, my own ninjutsu!+"
+					}
+				}
+			},
 			"20007": {
 				"Name": "Hatsune Miku",
 				"Skills": {
@@ -419,6 +439,46 @@
 					},
 					"Skill2Upgrade": {
 						"Name": "All set+"
+					}
+				}
+			},
+			"20015": {
+				"Name": "Kaede",
+				"Skills": {
+					"Ex": {
+						"Name": "Flare gun, fire!!"
+					},
+					"Skill1": {
+						"Name": "Beetle shield!"
+					},
+					"Skill2": {
+						"Name": "Healing wave!"
+					},
+					"Skill3": {
+						"Name": "Keep doing your best!"
+					},
+					"Skill2Upgrade": {
+						"Name": "Healing wave!+"
+					}
+				}
+			},
+			"20016": {
+				"Name": "Iroha",
+				"Skills": {
+					"Ex": {
+						"Name": "Let's go, Toramaru"
+					},
+					"Skill1": {
+						"Name": "It's annoying..."
+					},
+					"Skill2": {
+						"Name": "There's no choice"
+					},
+					"Skill3": {
+						"Name": "Please stay strong"
+					},
+					"Skill2Upgrade": {
+						"Name": "There's no choice+"
 					}
 				}
 			},
