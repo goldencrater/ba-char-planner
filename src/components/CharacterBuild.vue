@@ -1,11 +1,11 @@
 <script setup>
-import { ref, watch, onMounted, onUpdated } from 'vue';
+import { ref, watch, onMounted, onUpdated, provide } from 'vue';
 import { translateCharacter } from '../plugins/localisations.js';
 
 import DropdownInput from './Inputs/DropdownInput.vue';
 import { getRegionSettings, getJpRegionSettings } from '../composables/RegionSettings.js'
 
-const props = defineProps(['id', 'character', 'shared']);
+const props = defineProps(['wrapperClass', 'character', 'shared', 'readonly', 'borrowed']);
 const emits = defineEmits(['swapSlot', 'setBorrowed']);
 
 let regionSettings = null;
@@ -152,6 +152,10 @@ function starClass()
 
 function showStarDropdown()
 {
+    if(props.readonly)
+    {
+        return;
+    }
     const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
     selectElement.style.zIndex = 10;
     setTimeout(checkStarDropdown, 1000, selectElement);
@@ -173,17 +177,19 @@ function hideStarDropdown()
     selectElement.style.zIndex = -10;
 }
 
-if(props.character.Borrowed)
+if(props.borrowed)
 {
     classExtra.value = ' character-borrowed';
 }
 
+provide('readonly', props.readonly);
+
 </script>
 
 <template>
-    <div :id='id' :class="'character-wrapper character-striker character-damagetype-' + character.DamageType.toLowerCase() + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
+    <div :class="wrapperClass + ' character-wrapper character-striker character-damagetype-' + character.DamageType.toLowerCase() + classExtra" :style="createCharacterBackgroundTag(character.Icon)">
         <div class="character-settings selector-dropdown">
-            <a href="#" role="button" :id="character.Name.toLowerCase() + 'settings'" data-bs-toggle="dropdown" aria-expanded="false">
+            <a href="#" role="button" :id="character.Name.toLowerCase() + 'settings'" data-bs-toggle="dropdown" aria-expanded="false" v-if="!readonly">
                 <font-awesome-icon icon="gear"></font-awesome-icon>
             </a>
             <ul class="dropdown-menu" :aria-labelledby="character.Name.toLowerCase() + 'settings'">

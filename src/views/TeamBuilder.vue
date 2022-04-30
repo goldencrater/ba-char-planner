@@ -44,6 +44,7 @@ function cancelTeam()
     topControlsVisible.value = true;
     innerControlsVisible.value = false;
     teamListVisible.value = true;
+    teamShared.value = false;
     teamName.value = '';
     teamHash.value = '';
 }
@@ -112,6 +113,11 @@ function generateTeamImageArray(selectedTeamName)
     return imgUrls;
 }
 
+function toggleTeamVisible(selectedTeamName)
+{
+    visibleTeams.value[selectedTeamName] = !visibleTeams.value[selectedTeamName];
+}
+
 const teamStorage = useTeamStorage();
 const componentName = shallowRef('template');
 const router = useRouter();
@@ -128,6 +134,11 @@ const topControlsVisible = ref(true);
 const innerControlsVisible = ref(false);
 const shareTeamVisible = ref(false);
 const teamListVisible = ref(true);
+const visibleTeams = ref([]);
+
+Object.keys(teamStorage.teams).forEach((teamName) => {
+    visibleTeams.value[teamName] = false;
+})
 
 if(router.currentRoute.value.name == 'teambuilder-share')
 {
@@ -171,7 +182,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
         <div v-if="teamListVisible" class="team-list">
             Existing Teams:
             <ul class="list-group">
-                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.teams" @click="loadTeam(storedTeamName, storedTeamHash)" class="list-group-item stored-team" :key="storedTeamName">
+                <li v-for="(storedTeamHash, storedTeamName) in teamStorage.teams" @click="toggleTeamVisible(storedTeamName)" class="list-group-item stored-team" :key="storedTeamName">
                     <div class="team-members-list">
                         <img v-for="(image, index) in generateTeamImageArray(storedTeamName)" :src="image" :key="index">
                     </div>
@@ -181,10 +192,12 @@ if(router.currentRoute.value.name == 'teambuilder-share')
                             Options
                         </button>
                         <ul class="dropdown-menu" :aria-labelledby="'dropdown-' + storedTeamName.replace(' ', '_')">
+                            <li><a class="dropdown-item" @click.stop="loadTeam(storedTeamName, storedTeamHash)">Edit Team</a></li>
                             <li><a class="dropdown-item" @click.stop="shareTeam(storedTeamName)">Share</a></li>
                             <li><a class="dropdown-item" @click.stop="deleteTeamPrompt(storedTeamName)" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a></li>
                         </ul>
                     </div>
+                    <TeamBuilder :teamHash="storedTeamHash" v-if="visibleTeams[storedTeamName]" :readonly="true"></TeamBuilder>
                 </li>
             </ul>
         </div>
@@ -253,4 +266,63 @@ if(router.currentRoute.value.name == 'teambuilder-share')
 {
     height: 57px;
 }
+
+.team-builder-wrapper .stored-team .team-builder
+{
+    margin-top: 20px;
+}
+
+.team-list .team-builder .characters-picked
+{
+    grid-template-columns: repeat(6, 200px);
+    height: 220px;
+}
+
+.team-list .team-builder .characters-picked .character-wrapper
+{
+    transform: scale(0.68);
+    transform-origin: top left;
+}
+
+.team-list .team-builder .characters-picked .character-wrapper select
+{
+    display: none;
+}
+
+.team-list .team-builder .characters-picked .character-striker-1
+{
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+.team-list .team-builder .characters-picked .character-striker-2
+{
+    grid-column-start: 2;
+    grid-row-start: 1;
+}
+
+.team-list .team-builder .characters-picked .character-striker-3
+{
+    grid-column-start: 3;
+    grid-row-start: 1;
+}
+
+.team-list .team-builder .characters-picked .character-striker-4
+{
+    grid-column-start: 4;
+    grid-row-start: 1;
+}
+
+.team-list .team-builder .characters-picked .character-special-1
+{
+    grid-column: 5 / 6;
+    grid-row-start: 1;
+}
+
+.team-list .team-builder .characters-picked .character-special-2
+{
+    grid-column: 6 / 7;
+    grid-row-start: 1;
+}
+
 </style>

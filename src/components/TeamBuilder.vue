@@ -7,7 +7,12 @@ import { useCharacterStorage } from '../stores/CharacterStorage.js';
 import CharacterSearch from '../components/CharacterSearch.vue';
 import CharacterBuild from '../components/CharacterBuild.vue';
 
-const props = defineProps(['teamHash', 'shared']);
+const props = defineProps({
+    'teamHash': String,
+    'shared': Boolean,
+    'readonly': {type: Boolean, default: false}
+});
+
 const emit = defineEmits(['update:teamHash'])
 
 const sortedList = ref([]);
@@ -297,6 +302,10 @@ if(props.teamHash)
         pickedChars.value[charHashes[6]].Borrowed = true;
         borrowed = charHashes[6];
     }
+    else
+    {
+        borrowed = null;
+    }
 }
 
 updateHash();
@@ -305,7 +314,7 @@ updateHash();
 
 <template>
     <div class="team-builder">
-        <div class="form-floating">
+        <div class="form-floating" v-if="!readonly">
             <CharacterSearch @update-list="updateList" :settings="{emptyReturn: true}" id="characterSearch" class="form-control"></CharacterSearch>
             <label for="characterSearch">Character Name</label>
         </div>
@@ -320,12 +329,12 @@ updateHash();
             </ul>
         </div>
         <div class="characters-picked">
-            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :id="pickedChars[teamBuild.strikers[1]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :id="pickedChars[teamBuild.strikers[2]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :id="pickedChars[teamBuild.strikers[3]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :id="pickedChars[teamBuild.strikers[4]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :id="pickedChars[teamBuild.specials[1]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
-            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :id="pickedChars[teamBuild.specials[2]].ElementId" :shared="props.shared" @swap-slot="swapSlot" @set-borrowed="setBorrowed"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[1]" :character="pickedChars[teamBuild.strikers[1]]" :wrapperClass="pickedChars[teamBuild.strikers[1]].ElementId" :shared="props.shared" :borrowed="teamBuild.strikers[1] == borrowed" @swap-slot="swapSlot" @set-borrowed="setBorrowed" :readonly="readonly"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[2]" :character="pickedChars[teamBuild.strikers[2]]" :wrapperClass="pickedChars[teamBuild.strikers[2]].ElementId" :shared="props.shared" :borrowed="teamBuild.strikers[2] == borrowed" @swap-slot="swapSlot" @set-borrowed="setBorrowed" :readonly="readonly"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[3]" :character="pickedChars[teamBuild.strikers[3]]" :wrapperClass="pickedChars[teamBuild.strikers[3]].ElementId" :shared="props.shared" :borrowed="teamBuild.strikers[3] == borrowed" @swap-slot="swapSlot" @set-borrowed="setBorrowed" :readonly="readonly"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.strikers[4]" :character="pickedChars[teamBuild.strikers[4]]" :wrapperClass="pickedChars[teamBuild.strikers[4]].ElementId" :shared="props.shared" :borrowed="teamBuild.strikers[4] == borrowed" @swap-slot="swapSlot" @set-borrowed="setBorrowed" :readonly="readonly"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.specials[1]" :character="pickedChars[teamBuild.specials[1]]" :wrapperClass="pickedChars[teamBuild.specials[1]].ElementId" :shared="props.shared" :borrowed="teamBuild.specials[1] == borrowed" @swap-slot="swapSlot" @set-borrowed="setBorrowed" :readonly="readonly"></CharacterBuild>
+            <CharacterBuild v-if="teamBuild.specials[2]" :character="pickedChars[teamBuild.specials[2]]" :wrapperClass="pickedChars[teamBuild.specials[2]].ElementId" :shared="props.shared" :borrowed="teamBuild.specials[2] == borrowed" @swap-slot="swapSlot" @set-borrowed="setBorrowed" :readonly="readonly"></CharacterBuild>
         </div>
     </div>
 </template>
@@ -591,37 +600,37 @@ updateHash();
         grid-template-columns: repeat(4, 300px);
     }
 
-    #character-striker-1
+    .character-striker-1
     {
         grid-column-start: 1;
         grid-row-start: 1;
     }
 
-    #character-striker-2
+    .character-striker-2
     {
         grid-column-start: 2;
         grid-row-start: 1;
     }
 
-    #character-striker-3
+    .character-striker-3
     {
         grid-column-start: 3;
         grid-row-start: 1;
     }
 
-    #character-striker-4
+    .character-striker-4
     {
         grid-column-start: 4;
         grid-row-start: 1;
     }
 
-    #character-special-1
+    .character-special-1
     {
         grid-column: 2 / 3;
         grid-row-start: 2;
     }
 
-    #character-special-2
+    .character-special-2
     {
         grid-column: 3 / 5;
         grid-row-start: 2;
@@ -636,37 +645,37 @@ updateHash();
         grid-template-columns: repeat(2, 300px);
     }
 
-    #character-striker-1
+    .character-striker-1
     {
         grid-column-start: 1;
         grid-row-start: 1;
     }
 
-    #character-striker-2
+    .character-striker-2
     {
         grid-column-start: 2;
         grid-row-start: 1;
     }
 
-    #character-striker-3
+    .character-striker-3
     {
         grid-column-start: 1;
         grid-row-start: 2;
     }
 
-    #character-striker-4
+    .character-striker-4
     {
         grid-column-start: 2;
         grid-row-start: 2;
     }
 
-    #character-special-1
+    .character-special-1
     {
         grid-column-start: 1;
         grid-row-start: 3;
     }
 
-    #character-special-2
+    .character-special-2
     {
         grid-column-start: 2;
         grid-row-start: 3;

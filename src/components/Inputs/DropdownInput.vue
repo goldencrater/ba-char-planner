@@ -1,10 +1,17 @@
 <script setup>
+import { inject } from 'vue';
+
 const props = defineProps(['id', 'modelValue', 'maxValue']);
 
 const maxValue = parseInt(props.maxValue);
+const readonly = inject('readonly');
 
 function showDropdown()
 {
+    if(readonly)
+    {
+        return;
+    }
     const selectElement = document.getElementById(props.id);
     selectElement.style.zIndex = 10;
     setTimeout(checkDropdown, 1000, selectElement);
