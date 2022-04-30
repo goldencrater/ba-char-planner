@@ -158,6 +158,7 @@ function showStarDropdown()
     }
     const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
     selectElement.style.zIndex = 10;
+    selectElement.style.display = 'inline-block';
     setTimeout(checkStarDropdown, 1000, selectElement);
 }
 
@@ -175,6 +176,7 @@ function hideStarDropdown()
 {
     const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
     selectElement.style.zIndex = -10;
+    selectElement.style.display = 'none';
 }
 
 if(props.borrowed)
@@ -244,34 +246,34 @@ provide('readonly', props.readonly);
         <div class="character-bond selector-dropdown" style="background: rgba(0, 0, 0, 0.5) url('/images/bond.png')">
             <DropdownInput :id="character.Name.toLowerCase() + 'bond'" v-model="character.LocalStorage.Bond" :maxValue="regionSettings.MaxBond"></DropdownInput>
         </div>
-        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot1, character.LocalStorage.Equip1)">
+        <div class="character-equipment character-equipment-1 selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot1, character.LocalStorage.Equip1)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip1'" v-model="character.LocalStorage.Equip1" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
-        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot2, character.LocalStorage.Equip2)">
+        <div class="character-equipment character-equipment-2 selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot2, character.LocalStorage.Equip2)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip2'" v-model="character.LocalStorage.Equip2" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
-        <div class="character-equipment selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot3, character.LocalStorage.Equip3)">
+        <div class="character-equipment character-equipment-3 selector-dropdown" :style="createEquipBackgroundTag(character.Equipment.Slot3, character.LocalStorage.Equip3)">
             <DropdownInput :id="character.Name.toLowerCase() + 'equip3'" v-model="character.LocalStorage.Equip3" :maxValue="regionSettings.MaxEquipLevel"></DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown skill-tooltip">
+        <div class="character-skill character-skill-ex selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skillEx'" v-model="character.LocalStorage.SkillEx" maxValue="5">
                 <span>{{character.LocalStorage.SkillEx}}</span>
                 <div class="top" v-html="exTooltip"></div>
             </DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown skill-tooltip">
+        <div class="character-skill character-skill-1 selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skill1'" v-model="character.LocalStorage.Skill1" maxValue="10">
                 <span>{{character.LocalStorage.Skill1}}</span>
                 <div class="top" v-html="skill1Tooltip"></div>
             </DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown skill-tooltip">
+        <div class="character-skill character-skill-2 selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skill2'" v-model="character.LocalStorage.Skill2" maxValue="10">
                 <span>{{character.LocalStorage.Skill2}}</span>
                 <div class="top" v-html="skill2Tooltip"></div>
             </DropdownInput>
         </div>
-        <div class="character-skill selector-dropdown skill-tooltip">
+        <div class="character-skill character-skill-3 selector-dropdown skill-tooltip">
             <DropdownInput :id="character.Name.toLowerCase() + 'skill3'" v-model="character.LocalStorage.Skill3" maxValue="10">
                 <span>{{character.LocalStorage.Skill3}}</span>
                 <div class="top" v-html="skill3Tooltip"></div>

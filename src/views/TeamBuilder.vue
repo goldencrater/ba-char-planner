@@ -272,57 +272,67 @@ if(router.currentRoute.value.name == 'teambuilder-share')
     margin-top: 20px;
 }
 
-.team-list .team-builder .characters-picked
+@media (min-width: 1200px)
 {
-    grid-template-columns: repeat(6, 200px);
-    height: 220px;
+
+    .team-list .team-builder .characters-picked
+    {
+        grid-template-columns: repeat(6, 200px);
+        height: 220px;
+    }
+
+    .team-list .team-builder .characters-picked .character-wrapper
+    {
+        transform: scale(0.68);
+        transform-origin: top left;
+    }
+
+    .team-list .team-builder .characters-picked .character-wrapper select
+    {
+        display: none;
+    }
+
+    .team-list .team-builder .characters-picked .character-striker-1
+    {
+        grid-column-start: 1;
+        grid-row-start: 1;
+    }
+
+    .team-list .team-builder .characters-picked .character-striker-2
+    {
+        grid-column-start: 2;
+        grid-row-start: 1;
+    }
+
+    .team-list .team-builder .characters-picked .character-striker-3
+    {
+        grid-column-start: 3;
+        grid-row-start: 1;
+    }
+
+    .team-list .team-builder .characters-picked .character-striker-4
+    {
+        grid-column-start: 4;
+        grid-row-start: 1;
+    }
+
+    .team-list .team-builder .characters-picked .character-special-1
+    {
+        grid-column: 5 / 6;
+        grid-row-start: 1;
+    }
+
+    .team-list .team-builder .characters-picked .character-special-2
+    {
+        grid-column: 6 / 7;
+        grid-row-start: 1;
+    }
 }
 
-.team-list .team-builder .characters-picked .character-wrapper
-{
-    transform: scale(0.68);
-    transform-origin: top left;
-}
 
-.team-list .team-builder .characters-picked .character-wrapper select
+@media (min-width: 540px) and (max-width: 1199px)
 {
-    display: none;
-}
 
-.team-list .team-builder .characters-picked .character-striker-1
-{
-    grid-column-start: 1;
-    grid-row-start: 1;
-}
-
-.team-list .team-builder .characters-picked .character-striker-2
-{
-    grid-column-start: 2;
-    grid-row-start: 1;
-}
-
-.team-list .team-builder .characters-picked .character-striker-3
-{
-    grid-column-start: 3;
-    grid-row-start: 1;
-}
-
-.team-list .team-builder .characters-picked .character-striker-4
-{
-    grid-column-start: 4;
-    grid-row-start: 1;
-}
-
-.team-list .team-builder .characters-picked .character-special-1
-{
-    grid-column: 5 / 6;
-    grid-row-start: 1;
-}
-
-.team-list .team-builder .characters-picked .character-special-2
-{
-    grid-column: 6 / 7;
-    grid-row-start: 1;
 }
 
 </style>

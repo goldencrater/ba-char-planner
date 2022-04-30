@@ -14,6 +14,7 @@ function showDropdown()
     }
     const selectElement = document.getElementById(props.id);
     selectElement.style.zIndex = 10;
+    selectElement.style.display = 'inline-block';
     setTimeout(checkDropdown, 1000, selectElement);
 }
 
@@ -31,6 +32,7 @@ function hideDropdown()
 {
     const selectElement = document.getElementById(props.id);
     selectElement.style.zIndex = -10;
+    selectElement.style.display = 'none';
 }
 
 </script>

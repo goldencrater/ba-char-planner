@@ -377,6 +377,7 @@ updateHash();
     display: inline-block;
     margin-bottom: 22px;
 }
+
 .team-builder .character-search-list .character-name
 {
     padding: 5px;
@@ -392,19 +393,6 @@ updateHash();
 {
     background-color: #cccccc;
     filter: grayscale(100%);
-}
-
-.team-builder .characters-picked .character-wrapper
-{
-    width: 280px;
-    height: 316px;
-    margin-bottom: 20px;
-    display: grid;
-    grid-template-columns: repeat(4, 70px);
-    grid-template-rows: 40px 40px auto 40px;
-    background-size: 280px 316px !important;
-    border-radius: 5px;
-    position: relative;
 }
 
 .team-builder .characters-picked .character-wrapper.character-damagetype-explosive
@@ -452,20 +440,12 @@ updateHash();
     font-size: 30px;
 }
 
-.team-builder .characters-picked .character-wrapper .character-settings
-{
-    grid-column: 1 / 2;
-}
-
 .team-builder .characters-picked .character-wrapper .character-name
 {
-    grid-column: 2 / 4;
     color: #ffffff;
     font-weight: bold;
     -webkit-text-stroke: 1px #000000;
     text-stroke: 1px #000000;
-    max-width: 140px;
-    max-height: 40px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -473,17 +453,12 @@ updateHash();
 
 .team-builder .characters-picked .character-wrapper .character-level
 {
-    grid-column: 4 / 5;
     color: #ffffff;
     font-weight: bold;
     -webkit-text-stroke: 1px #ffffff;
     text-stroke: 1px #ffffff;
 }
 
-.team-builder .characters-picked .character-wrapper .character-rarity
-{
-    grid-column: 1 / 5;
-}
 
 .team-builder .characters-picked .character-wrapper .character-rarity img
 {
@@ -572,32 +547,67 @@ updateHash();
 .team-builder .characters-picked .character-wrapper .selector-dropdown select
 {
     z-index: -10;
-    display: inline-block;
+    display: none;
     position: absolute;
     left: 0;
-}
-
-.team-builder .characters-picked .character-wrapper .character-level.selector-dropdown select,
-.team-builder .characters-picked .character-wrapper .character-bond.selector-dropdown select,
-.team-builder .characters-picked .character-wrapper .character-equipment.selector-dropdown select,
-.team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
-{
-    width: 70px;
-}
-
-.team-builder .characters-picked .character-wrapper .character-rarity.selector-dropdown select
-{
-    width: 280px;
 }
 
 
 @media (min-width: 1200px)
 {
-
     .team-builder .characters-picked
     {
         display: grid;
         grid-template-columns: repeat(4, 300px);
+    }
+
+    .team-builder .characters-picked .character-wrapper
+    {
+        width: 280px;
+        height: 316px;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 70px);
+        grid-template-rows: 40px 40px auto 40px;
+        background-size: 280px 316px !important;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-settings
+    {
+        grid-column: 1 / 2;
+    }
+
+
+    .team-builder .characters-picked .character-wrapper .character-name
+    {
+        grid-column: 2 / 4;
+        max-width: 140px;
+        max-height: 40px;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-level
+    {
+        grid-column: 4 / 5;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-rarity
+    {
+        grid-column: 1 / 5;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-rarity.selector-dropdown select
+    {
+        width: 280px;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-level.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-bond.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-equipment.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
+    {
+        width: 70px;
     }
 
     .character-striker-1
@@ -637,48 +647,132 @@ updateHash();
     }
 }
 
-@media (min-width: 600px) and (max-width: 1199px)
+@media (min-width: 580px) and (max-width: 1199px)
 {
     .team-builder .characters-picked
     {
         display: grid;
-        grid-template-columns: repeat(2, 300px);
+        grid-template-columns: repeat(1, 500px);
     }
 
-    .character-striker-1
+    .team-builder .characters-picked .character-wrapper
     {
-        grid-column-start: 1;
-        grid-row-start: 1;
+        width: 500px;
+        height: 180px;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: 160px repeat(4, 85px);
+        grid-template-rows: repeat(4, 45px);
+        background-size: 160px 180px !important;
+        background-repeat: no-repeat;
+        border-radius: 5px;
+        position: relative;
     }
 
-    .character-striker-2
+    .team-builder .characters-picked .character-wrapper .character-settings
     {
-        grid-column-start: 2;
-        grid-row-start: 1;
+        grid-column: 2 / 3;
     }
 
-    .character-striker-3
+    .team-builder .characters-picked .character-wrapper .character-name
     {
-        grid-column-start: 1;
-        grid-row-start: 2;
+        grid-column: 3 / 5;
+        max-width: 190px;
+        max-height: 45px;
     }
 
-    .character-striker-4
+    .team-builder .characters-picked .character-wrapper .character-level
     {
-        grid-column-start: 2;
-        grid-row-start: 2;
+        grid-column: 5 / 6;
     }
 
-    .character-special-1
+    .team-builder .characters-picked .character-wrapper .character-rarity
     {
-        grid-column-start: 1;
-        grid-row-start: 3;
+        grid-column: 2 / 6;
     }
 
-    .character-special-2
+    .team-builder .characters-picked .character-wrapper .character-bond
     {
-        grid-column-start: 2;
-        grid-row-start: 3;
+        grid-column: 2 / 3;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-skill-ex
+    {
+        grid-column: 2 / 3;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-bond,
+    .team-builder .characters-picked .character-wrapper .character-equipment
+    {
+        margin-bottom: 0;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-rarity.selector-dropdown select
+    {
+        width: 340px;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-level.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-bond.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-equipment.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
+    {
+        width: 85px;
+    }
+}
+
+
+@media (max-width: 579px)
+{
+    .team-builder .characters-picked
+    {
+        display: grid;
+        grid-template-columns: 100%;
+    }
+
+    .team-builder .characters-picked .character-wrapper
+    {
+        width: 100%;
+        height: 180px;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 25%);
+        grid-template-rows: repeat(4, 45px);
+        background-size: 160px 180px !important;
+        background-repeat: no-repeat;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-name
+    {
+        max-width: 100%;
+        max-height: 45px;
+        grid-column: 2 / 4;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-rarity
+    {
+        grid-column: 1 / 5;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-bond,
+    .team-builder .characters-picked .character-wrapper .character-equipment
+    {
+        margin-bottom: 0;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-rarity.selector-dropdown select
+    {
+        width: 100%;
+    }
+
+    .team-builder .characters-picked .character-wrapper .character-level.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-bond.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-equipment.selector-dropdown select,
+    .team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
+    {
+        width: 25%;
     }
 }
 
