@@ -719,6 +719,11 @@ updateHash();
     {
         width: 85px;
     }
+
+    .team-builder .characters-picked .character-wrapper.character-borrowed::after
+    {
+        width: 160px;
+    }
 }
 
 
@@ -744,11 +749,17 @@ updateHash();
         position: relative;
     }
 
+    .team-builder .characters-picked .character-wrapper .character-settings
+    {
+        z-index: 5;
+    }
+
     .team-builder .characters-picked .character-wrapper .character-name
     {
         max-width: 100%;
         max-height: 45px;
         grid-column: 2 / 4;
+        z-index: 5;
     }
 
     .team-builder .characters-picked .character-wrapper .character-rarity
@@ -773,6 +784,13 @@ updateHash();
     .team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
     {
         width: 25%;
+    }
+
+    .team-builder .characters-picked .character-wrapper.character-borrowed::after
+    {
+        top: 0;
+        width: 160px;
+        z-index: 2;
     }
 }
 
