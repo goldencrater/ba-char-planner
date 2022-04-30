@@ -231,8 +231,8 @@ if(props.character.Borrowed)
                 <option :value="5" v-if="regionSettings.UniqueWeaponsAvailable">5/UE 1</option>
                 <option :value="6" v-if="regionSettings.UniqueWeaponMaxStar > 1">5/UE 2</option>
                 <option :value="7" v-if="regionSettings.UniqueWeaponMaxStar > 2">5/UE 3</option>
-                <option :value="8" v-if="regionSettings.UniqueWeaponMaxStar > 3">5/UE 3</option>
-                <option :value="9" v-if="regionSettings.UniqueWeaponMaxStar > 4">5/UE 3</option>
+                <option :value="8" v-if="regionSettings.UniqueWeaponMaxStar > 3">5/UE 4</option>
+                <option :value="9" v-if="regionSettings.UniqueWeaponMaxStar > 4">5/UE 5</option>
             </select>
         </div>
         <div class="character-bond selector-dropdown" style="background: rgba(0, 0, 0, 0.5) url('/images/bond.png')">
