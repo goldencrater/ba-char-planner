@@ -426,18 +426,26 @@ updateHash();
     width: 280px;
     background: black;
     text-align: center;
+    z-index: 2;
 }
 
 .team-builder .characters-picked .character-wrapper .character-settings,
 .team-builder .characters-picked .character-wrapper .character-name,
-.team-builder .characters-picked .character-wrapper .character-rarity,
-.team-builder .characters-picked .character-wrapper .character-level
+.team-builder .characters-picked .character-wrapper .character-level,
+.team-builder .characters-picked .character-wrapper .character-rarity
 {
     background: rgba(0, 0, 0, 0.5);
     text-align: center;
     color: #ffffff;
     font-weight: bold;
     font-size: 30px;
+}
+
+.team-builder .characters-picked .character-wrapper .character-settings,
+.team-builder .characters-picked .character-wrapper .character-name,
+.team-builder .characters-picked .character-wrapper .character-level
+{
+    z-index: 5;
 }
 
 .team-builder .characters-picked .character-wrapper .character-name
