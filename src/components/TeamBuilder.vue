@@ -792,7 +792,7 @@ updateHash();
     .team-builder .characters-picked .character-wrapper .character-equipment.selector-dropdown select,
     .team-builder .characters-picked .character-wrapper .character-skill.selector-dropdown select
     {
-        width: 25%;
+        width: 100%;
     }
 
     .team-builder .characters-picked .character-wrapper.character-borrowed::after

@@ -238,6 +238,7 @@ if(router.currentRoute.value.name == 'teambuilder-share')
     height: 57px;
     display: inline-block;
     vertical-align: middle;
+    overflow: hidden;
 }
 
 .team-list
