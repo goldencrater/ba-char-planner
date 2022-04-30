@@ -730,6 +730,7 @@ updateHash();
 
     .team-builder .characters-picked .character-wrapper.character-borrowed::after
     {
+        top: 0;
         width: 160px;
     }
 }
