@@ -240,10 +240,18 @@ if(router.currentRoute.value.name == 'teambuilder-share')
     vertical-align: middle;
 }
 
+.team-list
+{
+    position: relative
+}
+
 .team-builder-wrapper .team-list .team-list-options
 {
     display: inline-block;
     float: right;
+    top: 8px;
+    right: 16px;
+    position: absolute;
 }
 
 .team-builder-wrapper .team-list .team-list-options button
