@@ -329,10 +329,4 @@ if(router.currentRoute.value.name == 'teambuilder-share')
     }
 }
 
-
-@media (min-width: 540px) and (max-width: 1199px)
-{
-
-}
-
 </style>
