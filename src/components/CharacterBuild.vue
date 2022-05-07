@@ -164,17 +164,22 @@ function showStarDropdown()
 
 function checkStarDropdown(element)
 {
-    if(element.matches(':hover'))
+    if(element.matches(':hover') || element.matches(':focus'))
     {
         setTimeout(checkStarDropdown, 1000, element);
         return;
     }
-    hideStarDropdown();
+    hideStarDropdown(false);
 }
 
-function hideStarDropdown()
+function hideStarDropdown(delay = true)
 {
     const selectElement = document.getElementById(props.character.Name.toLowerCase() + 'starsdropdown');
+    if(delay)
+    {
+        setTimeout(checkStarDropdown, 100, selectElement)
+        return;
+    }
     selectElement.style.zIndex = -10;
     selectElement.style.display = 'none';
 }
@@ -230,7 +235,7 @@ provide('readonly', props.readonly);
                 <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(4)">
                 <img :class="starClass()" :src="'/images/star-lit.png'" v-if="displayStar(5)">
             </span>
-            <select v-model="character.LocalStorage.Stars" :id="character.Name.toLowerCase() + 'starsdropdown'" @mouseout="hideStarDropdown">
+            <select v-model="character.LocalStorage.Stars" :id="character.Name.toLowerCase() + 'starsdropdown'" @mouseout="hideStarDropdown" @input="hideStarDropdown(false)">
                 <option :value="1">1</option>
                 <option :value="2">2</option>
                 <option :value="3">3</option>

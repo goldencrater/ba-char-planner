@@ -65,6 +65,11 @@
     min-height: 480px;
 }
 
+.main-content > div
+{
+    padding: 10px;
+}
+
 .navbar-toggler-icon
 {
     display: inline-block;
