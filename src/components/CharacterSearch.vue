@@ -68,5 +68,5 @@ emit('updateList', filteredList);
 </script>
 
 <template>
-    <input @input="updateSearchResults">
+    <input @input="updateSearchResults" autocomplete="off">
 </template>
