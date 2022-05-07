@@ -30,6 +30,11 @@ const router = createRouter({
             component: () => import('../views/TeamBuilder.vue'),
         },
         {
+            path: '/scorecalc',
+            name: 'scorecalc',
+            component: () => import('../views/ScoreCalc.vue'),
+        },
+        {
             path: '/settings',
             name: 'settings',
             component: () => import('../views/Settings.vue'),
