@@ -9,6 +9,7 @@ export const useSettingsStorage = defineStore({
             settings: ref(useLocalStorage('settings', {
                 Language: 'En',
                 IncludeJpOnly: false,
+                ColourMode: 'auto',
             }))
         }
     },

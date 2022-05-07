@@ -281,6 +281,11 @@ if(router.currentRoute.value.name == 'teambuilder-share')
     margin-top: 20px;
 }
 
+body.darkmode .team-name
+{
+    color: #a0a0a0;
+}
+
 @media (min-width: 1200px)
 {
 

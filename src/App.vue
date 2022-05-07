@@ -1,13 +1,44 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import { useSettingsStorage } from './stores/SettingsStorage.js';
+
+const settings = useSettingsStorage();
+console.log(settings.settings.ColourMode);
+if(typeof(settings.settings.ColourMode) === 'undefined')
+{
+    settings.settings.ColourMode = 'auto';
+}
+
+switch(settings.settings.ColourMode)
+{
+    case 'auto':
+    {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        {
+            document.body.className = "darkmode";
+        }
+        break;
+    }
+    case 'dark':
+    {
+        document.body.className = "darkmode";
+        break;
+    }
+    case 'light':
+    {
+        break;
+    }
+}
+
 
 // eslint-disable-next-line no-undef
 const commithash = __COMMITHASH__
+
 </script>
 
 <template>
     <header class="container-xxl">
-        <nav class="navbar navbar-expand-xxl navbar-light bg-light">
+        <nav class="navbar navbar-expand-xxl">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -28,7 +59,7 @@ const commithash = __COMMITHASH__
     </div>
 
     <footer class="footer">
-        <div class="container-xxl bg-light">
+        <div class="container-xxl">
             HashRef : {{commithash}}
         </div>
     </footer>
@@ -37,10 +68,10 @@ const commithash = __COMMITHASH__
 
 <style>
 @import './assets/style.css';
+@import './assets/colours.css';
 
 .navbar .navbar-setting
 {
-    color: rgba(0, 0 ,0 ,0.55);
     float: right;
 }
 </style>

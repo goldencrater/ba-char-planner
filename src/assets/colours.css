@@ -1,0 +1,243 @@
+.navbar,
+.footer
+{
+    background-color: #f0f1f2;
+}
+
+.navbar .navbar-nav a
+{
+    color: #707070;
+}
+
+.navbar .navbar-nav a.active
+{
+    color: #191919;
+}
+
+.navbar .navbar-setting
+{
+    color: rgba(0, 0, 0, 0.55);
+}
+
+body.darkmode
+{
+    background-color: #202020;
+}
+
+body.darkmode
+{
+    color: #ffffff;
+}
+
+body.darkmode .navbar,
+body.darkmode .footer
+{
+    background-color: #252525 !important;
+    color: #ffffff;
+}
+
+body.darkmode .navbar .navbar-nav a
+{
+    color: #8f8f8f;
+}
+
+body.darkmode .navbar .navbar-nav a.active
+{
+    color: #e6e6e6;
+}
+
+body.darkmode .navbar .navbar-setting
+{
+    color: rgba(255, 255, 255, 0.55);
+}
+
+body.darkmode .main-content > div
+{
+    background-color: #303030;
+}
+
+body.darkmode input,
+body.darkmode select,
+body.darkmode select option
+{
+    background-color: #404040;
+    color: #ffffff;
+}
+
+body.darkmode .form-control,
+body.darkmode .form-control:focus
+{
+    background-color: #404040;
+    color: #ffffff;
+}
+
+body.darkmode .modal-content
+{
+    background-color: #404040;
+    color: #ffffff;
+}
+
+body.darkmode .list-group-item
+{
+    background-color: #404040;
+    color: #ffffff;
+}
+
+body.darkmode .btn-primary,
+body.darkmode .btn-primary:disabled,
+body.darkmode .btn-primary.disabled
+{
+  background-color: #0d6efd;
+}
+body.darkmode .btn-primary:hover,
+body.darkmode .btn-check:focus + .btn-primary,
+body.darkmode .btn-primary:focus
+{
+  background-color: #0b5ed7;
+}
+body.darkmode .btn-check:checked + .btn-primary,
+body.darkmode .btn-check:active + .btn-primary,
+body.darkmode .btn-primary:active, .btn-primary.active,
+body.darkmode .show > .btn-primary.dropdown-toggle {
+  background-color: #0a58ca;
+}
+
+body.darkmode .btn-secondary,
+body.darkmode .btn-secondary:disabled,
+body.darkmode .btn-secondary.disabled{
+  background-color: #6c757d;
+}
+body.darkmode .btn-secondary:hover,
+body.darkmode .btn-check:focus + .btn-secondary,
+body.darkmode .btn-secondary:focus
+{
+  background-color: #5c636a;
+}
+body.darkmode .btn-check:checked + .btn-secondary,
+body.darkmode .btn-check:active + .btn-secondary,
+body.darkmode .btn-secondary:active, .btn-secondary.active,
+body.darkmode .show > .btn-secondary.dropdown-toggle
+{
+  background-color: #565e64;
+}
+
+body.darkmode .btn-success,
+body.darkmode .btn-success:disabled,.btn-success.disabled
+{
+  background-color: #198754;
+}
+body.darkmode .btn-success:hover,
+body.darkmode .btn-check:focus + .btn-success,.btn-success:focus
+{
+  background-color: #157347;
+}
+body.darkmode .btn-check:checked + .btn-success,
+body.darkmode .btn-check:active + .btn-success,
+body.darkmode .btn-success:active,
+body.darkmode .btn-success.active,
+body.darkmode .show > .btn-success.dropdown-toggle
+{
+  background-color: #146c43;
+}
+body.darkmode .btn-info,
+body.darkmode .btn-info:disabled,
+body.darkmode .btn-info.disabled
+{
+  color: #000;
+  background-color: #0dcaf0;
+}
+body.darkmode .btn-info:hover,
+body.darkmode .btn-check:focus + .btn-info,
+body.darkmode .btn-info:focus
+{
+  color: #000;
+  background-color: #31d2f2;
+}
+body.darkmode .btn-check:checked + .btn-info,
+body.darkmode .btn-check:active + .btn-info,
+body.darkmode .btn-info:active, .btn-info.active,
+body.darkmode .show > .btn-info.dropdown-toggle
+{
+  color: #000;
+  background-color: #3dd5f3;
+}
+
+body.darkmode .btn-warning,
+body.darkmode .btn-warning:disabled,
+body.darkmode .btn-warning.disabled
+{
+	background-color: #ffc107;
+}
+body.darkmode .btn-warning:hover,
+body.darkmode .btn-check:focus + .btn-warning,
+body.darkmode .btn-warning:focus
+{
+	background-color: #ffca2c;
+}
+body.darkmode .btn-check:checked + .btn-warning,
+body.darkmode .btn-check:active + .btn-warning,
+body.darkmode .btn-warning:active, .btn-warning.active,
+body.darkmode .show > .btn-warning.dropdown-toggle
+{
+	background-color: #ffcd39;
+}
+
+body.darkmode .btn-danger,
+body.darkmode .btn-danger:disabled,
+body.darkmode .btn-danger.disabled
+{
+	background-color: #dc3545;
+}
+body.darkmode .btn-danger:hover,
+body.darkmode .btn-check:focus + .btn-danger,
+body.darkmode .btn-danger:focus
+{
+	background-color: #bb2d3b;
+}
+body.darkmode .btn-check:checked + .btn-danger,
+body.darkmode .btn-check:active + .btn-danger,
+body.darkmode .btn-danger:active, .btn-danger.active,
+body.darkmode .show > .btn-danger.dropdown-toggle
+{
+	background-color: #b02a37;
+}
+
+body.darkmode .btn-light,
+body.darkmode .btn-light:disabled,
+body.darkmode .btn-light.disabled
+{
+	color: #000;
+	background-color: #f8f9fa;
+}
+body.darkmode .btn-light:hover,
+body.darkmode .btn-check:focus + .btn-light,
+body.darkmode .btn-light:focus,
+body.darkmode .btn-check:checked + .btn-light,
+body.darkmode .btn-check:active + .btn-light,
+body.darkmode .btn-light:active, .btn-light.active,
+body.darkmode .show > .btn-light.dropdown-toggle
+{
+	color: #000;
+	background-color: #f9fafb;
+}
+
+body.darkmode .btn-dark,
+body.darkmode .btn-dark:disabled,
+body.darkmode .btn-dark.disabled
+{
+  background-color: #212529;
+}
+
+body.darkmode .btn-dark:hover,
+body.darkmode .btn-check:focus + .btn-dark,
+body.darkmode .btn-dark:focus {
+	background-color: #1c1f23;
+}
+
+body.darkmode .btn-check:checked + .btn-dark,
+body.darkmode .btn-check:active + .btn-dark,
+body.darkmode .btn-dark:active, .btn-dark.active,
+body.darkmode .show > .btn-dark.dropdown-toggle
+{
+	background-color: #1a1e21;
+}

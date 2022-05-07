@@ -11,6 +11,7 @@ const settingsStorage = useSettingsStorage();
 const settings = settingsStorage.settings;
 const language = ref(settings.Language);
 const jpOnly = ref(settings.IncludeJpOnly ? 'Yes' : 'No');
+const colourMode = ref(settings.ColourMode);
 
 const characterStorage = useCharacterStorage();
 const characters = characterStorage.characters;
@@ -33,6 +34,7 @@ function saveSettings()
         settings.Language = language.value;
     }
     settings.IncludeJpOnly = (jpOnly.value === 'Yes');
+    settings.ColourMode = colourMode.value;
 }
 
 function restartApp()
@@ -216,6 +218,14 @@ function clearData()
                 <select v-model="jpOnly" id="jpOnlyDropdown" class="form-control">
                     <option value="No">No</option>
                     <option value="Yes">Yes</option>
+                </select>
+            </div>
+            <div class="settings">
+                <label for="colourModeSelector" class="form-label">Light/Dark mode selector</label>
+                <select v-model="colourMode" id="colourModeSelector" class="form-control">
+                    <option value="auto">Auto</option>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
                 </select>
             </div>
             <div class="settings data-management">
