@@ -291,10 +291,7 @@ function processSkillExcelElement(element)
     {
         skillExcelTableMap[element.GroupId] = {};
     }
-    if(typeof(skillExcelTableMap[element.GroupId][element.Level]) === 'undefined')
-    {
-        skillExcelTableMap[element.GroupId][element.Level] = element;
-    }
+    skillExcelTableMap[element.GroupId][element.Level] = element;
 }
 
 const skillExcelTableJson = fs.readFileSync('../orig/data/Excel/SkillExcelTable.json');
