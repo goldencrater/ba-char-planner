@@ -65,6 +65,16 @@
     min-height: 480px;
 }
 
+.navbar-toggler-icon
+{
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
 
 .footer {
     width: 100%;
@@ -72,4 +82,12 @@
     line-height: 20px;
     position: sticky;
     position: -webkit-sticky;
+}
+
+@media (max-width: 1399px)
+{
+    .navbar-nav .nav-link
+    {
+        padding-left: 1em;
+    }
 }
