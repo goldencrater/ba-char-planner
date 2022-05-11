@@ -222,6 +222,26 @@
 					}
 				}
 			},
+			"10040": {
+				"Name": "Tsukuyo",
+				"Skills": {
+					"Ex": {
+						"Name": "Tsukuyo-style technique...!"
+					},
+					"Skill1": {
+						"Name": "I practiced a lot, so...!"
+					},
+					"Skill2": {
+						"Name": "Naturally gifted"
+					},
+					"Skill3": {
+						"Name": "I can' t go down, yet...!"
+					},
+					"Skill2Upgrade": {
+						"Name": "Naturally gifted+"
+					}
+				}
+			},
 			"16007": {
 				"Name": "Tomoe",
 				"Skills": {
