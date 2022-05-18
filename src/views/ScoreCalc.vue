@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const raid = ref('Binah');
 const difficulty = ref('Extreme');
 
-const bosses = ['Binah', 'Chesed', 'Hieronymus', 'Hod', 'Kaiten', 'Perorodzilla', 'Shirokuro'];
+const bosses = ['Binah', 'Chesed', 'Hieronymus', 'Hod', 'Kaiten', 'Perorodzilla', 'Shirokuro', 'Binah (Bugged)'];
 const difficulties = ['Normal', 'Hard', 'Very Hard', 'Hardcore', 'Extreme', 'Insane'];
 const difficultyMultiplier = {
     'Normal': 400,
@@ -76,6 +76,21 @@ function calculateScoreFromTime(eObj)
     {
         maxLength = 960;
     }
+
+    let difficultyMultiplier = getDifficultyMultiplier();
+    let baseScore = getBaseScore();
+    if(raid.value === 'Binah (Bugged)')
+    {
+        maxLength = 720;
+        if(difficulty.value === 'Extreme')
+        {
+            // Override the figures manually for the bugged scoring
+            difficultyMultiplier = 3200;
+            baseScore = 7968000;
+            maxLength = 1440;
+        }
+    }
+
     let timeInSeconds = maxLength;
     let timeParts = time.value.split(':');
     if(timeParts.length === 1)
@@ -91,8 +106,6 @@ function calculateScoreFromTime(eObj)
     {
         remainingTime = 0;
     }
-    let difficultyMultiplier = getDifficultyMultiplier();
-    let baseScore = getBaseScore();
     score.value = (baseScore + (difficultyMultiplier * remainingTime)).toLocaleString('en-GB');
 }
 
@@ -114,6 +127,17 @@ function calculateTimeFromScore(eObj)
     }
     let baseScore = getBaseScore();
     let difficultyMultiplier = getDifficultyMultiplier();
+    if(raid.value === 'Binah (Bugged)')
+    {
+        maxLength = 720;
+        if(difficulty.value === 'Extreme')
+        {
+            // Override the figures manually for the bugged scoring
+            difficultyMultiplier = 3200;
+            baseScore = 7968000;
+            maxLength = 1440;
+        }
+    }
     let flatScore = score.value.replaceAll(',', '') - baseScore;
     let timeleft = maxLength - (flatScore / difficultyMultiplier);
     if(timeleft > maxLength)
