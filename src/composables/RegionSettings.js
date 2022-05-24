@@ -26,10 +26,10 @@ export function getGlobalRegionSettings()
 }
 
 const jpRegionSettings = {
-    MaxLevel: 78,
+    MaxLevel: 80,
     UniqueWeaponsAvailable: true,
     UniqueWeaponMaxStar: 3,
-    MaxEquipLevel: 6,
+    MaxEquipLevel: 7,
     MaxBond: 50,
 };
 

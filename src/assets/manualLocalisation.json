@@ -235,10 +235,30 @@
 						"Name": "Naturally gifted"
 					},
 					"Skill3": {
-						"Name": "I can' t go down, yet...!"
+						"Name": "I can't go down, yet...!"
 					},
 					"Skill2Upgrade": {
 						"Name": "Naturally gifted+"
+					}
+				}
+			},
+			"10041": {
+				"Name": "Misaki",
+				"Skills": {
+					"Ex": {
+						"Name": "Empty world"
+					},
+					"Skill1": {
+						"Name": "I can't wait to get this over with"
+					},
+					"Skill2": {
+						"Name": "Pointless technology"
+					},
+					"Skill3": {
+						"Name": "Equivalent exchange"
+					},
+					"Skill2Upgrade": {
+						"Name": "Pointless technology+"
 					}
 				}
 			},
@@ -499,6 +519,26 @@
 					},
 					"Skill2Upgrade": {
 						"Name": "There's no choice+"
+					}
+				}
+			},
+			"20017": {
+				"Name": "Hiyori",
+				"Skills": {
+					"Ex": {
+						"Name": "I-I'll support you now!"
+					},
+					"Skill1": {
+						"Name": "O-oh, this will hurt!"
+					},
+					"Skill2": {
+						"Name": "I read it in a magazine"
+					},
+					"Skill3": {
+						"Name": "Power of the appendix"
+					},
+					"Skill2Upgrade": {
+						"Name": "I read it in a magazine+"
 					}
 				}
 			},
