@@ -23,7 +23,7 @@ function changeDescription(level)
     const selectedSkill = props.character.Skills[props.skill];
     const levelSelector = 'Level' + level;
     skillDescription.value = tC(props.character.Id, 'Skills.' + props.skill + '.' + levelSelector + '.Description', true);
-    if((!props.skill.Level10 && level == 5) || (level == 10))
+    if((selectedSkill[levelSelector].Cost && level == 5) || (level == 10))
     {
         visible.value = false;
     }

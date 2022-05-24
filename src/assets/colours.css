@@ -246,3 +246,8 @@ body.darkmode .show > .btn-dark.dropdown-toggle
 {
 	background-color: #1a1e21;
 }
+
+body.darkmode .item-wrapper span.item-count
+{
+    color: #000000;
+}
