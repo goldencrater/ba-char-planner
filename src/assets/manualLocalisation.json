@@ -242,26 +242,6 @@
 					}
 				}
 			},
-			"20007": {
-				"Name": "Hatsune Miku",
-				"Skills": {
-					"Ex": {
-						"Name": "Putting my heart into it at every moment!"
-					},
-					"Skill1": {
-						"Name": "The Passion of Hatsune Miku"
-					},
-					"Skill2": {
-						"Name": "The Cheering of Hatsune Miku"
-					},
-					"Skill3": {
-						"Name": "The Blessing of Hatsune Miku"
-					},
-					"Skill2Upgrade": {
-						"Name": "The Cheering of Hatsune Miku+"
-					}
-				}
-			},
 			"20012": {
 				"Name": "Sena",
 				"Skills": {
