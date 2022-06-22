@@ -202,6 +202,46 @@
 					}
 				}
 			},
+			"10043": {
+				"Name": "Wakamo (Swimsuit)",
+				"Skills": {
+					"Ex": {
+						"Name": "Jade Flower Divination"
+					},
+					"Skill1": {
+						"Name": "Just for you"
+					},
+					"Skill2": {
+						"Name": "Overflowing love"
+					},
+					"Skill3": {
+						"Name": "Midsummer passion"
+					},
+					"Skill2Upgrade": {
+						"Name": "Overflowing love+"
+					}
+				}
+			},
+			"10044": {
+				"Name": "Nonomi (Swimsuit)",
+				"Skills": {
+					"Ex": {
+						"Name": "Stay cool ♧"
+					},
+					"Skill1": {
+						"Name": "Have fun with everyone!"
+					},
+					"Skill2": {
+						"Name": "I can't wait ♧"
+					},
+					"Skill3": {
+						"Name": "It's cold~!"
+					},
+					"Skill2Upgrade": {
+						"Name": "I can't wait ♧+"
+					}
+				}
+			},
 			"16008": {
 				"Name": "Fubuki",
 				"Skills": {
@@ -359,6 +399,26 @@
 					},
 					"Skill2Upgrade": {
 						"Name": "I read it in a magazine+"
+					}
+				}
+			},
+			"26007": {
+				"Name": "Ayame (Swimsuit)",
+				"Skills": {
+					"Ex": {
+						"Name": "Nimbostratus, attacking!"
+					},
+					"Skill1": {
+						"Name": "Support from the sky"
+					},
+					"Skill2": {
+						"Name": "Automatic targeting"
+					},
+					"Skill3": {
+						"Name": "Understanding the battlefield"
+					},
+					"Skill2Upgrade": {
+						"Name": "Automatic targeting+"
 					}
 				}
 			}
